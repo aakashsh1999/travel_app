@@ -5,8 +5,14 @@ import PhoneInput from "react-native-phone-number-input";
 import Bottombar from '../component/Bottombar';
 import { useHistory } from 'react-router-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { LinearGradient } from 'expo-linear-gradient';
+import {useFonts} from 'expo-font';
 export default ForgetAccount =  () =>{     
+    const [loaded] = useFonts({
+        OpenSans: require('../assets/fonts/openSans.ttf'),
+        Lato: require('../assets/fonts/lato.ttf'),
+      });
+
     const url =  'http://13.234.123.221/api/check';
     const history= useHistory();
     const [email, setEmail] = React.useState('');
@@ -26,9 +32,13 @@ const handleSubmit = async () =>{
       });
       const data = await result.json()
 
-    if (data.status==1)
+    if (data.status==1){
     await AsyncStorage.setItem('email', data.email);
-    history.push('/reset')
+    history.push('/reset');
+    }
+    else{
+        alert('Please Enter a Proper Email');
+    }
     
 }
     return(
@@ -41,10 +51,12 @@ const handleSubmit = async () =>{
                 <Text style={style.label}>Email</Text>
                <TextInput style={style.input} placeholder='Enter your email' onChangeText={setEmail} value={email}/>
                 </View>
-                </View>
-                <Button rounded warning style={{width:"100%", justifyContent:'center'}} onPress={()=>handleSubmit()}>
-                <Text style={{fontSize:15, fontWeight:'bold'}}>SUBMIT</Text>
-                </Button>
+                    </View>
+                    <TouchableOpacity onPress={handleSubmit}>
+                    <LinearGradient colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={0,2.57} style={style.loginButton}>                    
+                    <Text style={{fontSize:15, fontWeight:'bold'}}>SUBMIT</Text>
+                    </LinearGradient>
+                    </TouchableOpacity>
                 <TouchableOpacity onPress={()=>history.push('/create')}>
                 <Text style={style.links}>New to Epro? Sign Up here</Text>
                 </TouchableOpacity>
@@ -68,12 +80,14 @@ const style = StyleSheet.create({
         marginTop:32,
         marginBottom:32,
         fontWeight:'bold',
+        fontFamily:'Lato',
         textAlign:'center'
     },
     label:{
         fontSize:14, 
         marginBottom:7,
-        marginTop:6
+        marginTop:6,
+        fontFamily:'Lato',
     }, 
     input:{
         height:40,
@@ -81,26 +95,24 @@ const style = StyleSheet.create({
         borderWidth:1,
         color:"#000",
         paddingLeft:15,
-        marginBottom:18
+        marginBottom:18,
+        fontFamily:'Lato',
     },
     links:{
         textDecorationLine:'underline',
         fontSize:14, 
         lineHeight:17,
         margin:30,
-        textAlign:'center'
+        textAlign:'center',
+        fontFamily:'Lato',
     },
-    checboxContainer:{
-        height:58, 
-        padding:20,
-        backgroundColor:"#f7f7f7",
+    loginButton:{
+        width:"100%", 
+        height:38,
         flexDirection:'row',
+        justifyContent:'center',
+        borderRadius:50,
+        fontFamily:'Lato',
         alignItems:'center'
-    },
-    resend:{
-        fontSize:14,
-        color:"#9d9494",
-        marginBottom:40, 
-        textAlign:'center'
-    }
+      }
 });

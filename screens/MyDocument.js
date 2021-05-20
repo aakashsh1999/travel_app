@@ -1,10 +1,37 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import {Content, H2, List, ListItem, Left, Right, Body, Header,Switch,Icon, Button} from 'native-base';
 import { ScrollView, StyleSheet, View, Text,  Image, TouchableOpacity} from 'react-native';
 import {useHistory} from 'react-router-dom';
+import {useFonts} from 'expo-font';
 export default MyDocument = () =>{
     let history = useHistory();
-    
+    const [loaded] = useFonts({
+        OpenSans: require('../assets/fonts/openSans.ttf'),
+        Lato: require('../assets/fonts/lato.ttf'),
+      });
+    const [application, setApplication] = React.useState([]);
+  
+    useEffect(() => {
+        getData();
+    }, [])
+
+const getData = async () =>{
+    const id =await AsyncStorage.getItem('id');
+    const token = await AsyncStorage.getItem('token');
+    let application = await (
+        await fetch(
+          `http://13.234.123.221/api/service/application/${id}`,
+          {
+            method: "GET",
+            headers: {
+              "x-access-token":token
+            },
+          }
+        )
+      ).json();
+    console.log(application);
+    setApplication(application);
+}
     return (<>
             <View style={{marginTop:20,margin:16}}>
                 <View style={style.title}>
@@ -52,7 +79,7 @@ export default MyDocument = () =>{
                 <ListItem style={{height:52, borderColor:"#fff"}}>
                  <Icon type='Feather' name='square' style={{fontSize:10,  backgroundColor:"#9d9494", color:"#9d9494"}}/>
                 <Body>
-                <Text style={{fontSize:14,marginLeft:16}}>XYZ Government ID.jpg</Text>
+                <Text style={{fontSize:14,marginLeft:16, fontFamily:'OpenSans'}}>XYZ Government ID.jpg</Text>
                 </Body>
                  <Icon type="Feather" name='eye' style={{fontSize:20, color:'black'}}/>
                 </ListItem>

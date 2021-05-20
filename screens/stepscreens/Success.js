@@ -1,8 +1,12 @@
 import { Text, H3, Button} from 'native-base';
 import React from 'react';
 import { ScrollView, Image, View, StyleSheet} from 'react-native';
+import {LinearGradient} from 'expo-linear-gradient';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useHistory } from 'react-router';
 
 export default Success = () =>{
+    const history= useHistory();
         return (
             <ScrollView style={{padding:16}}>
                 <View style={{padding:20, justifyContent:'center', alignItems:'center'}}>
@@ -47,9 +51,19 @@ export default Success = () =>{
                     <Text style={style.buttonText}>Download Reciept</Text>
                 </Button>
                 
-                <Button rounded style={{backgroundColor:'yellow', alignSelf:"center", marginTop:15, width:190, justifyContent:'center'}}>
+                <TouchableOpacity onPress={()=>history.push('/')}>
+                <LinearGradient colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={[0,2.52]} style={{
+                        width:190, 
+                        height:38,
+                        flexDirection:'row',
+                        justifyContent:'center',
+                        borderRadius:50,
+                        alignItems:'center',
+                        alignSelf:'center'
+                            }}>
                     <Text style={style.buttonText}>Go To Home</Text>
-                </Button>
+                </LinearGradient>
+                </TouchableOpacity>
             </ScrollView>
         )
 }

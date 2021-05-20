@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, Text, StyleSheet, View, Image, TextInput } from "react-native";
+import { ScrollView, Text, StyleSheet, View, Image, TextInput, TouchableOpacity } from "react-native";
 import {
   H2,
   Container,
@@ -13,8 +13,43 @@ import {
   Button,
   Textarea,
 } from "native-base";
+import {LinearGradient} from 'expo-linear-gradient';
+import { useFonts } from 'expo-font'; 
+import { useHistory } from "react-router";
+import {BASE_URL} from 'react-native-config';
 
 export default Contact = () => {
+ 
+  const [loaded] = useFonts({
+    OpenSans: require('../assets/fonts/openSans.ttf'),
+    Lato: require('../assets/fonts/lato.ttf'),
+  });
+  const history=useHistory();
+
+  const url = `${BASE_URL}/contact/create`;
+  const [data, setData] = React.useState(null);
+  const [name, setName] = React.useState(null);
+  const [email, setEmail] = React.useState(null);
+  const [query, setQuery] = React.useState(null);
+
+  const createContact = async () => {
+    const jsonData= {'name':name, 'email':email, 'password':query};
+    const res = await ( await fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jsonData),
+      })).json();
+      const data=await res.json();
+      if (data && result.status == 200) {
+        console.log(data.msg);
+        history.push('/')
+      }
+  };
+
+
   return (
     <Container>
       <Content>
@@ -24,7 +59,7 @@ export default Contact = () => {
         </View>
         <ScrollView style={{ padding: 16 }}>
           <View style={{ marginBottom: 30 }}>
-            <Text style={{ fontSize: 16, color: "#9d9494", lineHeight: 22 }}>
+            <Text style={{ fontSize: 16, color: "#9d9494", lineHeight: 22, fontFamily:'OpenSans' }}>
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry’s standard dummy text
               ever since the 1500s, when an unknown printer took a galley of
@@ -75,6 +110,7 @@ export default Contact = () => {
                 fontSize: 26,
                 marginTop: 40,
                 fontWeight: "bold",
+                fontFamily:'Lato'
               }}
             >
               Reach out to Us
@@ -95,16 +131,18 @@ export default Contact = () => {
             <View style={{padding:16}}>
             <Card style={style.card}>
                 <Body style={{padding:24}}>
-                <TextInput style={style.input} placeholder='Enter your name' />
-                <TextInput style={style.input} placeholder='Enter email address' />
-                <Textarea style={{width:280, paddingLeft:20, paddingTop:20, borderColor:"#e6e6e6"}} rowSpan={7} bordered placeholder="Describe your query"  placeholderTextColor="#9d9494"/>
+                <TextInput style={style.input} placeholder='Enter your name' value={name} onChangeText={setName}/>
+                <TextInput style={style.input} placeholder='Enter email address' value={email} onChangeText={setEmail} />
+                <Textarea style={{width:280, paddingLeft:20, paddingTop:20, borderColor:"#e6e6e6"}} rowSpan={7} bordered placeholder="Describe your query"  placeholderTextColor="#9d9494" value={query} onChangeText={setQuery}/>
                     <View style={{width:"70%", marginRight:65, marginTop:10}}>
                     <Text style={{color:'#9d9494'}}>By Clicking on 'Submit' you will agree to T & C of Askepro</Text>
                     </View>
                 </Body>
-                <Button rounded warning style={{width:135, alignSelf:'center', margin:30, justifyContent:"center"}}>
-                        <Text style={{fontSize:15, fontWeight:'bold'}}>Submit</Text>
-                    </Button>
+                <TouchableOpacity onPress={createContact}>
+                <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.loginButton}>  
+                <Text style={{fontSize:15, fontWeight:'bold', fontFamily:'Lato'}}>SUBMIT</Text>
+                </LinearGradient>
+                </TouchableOpacity>
             </Card>
             </View>
           </View>
@@ -119,6 +157,7 @@ const style = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 7,
+    fontFamily:'Lato'
   },
   infoText: {
     color: "#000",
@@ -140,8 +179,21 @@ const style = StyleSheet.create({
     height:45,
     borderColor:'#e9e9e9',
     borderWidth:1,
-    color:"#0000",
+    color:"#000",
     paddingLeft:20,
     marginBottom:10
 },
+
+loginButton:{
+  width:137, 
+  height:38,
+  flexDirection:'row',
+  alignSelf:'center',
+  justifyContent:'center',
+  borderRadius:50,
+  alignItems:'center',
+  marginTop:20, 
+  fontFamily:'Lato',
+  marginBottom:50
+}
 });

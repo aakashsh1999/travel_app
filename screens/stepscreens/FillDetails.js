@@ -1,74 +1,161 @@
 import { Container, Content, Icon, List, ListItem, Body, Radio, Left, View, DatePicker, Picker, } from 'native-base';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, TextInput} from 'react-native';
-
+import { ActivityIndicator, ScrollView, StyleSheet, Text, TextInput} from 'react-native';
+import {useHistory} from 'react-router';
+import {BASE_URL} from 'react-native-config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { add } from 'react-native-reanimated';
 export default FillDetails= () =>{
+
+    const history = useHistory();
+    if (!AsyncStorage.getItem("token") && !AsyncStorage.getItem("id"))
+    history.push("/login");
+    const [user, setUser] = React.useState(null);
+    React.useEffect(() => {
+        getUser();
+    }, []);
+    const getUser = async () => {
+        const id=await AsyncStorage.getItem("id")
+        let user = await (
+            await fetch(`${BASE_URL}/users/${id}`, {
+                method: "GET",
+                headers: {
+                    "x-access-token": AsyncStorage.getItem("token"),
+                },
+            })
+        ).json();
+            console.log(user);
+        user = user.data;
+
+        setUser(user || []);
+    }
+    const handleTypeChange = ({ value }) => { setType(value) };
+    const handleAliasChange = ({ value }) => { setAlias(value) };
+    
+    const [name, setName] = React.useState(null);
+    const [dob, setDob] = React.useState(null);
+    const [type, setType] = React.useState(null);
+    const [alias, setAlias] = React.useState(null);
+    const [lineOne, setLineOne] = React.useState(null);
+    const [lineTwo, setLineTwo] = React.useState(null);
+    const [state, setState] = React.useState(null);
+    const [city, setCity] = React.useState(null);
+    const [country, setCountry] = React.useState(null);
+    const [pincode, setPincode] = React.useState(null);
+   
+    const requestId = AsyncStorage.getItem("applicationId");
+    const url = `${BASE_URL}/service//fill/${requestId}`
+    const handleSubmitForm = async (event) => {
+        event.preventDefault();
+        const jsonPostData = {
+            "name": name?name:user.name,
+            "dob": dob,
+            "type": type,
+            "address":
+            {
+                "alias": alias?alias:user.address.alias,
+                "addressLineOne": lineOne?lineOne:user.address.addressLineOne,
+                "addressLineTwo": lineTwo?lineTwo: user.address.addressLineTwo,
+                "state": state?state:user.address.state,
+                "city": city?city:user.address.city,
+                "pincode": pincode?pincode:user.address.pincode,
+                "country": country?country:user.address.country
+            }
+        }
+        console.log(jsonPostData);
+        const result = await (await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'x-access-token':AsyncStorage.getItem("token")
+            },
+            body: JSON.stringify(jsonPostData)
+        })).json();
+        console.log(result);
+        history.push("/upload");
+
+    }
+    if (!user) {
+        <ActivityIndicator color='yellow'></ActivityIndicator>
+    }
     return (
         <ScrollView style={{padding:16}}>
             <View style={{flexDirection:'row', marginTop:25}}>
                 <View style={{flexDirection:'row', alignItems:'center'}}>
-                <Radio selected={true} />
-                <Text style={{fontSize:14,marginLeft:10}}>Self</Text>
+                <Radio value='self' checked={type === 'self'} onPress={()=>handleTypeChange} selectedColor="#c7a006" color='#000' />
+                <Text style={{fontSize:14,marginLeft:10, fontFamily:'OpenSans'}}>Self</Text>
                 </View>
                 <View style={{flexDirection:'row', alignItems:'center', marginLeft:40}}>
-                <Radio selected={true} />
-                <Text style={{fontSize:14,marginLeft:10}}>Other</Text>
+                <Radio selectedColor="#c7a006" color='#000'/>
+                <Text style={{fontSize:14,marginLeft:10, fontFamily:'OpenSans'}}>Other</Text>
                 </View>
             </View>            
             <View style={{marginTop:20}}>
                  <Text style={style.label}>Name*</Text>
-                 <TextInput style={style.input} placeholder='Enter name' />
+                 <TextInput style={style.input} placeholder='Enter name' value={name} onChangeText={setName} />
                  <View>
                  <Text style={style.label}>Date of Birth*</Text>
-                 <TextInput style={style.input} placeholder='Choose Date of Birth' />
+                        <DatePicker
+                        defaultDate={new Date(2018, 4, 4)}
+                        minimumDate={new Date(2018, 1, 1)}
+                        maximumDate={new Date(2018, 12, 31)}
+                        modalTransparent={false}
+                        animationType={"fade"}
+                        onDateChange={setDob}
+                        androidMode={"default"}
+                        placeHolderText="Select date"
+                        textStyle={{ color: "green" }}
+                        placeHolderTextStyle={{ color: "#d3d3d3" }}
+                        />
                 </View>       
            </View>
            <View style={{flexDirection:'row', marginTop:15, justifyContent:'space-between'}}>
                 <View style={{flexDirection:'row', alignItems:'center'}}>
-                <Radio selected={true} />
-                <Text style={{fontSize:14,marginLeft:10}}>Address 1</Text>
+                <Radio selectedColor="#c7a006" color='#000' />
+                <Text style={{fontSize:14,marginLeft:10, fontFamily:'OpenSans'}}>Address 1</Text>
                 </View>
                 <View style={{flexDirection:'row', alignItems:'center',}}>
-                <Radio selected={true} />
-                <Text style={{fontSize:14,marginLeft:10}}>Address 2</Text>
+                <Radio selectedColor="#c7a006" color='#000' />
+                <Text style={{fontSize:14,marginLeft:10, fontFamily:'OpenSans'}}>Address 2</Text>
                 </View>
                 <View style={{flexDirection:'row', alignItems:'center'}}>
-                <Radio selected={true} />
-                <Text style={{fontSize:14,marginLeft:10}}>Address 3</Text>
+                <Radio selectedColor="#c7a006" color='#000' />
+                <Text style={{fontSize:14,marginLeft:10, fontFamily:'OpenSans'}}>Address 3</Text>
                 </View>
             </View>         
                 <View style={{marginTop:20}}>
                  <Text style={style.label}>Address Line 1*</Text>
-                 <TextInput style={style.input} placeholder='Enter address line 1' />
+                 <TextInput style={style.input} placeholder='Enter address line 1' value={lineOne} onChangeText={setLineOne}  />
                 </View>
                  <View>
                  <Text style={style.label}>Address Line 2*</Text>
-                 <TextInput style={style.input} placeholder='Enter address line 2' />
+                 <TextInput style={style.input} placeholder='Enter address line 2' value={lineTwo} onChangeText={setLineTwo}/>
                 </View>    
                 
                 <View>
                  <Text style={style.label}>City*</Text>
-                 <TextInput style={style.input} placeholder='Enter city' />
+                 <TextInput style={style.input} placeholder='Enter city' value={city} onChangeText={setCity}/>
                 </View>    
                 <View>
                  <Text style={style.label}>PIN Code*</Text>
-                 <TextInput style={style.input} placeholder='Enter pin code' />
+                 <TextInput style={style.input} placeholder='Enter pin code' value={pincode} onChangeText={setPincode}/>
                </View>    
 
                <View>
-                 <Text style={style.label}>PIN Code*</Text>
+                 <Text style={style.label}>Country*</Text>
                  <Picker
-                        mode="dropdown"
-                        iosIcon={<Icon name="chevron-down" type='Feather' />}
-                        placeholderStyle={{color:'red'}}
-                        style={style.input}
-                >
-              <Picker.Item label="India" value="key0" />
-              <Picker.Item label="USA" value="key1" />
-              <Picker.Item label="China" value="key2" />
-              <Picker.Item label="UAE" value="key3" />
-              <Picker.Item label="Australia" value="key4" />
-            </Picker>
+                    mode="dropdown"
+                    iosIcon={<Icon name="arrow-down" />}
+                    placeholder="Select your country"
+                    placeholderStyle={{ color: "#bfc6ea" }}
+                    placeholderIconColor="red"
+                    style={{width:"100%", height:40}}
+                    selectedValue={country}
+                    onValueChange={setCountry}
+                    >
+                    <Picker.Item label="India" value="key0" />
+                    </Picker>
 
                 </View>    
 
@@ -81,13 +168,15 @@ const style= StyleSheet.create({
     label:{
         fontSize:14, 
         marginBottom:7,
-        marginTop:6
+        marginTop:6,
+        fontFamily:'Lato'
     }, 
     input:{
         height:40,
         borderColor:'#e9e9e9',
         borderWidth:1,
         paddingLeft:15,
-        marginBottom:18
+        marginBottom:18,
+        fontFamily:'Lato'
     },
 });

@@ -13,14 +13,19 @@ import Contact from './screens/Contact';
 import AboutScreen from './screens/AboutScreen';
 import History from "./screens/History";
 import Stepper from "./screens/stepscreens/Stepper";
+import ApplicationDetails from './screens/ApplicationDetails';
+import ResetPassword from './screens/ResetPassword';
+import Success from './screens/stepscreens/Success';
+import FillDetails from './screens/stepscreens/FillDetails';
+
 
 export default function App() {
   return (
     <>
     <NativeRouter>
       <TopHeader/>
-      <Route exact path="/" component={Login}/>
-      <Route exact path="/home" component={Homescreen}/>
+      <Route exact path="/" component={Homescreen}/>
+      <Route exact path="/login" component={Login}/>
       <Route exact path="/drawer" component={SlideDrawer}/>
       <Route exact path="/appointment" component={Appointment}/>
       <Route exact path="/profile" component={Profile}/>
@@ -29,9 +34,12 @@ export default function App() {
       <Route exact path="/applynow" component={Stepper}/>
       <Route exact path="/about" component={AboutScreen}/>
       <Route exact path="/contact" component={Contact}/>
-      <Route exact path="/login" component={Login}/>
+      <Route exact path="/application" component={ApplicationDetails}/>
       <Route exact path="/create" component={CreateAccount}/>
-      <Route exact path="/forget" component={ForgetAccount}/>
+      <Route exact path="/forget" component={ResetPassword}/>
+      <Route exact path="/reset" component={ResetPassword}/>
+      <Route exact path="/fill" component={FillDetails}/>
+      <Route exact path="/success" component={Success}/>
     </NativeRouter>
   </>
   );

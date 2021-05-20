@@ -1,13 +1,36 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Container, Left, Body, Right, Button, Icon, Card, CardItem, Title, Content, H1, H2, H3, Grid } from 'native-base';
-import {Image, Text, ScrollView, StyleSheet, View, SafeAreaView} from 'react-native';
+import {Image, Text, ScrollView, StyleSheet, View, SafeAreaView, ActivityIndicator} from 'react-native';
 import ServiceGrid from '../component/Grid';
 import TouristGrid from '../component/TouristCardGrid';
 import Bottombar from '../component/Bottombar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useHistory } from 'react-router';
+import { set } from 'react-native-reanimated';
+import { LinearGradient } from 'expo-linear-gradient';
+import {useFonts} from 'expo-font'; 
 
 export default Homescreen = () =>{
-
-    return (<>
+    const [loaded] = useFonts({
+        OpenSans: require('../assets/fonts/openSans.ttf'),
+        Lato: require('../assets/fonts/lato.ttf'),
+      });
+    const history = useHistory();
+    const [isLogin, setIsLogin] =React.useState(false);
+    const checkLogin = async ()=>{
+       if(await AsyncStorage.getItem('token'))
+       {
+           setIsLogin(true);
+       }
+       else{
+           history.push('/login');
+       }
+    }
+  useEffect(()=> {
+    checkLogin();
+}, [])
+    return (
+         <>
             <Content>
             <ScrollView style={{backgroundColor:'#fff', marginBottom:80}}>
             <Card>
@@ -37,23 +60,26 @@ export default Homescreen = () =>{
             <TouristGrid/>            
             </View>
             </ScrollView></Content>
+   
             <Bottombar/>
             </>
      );
 }
-
 const style = StyleSheet.create({
         heading:{
             fontSize:34,
             fontWeight: 'bold',
+            fontFamily:'Lato'   
         },
         ourServices:{
             fontSize:24,
             fontWeight:'bold',
-            marginBottom:7
+            marginBottom:7,
+            fontFamily:'Lato'
         },
         paraText:{
             fontSize:14,
-            color:'#9d9494'
+            color:'#9d9494', 
+            fontFamily:'OpenSans'
         }
 });

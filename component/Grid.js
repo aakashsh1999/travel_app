@@ -1,10 +1,17 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import { StyleSheet, View, Text, Image, ActivityIndicator } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
+import {useFonts} from 'expo-font';
 
 export default function ServiceGrid() {
   const service_url = `http://13.234.123.221/api/serviceCategory`;
   const [services, setServices] = React.useState(null);
+
+  const [loaded] = useFonts({
+    OpenSans: require('../assets/fonts/openSans.ttf'),
+    Lato: require('../assets/fonts/lato.ttf'),
+  });
+  
   console.log(service_url);
   React.useEffect(() => {
     getServices();
@@ -26,7 +33,7 @@ export default function ServiceGrid() {
 
 
   if(!services){
-     return <View></View>
+     return  <ActivityIndicator size="large" color="yellow" style={{alignSelf:'center', margin:20}} />
   }
   return (
     <FlatGrid
@@ -60,6 +67,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#000',
     fontWeight: '600',
-    textAlign:'center'
+    textAlign:'center',
+    fontFamily:'OpenSans'
   },
 });

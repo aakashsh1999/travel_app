@@ -1,8 +1,14 @@
 import React from 'react';
 import {CardItem, H2, Card, Container, H3} from 'native-base';
 import {Image, Text, ScrollView, StyleSheet, View} from 'react-native';
-
+import {useFonts} from 'expo-font';
 export default AboutScreen = () =>{
+    
+    const [loaded] = useFonts({
+        OpenSans: require('../assets/fonts/openSans.ttf'),
+        Lato: require('../assets/fonts/lato.ttf'),
+      });
+
     return (
             <ScrollView>
                 <Image style={style.logo} source={require('../assets/aboutLogo.png')} />
@@ -26,8 +32,8 @@ export default AboutScreen = () =>{
                     <CardItem header style={style.cardheader}>
                     <Image style={style.image} source={require('../assets/teamimg.png')} />
                     <View style={{marginRight:28}}>
-                    <H3 style={{fontSize:18, lineHeight:22}}>Shakeb Khan</H3>
-                    <H3 style={{fontSize:14, color:"#9d9494"}}>Chief Executive Officer, EPro</H3>
+                    <H3 style={{fontSize:18, lineHeight:22, fontFamily:'Lato', fontWeight:'500'}}>Shakeb Khan</H3>
+                    <H3 style={{fontSize:14, color:"#9d9494", fontFamily:'OpenSans', fontWeight:'500'}}>Chief Executive Officer, EPro</H3>
                      </View>
                     </CardItem>
                       <CardItem>
@@ -41,8 +47,8 @@ export default AboutScreen = () =>{
                     <CardItem header style={style.cardheader}>
                     <Image style={style.image} source={require('../assets/teamimg.png')} />
                     <View style={{marginRight:28}}>
-                    <H3 style={{fontSize:18, lineHeight:22}}>Shakeb Khan</H3>
-                    <H3 style={{fontSize:14, color:"#9d9494"}}>Chief Executive Officer, EPro</H3>
+                    <H3 style={{fontSize:18, lineHeight:22, fontFamily:'Lato', fontWeight:'500'}}>Shakeb Khan</H3>
+                    <H3 style={{fontSize:14, color:"#9d9494", fontFamily:'OpenSans', fontWeight:'500'}}>Chief Executive Officer, EPro</H3>
                      </View>
                     </CardItem>
                       <CardItem>
@@ -64,13 +70,15 @@ const style= StyleSheet.create({
         margin:45
      }, 
     aboutHeading:{
-        fontSize:24,
+        fontSize:18,
         fontWeight:'bold',
-        marginBottom:7
+        marginBottom:7,
+        fontFamily:'Lato'
     }, 
     text:{
         fontSize:16,
         color:'#9d9494', 
+        fontFamily:'OpenSans',
         lineHeight:22
     },
     image:{

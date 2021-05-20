@@ -1,76 +1,73 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Card, Content, Icon, H3, H2, Left, Body, Button} from 'native-base';
-import { ScrollView, Text, View, StyleSheet, Image} from 'react-native';
+import { ScrollView, Text, View, StyleSheet, Image, ActivityIndicator} from 'react-native';
 import {useHistory} from 'react-router-dom';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
-export default Appointment =  () =>{
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {LinearGradient} from 'expo-linear-gradient';
+import {useFonts} from 'expo-font';
+ export default Appointment =  () =>{
+     
+const [loaded] = useFonts({
+          Lato: require('../assets/fonts/lato.ttf'),
+        });
+          
     let history = useHistory();
-        return ( 
+    const [appointment, setAppointment] = React.useState([]);
+    useEffect(() => {
+        getData();
+    }, [])
+
+const getData = async () =>{
+    const id =await AsyncStorage.getItem('id');
+    const token = await AsyncStorage.getItem('token');
+    let appointment = await (
+        await fetch(
+          `http://13.234.123.221/api/service/appointment/${id}`,
+          {
+            method: "GET",
+            headers: {
+              "x-access-token":token
+            },
+          }
+        )
+      ).json();
+console.log(appointment);
+setAppointment(appointment || []);
+}
+if(!appointment) {
+    return <ActivityIndicator color='red'></ActivityIndicator>
+}
+return ( 
         <ScrollView>
         <View style={{marginTop:20,margin:16}}>
             <View style={style.title}>
             <TouchableOpacity onPress={()=>history.push('/profile')}>
             <Icon type='FontAwesome' name="arrow-circle-o-left" style={{fontSize:16, marginBottom:7,}}/>
             </TouchableOpacity>
-            <Text style={style.heading}>Appointments(11)</Text>
+            <Text style={style.heading}>Appointments ({appointment.count})</Text>
             </View>
             <Image source={require('../assets/clipath.png')} />
         </View>
         <Content style={[{padding:16}]}>
-            {/* Active Card */}
-
-            <Card style={style.card}>
+        {!appointment.data ? <ActivityIndicator color='red'/> : appointment.data.map((data)=>  <Card style={style.card}>
             <Left>
                 <View style={style.labelBox}>
-                    <H3 style={style.labelheading}>23</H3>
-                    <Text>Jan 21</Text>
+                    <H3 style={style.labelheading}>{data.appt_date}</H3>
+                    <Text>{data.appt_month} {data.appt_year}</Text>
                 </View>
             </Left>
-            <View style={{width:200, marginRight:50}}>
-                <Button rounded style={{width:90, height:19, justifyContent:'center', backgroundColor:'yellow', marginTop:2}}>
-                    <Text>Upcoming</Text>
-                </Button>
-                <Text style={{fontSize:14, fontWeight:'500', marginBottom:10, marginTop:14}}>Appointment with AMER 
-                executive in Dubai Media City</Text>
-                <Text style={{color:"#9d9494"}}>11:00 - 12:00</Text>
+            <View style={{width:240, marginRight:10}}>
+                <LinearGradient  
+                style={{width:90, height:19, justifyContent:'center', marginTop:2, borderRadius:50}}
+                    colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={0,2.57}>
+                    <Text style={{textAlign:'center', fontSize:12, fontFamily:'Lato', padding:5, textTransform:'uppercase', fontWeight:"500"}}>Upcoming</Text>
+                </LinearGradient>
+                <Text style={{fontSize:14, fontWeight:'500', marginBottom:10, fontFamily:'Lato', marginTop:14}}>{data.title}</Text>
+                <Text style={{color:"#9d9494", fontFamily:'Lato'}}>11:00 - 12:00</Text>
              </View>
             </Card>
-
-            {/* //Inactive Card  */}
-            <Card style={style.card}>
-            <Left>
-                <View style={style.labelBox}>
-                    <H3 style={style.InactiveHeading}>23</H3>
-                    <Text style={{color:'#9d9494'}}>Jan 21</Text>
-                </View>
-            </Left>
-            <View style={{width:200, marginRight:50}}>
-                <Text style={{justifyContent:'center', color:"#9d9494", marginTop:2}}>
-                 Past Appointment</Text>
-                <Text style={{fontSize:14, fontWeight:'500', marginBottom:10, marginTop:14}}>Appointment with AMER 
-                executive in Dubai Media City</Text>
-                <Text style={{color:"#9d9494"}}>11:00 - 12:00</Text>
-             </View>
-            </Card>
-
-            
-            {/* //Inactive Card  */}
-            <Card style={style.card}>
-            <Left>
-                <View style={style.labelBox}>
-                    <H3 style={style.InactiveHeading}>23</H3>
-                    <Text style={{color:'#9d9494'}}>Jan 21</Text>
-                </View>
-            </Left>
-            <View style={{width:200, marginRight:50}}>
-                <Text style={{justifyContent:'center', color:"#9d9494", marginTop:2}}>
-                 Past Appointment</Text>
-                <Text style={{fontSize:14, fontWeight:'500', marginBottom:10, marginTop:14}}>Appointment with AMER 
-                executive in Dubai Media City</Text>
-                <Text style={{color:"#9d9494"}}>11:00 - 12:00</Text>
-             </View>
-            </Card>
+        )}
         </Content>
         </ScrollView>
         );
@@ -98,7 +95,8 @@ const style = StyleSheet.create({
     },
     labelheading:{
         fontWeight:'bold',
-        fontSize:25
+        fontSize:25,
+        fontFamily:'Lato'
     }, 
     card:{
         borderWidth:1, 
@@ -109,6 +107,7 @@ const style = StyleSheet.create({
     InactiveHeading:{
         fontWeight:'bold',
         fontSize:25, 
+        fontFamily:'Lato',
         color:"#9d9494"
     }, 
 });

@@ -3,17 +3,19 @@ import React from 'react';
 import { ScrollView, View, Image, StyleSheet} from 'react-native';
 import TouristGrid from '../component/TouristCardGrid';
 
-export default ApplicationDetails = () =>{
+export default ApplicationDetails = () => {
+
         return (
             <>
             <View style={{borderBottomColor:'#e6e6e6',borderBottomWidth:1, paddingLeft:16, paddingBottom:24}}>
-            <View style={{marginTop:20}}>
-            <View style={style.title}>
-            <Icon type='FontAwesome' name="arrow-circle-o-left" style={{fontSize:16, marginBottom:7,}}/>
-            <Text style={style.heading}>Application Details</Text>
-            </View>
-            <Image source={require('../assets/clipath.png')} />
-            </View>
+                    <View style={{marginTop:20}}>
+                            <View style={style.title}>
+                                <Icon type='FontAwesome' name="arrow-circle-o-left" style={{fontSize:16, marginBottom:7,}}/>
+                                <Text style={style.heading}>Application Details</Text>
+                                </View>
+                        <Image source={require('../assets/clipath.png')} />
+                    </View>
+            <ScrollView>
             <View style={style.listContainer}>   
                     <View>
                     <Text style={style.itemHeading}>Date</Text>
@@ -51,9 +53,10 @@ export default ApplicationDetails = () =>{
                     <Text style={{fontSize:14, color:'blue', opacity:1.0}}>In-Progress</Text>
                     </View>
                  </View>
-               
+                 </ScrollView>
             </View>
-            <ScrollView style={{padding:15}}>
+            <ScrollView>
+            <View style={{padding:15}}>
             <View style={style.stepIndicator}>
             <Radio selected={true} />
             <Text style={{fontSize:12,marginLeft:10}}>Appointment Booked</Text>
@@ -137,6 +140,7 @@ export default ApplicationDetails = () =>{
             <View style={{marginLeft:30, marginBottom:120, borderColor:'#e6e6e6', borderWidth:1, padding:20}}>
             <Text style={{fontWeight:'bold', fontSize:16}}>Company Formation Services</Text>
             <TouristGrid/>
+            </View>
             </View>
             </ScrollView>
             </>
