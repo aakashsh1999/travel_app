@@ -29,10 +29,10 @@ export default StepScreen = () => {
        }</Text></H3>
       <Stepper
         active={active}
-        content={content}
-        onNext={() => setActive((p) => p + 1)}
-        onBack={() => setActive((p) => p - 1)}
-        onFinish={() => history.push('/success')}
+       content={content}
+        // onNext={() => setActive((p) => p + 1)}
+        // onBack={() => setActive((p) => p - 1)}
+        // onFinish={() => history.push('/success')}
 
       />
     </ScrollView>

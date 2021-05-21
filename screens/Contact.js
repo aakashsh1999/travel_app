@@ -26,14 +26,13 @@ export default Contact = () => {
   });
   const history=useHistory();
 
-  const url = `${BASE_URL}/contact/create`;
-  const [data, setData] = React.useState(null);
+  const url = `http://13.234.123.221/contact/create`;
   const [name, setName] = React.useState(null);
   const [email, setEmail] = React.useState(null);
   const [query, setQuery] = React.useState(null);
 
   const createContact = async () => {
-    const jsonData= {'name':name, 'email':email, 'password':query};
+    const jsonData= {name:name, email:email, query:query};
     const res = await ( await fetch(url, {
         method: "POST",
         headers: {
@@ -42,10 +41,12 @@ export default Contact = () => {
         },
         body: JSON.stringify(jsonData),
       })).json();
+
       const data=await res.json();
       if (data && result.status == 200) {
         console.log(data.msg);
         history.push('/')
+        alert('Submitted Successfully')
       }
   };
 
@@ -138,7 +139,7 @@ export default Contact = () => {
                     <Text style={{color:'#9d9494'}}>By Clicking on 'Submit' you will agree to T & C of Askepro</Text>
                     </View>
                 </Body>
-                <TouchableOpacity onPress={createContact}>
+                <TouchableOpacity onPress={()=>createContact()}>
                 <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.loginButton}>  
                 <Text style={{fontSize:15, fontWeight:'bold', fontFamily:'Lato'}}>SUBMIT</Text>
                 </LinearGradient>

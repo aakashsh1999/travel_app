@@ -1,10 +1,9 @@
-import { Container, Content, Icon, List, ListItem, Body, Radio, Left, View, DatePicker, Picker, } from 'native-base';
+import { Container, Content, Icon, List, ListItem, Body, Radio, Left, View, DatePicker, Picker, Form} from 'native-base';
 import React from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, TextInput} from 'react-native';
 import {useHistory} from 'react-router';
 import {BASE_URL} from 'react-native-config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { add } from 'react-native-reanimated';
 export default FillDetails= () =>{
 
     const history = useHistory();
@@ -33,7 +32,7 @@ export default FillDetails= () =>{
     const handleAliasChange = ({ value }) => { setAlias(value) };
     
     const [name, setName] = React.useState(null);
-    const [dob, setDob] = React.useState(null);
+    const [dob, setDob] = React.useState(new Date());
     const [type, setType] = React.useState(null);
     const [alias, setAlias] = React.useState(null);
     const [lineOne, setLineOne] = React.useState(null);
@@ -97,17 +96,15 @@ export default FillDetails= () =>{
                  <View>
                  <Text style={style.label}>Date of Birth*</Text>
                         <DatePicker
-                        defaultDate={new Date(2018, 4, 4)}
-                        minimumDate={new Date(2018, 1, 1)}
-                        maximumDate={new Date(2018, 12, 31)}
-                        modalTransparent={false}
-                        animationType={"fade"}
+                        value={dob}
+                        placeHolderText={'Choose your Date of Birth'}
                         onDateChange={setDob}
-                        androidMode={"default"}
-                        placeHolderText="Select date"
-                        textStyle={{ color: "green" }}
-                        placeHolderTextStyle={{ color: "#d3d3d3" }}
+                        textStyle={'#000'}
+                        placeHolderTextStyle={'#000'}
+                        disabled={false}
+                        locale={"en"}
                         />
+                        {alert(dob)}
                 </View>       
            </View>
            <View style={{flexDirection:'row', marginTop:15, justifyContent:'space-between'}}>
@@ -144,6 +141,7 @@ export default FillDetails= () =>{
 
                <View>
                  <Text style={style.label}>Country*</Text>
+                 <Form>
                  <Picker
                     mode="dropdown"
                     iosIcon={<Icon name="arrow-down" />}
@@ -152,14 +150,12 @@ export default FillDetails= () =>{
                     placeholderIconColor="red"
                     style={{width:"100%", height:40}}
                     selectedValue={country}
-                    onValueChange={setCountry}
-                    >
-                    <Picker.Item label="India" value="key0" />
+                    onValueChange={setCountry} >
+                    <Picker.Item label="India" value="india" />
+                    <Picker.Item label="UAE" value="uae" />
                     </Picker>
-
+                    </Form>
                 </View>    
-
-
         </ScrollView>
     );
 }

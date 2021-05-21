@@ -1,9 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text, Image, ActivityIndicator, Touchable, TouchableOpacity } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
 import {useFonts} from 'expo-font';
+import { useHistory } from 'react-router-dom';
 
 export default function ServiceGrid() {
+  const history = useHistory();
   const service_url = `http://13.234.123.221/api/serviceCategory`;
   const [services, setServices] = React.useState(null);
 
@@ -37,15 +39,17 @@ export default function ServiceGrid() {
   }
   return (
     <FlatGrid
-      itemDimension={120  }
+      itemDimension={120}
       data={services}
       style={styles.gridView}
       spacing={5}
       renderItem={({ item }) => (
+        <TouchableOpacity onPress={()=>history.push(`/aboutservice/${item.slug}`)}>
         <View style={[styles.itemContainer, { backgroundColor: '#fff' }]}>
             <Image style={{width:30, height:30,alignSelf:'center', margin:10}} source={{uri: 'data:image/png;base64,'+item.image}}/>
           <Text style={styles.itemName}>{item.name}</Text>
         </View>
+        </TouchableOpacity>
       )}
     />
   );

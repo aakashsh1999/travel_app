@@ -45,7 +45,7 @@ const getData = async () =>{
                 <CardItem header style={{borderBottomColor:'#e6e6e6', borderBottomWidth:1, justifyContent:'space-between',}}>
                 <View>
                     <Text style={{fontSize:12, color:'#9d9494'}}>Service name</Text>
-                    <Text style={style.itemText}>{data.serviceCategory.name}</Text>
+                    <Text style={style.itemText}>{data.serviceCategory && data.serviceCategory.name}</Text>
                     </View>
                     <TouchableOpacity onPress={()=>history.push('/application')}>
                     <View style={{flexDirection:'row', alignItems:'center', marginTop:25}}>
@@ -61,11 +61,11 @@ const getData = async () =>{
                     </View>
                     <View style={{width:"33%", marginLeft:15}} > 
                     <Text style={style.itemHeading}>Service Id</Text>
-                    <Text style={style.itemText}>{data.serviceCategory.scode}</Text>
+                    <Text style={style.itemText}>{data.serviceCategory && data.serviceCategory.scode}</Text>
                     </View>
                     <View style={{width:"33%"}}>
                     <Text style={style.itemHeading}>Status</Text>
-                    <Text style={{fontSize:14, color:data.status==='Success'?'#0cbe0c':'#4ca0dd' }}>{data.status}</Text>
+                    <Text style={{fontSize:14, color:data.status==='Success'?'#0cbe0c':'#4ca0dd' }}>{data.serviceCategory && data.status}</Text>
                     </View>
                 </View>
                 <View style={{ flexDirection:'row', padding:15}}>                

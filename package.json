@@ -30,6 +30,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
     "react-native-calendar-picker": "^7.1.2",
     "react-native-config": "^1.4.2",
+    "react-native-date-picker": "^3.3.0",
     "react-native-document-picker": "^5.0.4",
     "react-native-drawer": "^2.5.1",
     "react-native-gesture-handler": "^1.10.3",

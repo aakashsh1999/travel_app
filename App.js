@@ -16,6 +16,7 @@ import Stepper from "./screens/stepscreens/Stepper";
 import ApplicationDetails from './screens/ApplicationDetails';
 import ResetPassword from './screens/ResetPassword';
 import Success from './screens/stepscreens/Success';
+import AboutService from './screens/AboutService';
 import FillDetails from './screens/stepscreens/FillDetails';
 
 
@@ -40,6 +41,7 @@ export default function App() {
       <Route exact path="/reset" component={ResetPassword}/>
       <Route exact path="/fill" component={FillDetails}/>
       <Route exact path="/success" component={Success}/>
+      <Route exact path="/aboutservice/:slug" component={AboutService}/>
     </NativeRouter>
   </>
   );

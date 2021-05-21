@@ -5,61 +5,7 @@ import DocumentPicker from 'react-native-document-picker';
 
 
 export default UploadDocuments  = () =>{
-    const [fileName, setfilename] = React.useState("");
-    const [file, setFile] = React.useState(null);
-    const [docsArray, updateMyArray] = React.useState([]);
-    const history = useHistory();
-    if (!localStorage.getItem("token") && !localStorage.getItem("id"))
-        history.push("/login");
-
-    const [services, setService] = React.useState(null);
-    const slug = localStorage.getItem("serviceSlug");
-    const service_url = `${process.env.REACT_APP_BASE_URL}/serviceCategory/${slug}`;
-
-
-    React.useEffect(() => {
-        getServices();
-    }, []);
-
-    const getServices = async () => {
-        const service = await (await fetch(service_url, { method: "GET" })).json();
-        const serviceData = {
-            reqDocs: service.data.serviceDetail.reqDocs,
-        };
-        setService(serviceData);
-
-    };
-    if (!services) {
-        return (<div />)
-    }
-    const requestId = localStorage.getItem("applicationId");
-    const url = `${process.env.REACT_APP_BASE_URL}/service/upload/${requestId}`;
-    const uploadWithFormData = async (event) => {
-        event.preventDefault();
-
-        console.log(file, fileName);
-
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("name", fileName);
-        console.log(...formData);
-        const result = await (await fetch(url, {
-            method: 'PUT',
-            headers:{  'x-access-token':localStorage.getItem("token")},
-            body: formData
-        })).json();
-       
-      if(result.status===1)
-        updateMyArray(oldArray => [...oldArray, fileName]);
-    }
-    const handleSubmitForm = (event) => {
-        if(docsArray.length===services.reqDocs.length)
-        history.push("/book");
-
-    }
-
-
-        return (
+         return (
             <ScrollView style={{padding:16}}>
                 <View style={style.uploadContainer}>
                 <Text style={style.label, {textAlign:'center', margin:20, fontFamily:'Lato'}}>Scan and Upload Documents</Text>
