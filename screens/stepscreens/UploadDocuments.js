@@ -1,12 +1,18 @@
 import React from 'react';
-import {Icon, Body, Button, List, ListItem} from 'native-base'; 
+import {Icon, Body, Button, List,H3, ListItem} from 'native-base'; 
 import { ScrollView, Text, View, StyleSheet, TextInput } from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
+import ButtonBar from '../../component/ButtonBar';
+import Stepper from './Stepper';
 
 
 export default UploadDocuments  = () =>{
          return (
-            <ScrollView style={{padding:16}}>
+             <>
+            <ScrollView>
+                <H3 style={style.heading}>Upload Documents</H3>
+                <Stepper value='3'/>
+                <View style={{padding:16}}>
                 <View style={style.uploadContainer}>
                 <Text style={style.label, {textAlign:'center', margin:20, fontFamily:'Lato'}}>Scan and Upload Documents</Text>
                 <TextInput style={style.input} placeholder='Upload file(s) from your computer' />
@@ -41,7 +47,10 @@ export default UploadDocuments  = () =>{
                         </Body>
                     </ListItem>
                     </View>
+                    </View>
             </ScrollView>
+            <ButtonBar/>
+            </>
         )
 }   
 
@@ -67,8 +76,16 @@ const style= StyleSheet.create({
     },
     uploadContainer : {marginTop:25, borderWidth:1, borderStyle:'dashed', borderColor:'#e6e6e6', justifyContent:'center', padding:20},
     iconStyle:{
-        rotation:135,
+        transform:[{rotate:'135deg'}],
         fontSize:10,  backgroundColor:"#9d9494", color:"#9d9494"
     },
-    listText:{fontSize:16,marginLeft:13, color:'#9d9494', fontFamily:'OpenSans'}
+    listText:{fontSize:16,marginLeft:13, color:'#9d9494', fontFamily:'OpenSans'},
+    heading:{
+        marginTop:20,
+        fontSize:16, 
+        fontWeight:'bold',
+        marginBottom:10,
+        textAlign:'center',
+        fontFamily:"Lato"
+    }
 });

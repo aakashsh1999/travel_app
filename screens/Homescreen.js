@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import { Container, Left, Body, Right, Button, Icon, Card, CardItem, Title, Content, H1, H2, H3, Grid } from 'native-base';
-import {Image, Text, ScrollView, StyleSheet, View, SafeAreaView, ActivityIndicator} from 'react-native';
+import {Image, Text, ScrollView, StyleSheet, View, SafeAreaView, ActivityIndicator, LogBox} from 'react-native';
 import ServiceGrid from '../component/Grid';
 import TouristGrid from '../component/TouristCardGrid';
 import Bottombar from '../component/Bottombar';
@@ -21,18 +21,14 @@ export default Homescreen = () =>{
        if(await AsyncStorage.getItem('token'))
        {
            setIsLogin(true);
-       }
-       else{
-           history.push('/login');
-       }
-    }
+       }        }
   useEffect(()=> {
     checkLogin();
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 }, [])
     return (
          <>
          <ScrollView>
-            <Content style={{marginBottom:80}}>
             <Card>
                 <Image style={{width:"100%", position: 'relative'}}
                 source={require('../assets/homeBg.png')}
@@ -59,7 +55,6 @@ export default Homescreen = () =>{
             <View style={{padding:15}}>
             <TouristGrid/>            
             </View>
-            </Content>
             </ScrollView>
             <Bottombar/>
             </>

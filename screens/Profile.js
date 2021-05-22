@@ -10,6 +10,7 @@ export default Profile = () =>{
     const history = useHistory();
     const [isLogin, setIsLogin] =React.useState(false);
     const [user, setUser] = React.useState([]);
+    const [Id, setId] =React.useState(null);
     const [application, setApplication] = React.useState([]);
   
     useEffect(() => {
@@ -18,18 +19,8 @@ export default Profile = () =>{
 
 const getData = async () =>{
     const id =await AsyncStorage.getItem('id');
+    setId(id);
     const token = await AsyncStorage.getItem('token');
-    let application = await (
-        await fetch(
-          `http://13.234.123.221/api/service/application/${id}`,
-          {
-            method: "GET",
-            headers: {
-              "x-access-token":token
-            },
-          }
-        )
-      ).json();
 console.log(application);
       let user = await (    
         await fetch(`http://13.234.123.221/api/users/${id}`, {
@@ -41,6 +32,18 @@ console.log(application);
       ).json();
       console.log(user)
     setUser(user.data);
+
+    let application = await (
+      await fetch(
+        `http://13.234.123.221/api/service/application/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "x-access-token":token
+          },
+        }
+      )
+    ).json();
     setApplication(application)
 
     if(await AsyncStorage.getItem('token'))
@@ -56,6 +59,8 @@ const logout = async () =>{
 if(!user && !application){
     return <ActivityIndicator color="yellow"/>
 }
+console.log(Id);
+console.log(user);
         return (
             <Container>
             <Content >
@@ -86,11 +91,11 @@ if(!user && !application){
            <Content style={{paddingLeft:20, paddingRight:20, paddingBottom:20}}>
                     <View>
                     <Text style={style.infoHeading}>Phone Number</Text>
-                    <Text style={style.infoText}>{user.phone}</Text>
+                    <Text style={style.infoText}>{user && user.phone}</Text>
                     </View>
                     <View>
                     <Text style={style.infoHeading}>Email</Text>
-                    <Text style={style.infoText}>{user.email}</Text>
+                    <Text style={style.infoText}>{user && user.email}</Text>
                     </View>
                     <View>
                     <Text style={style.infoHeading}>Address</Text>
@@ -103,7 +108,7 @@ if(!user && !application){
             <View style={{borderColor:"#f4f4f4", borderWidth:1}}>
             <TouchableOpacity onPress={()=> history.push('/appointment')}>
             <ListItem style={style.list}>
-            <Text>Appointments(11)</Text>
+            <Text>Appointments</Text>
             </ListItem>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=> history.push('/mydocument')}>

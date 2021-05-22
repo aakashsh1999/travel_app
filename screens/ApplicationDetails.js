@@ -1,16 +1,17 @@
 import { Text, Icon, Radio, Body, Card, Left, Button, H3, ListItem, List} from 'native-base';
 import React from 'react';
 import { ScrollView, View, Image, StyleSheet} from 'react-native';
+import { useHistory } from 'react-router';
 import TouristGrid from '../component/TouristCardGrid';
 
 export default ApplicationDetails = () => {
-
+    const history= useHistory();
         return (
             <>
             <View style={{borderBottomColor:'#e6e6e6',borderBottomWidth:1, paddingLeft:16, paddingBottom:24}}>
                     <View style={{marginTop:20}}>
                             <View style={style.title}>
-                                <Icon type='FontAwesome' name="arrow-circle-o-left" style={{fontSize:16, marginBottom:7,}}/>
+                                <Icon type='FontAwesome' name="arrow-circle-o-left" style={{fontSize:16, marginBottom:7,}} onPress={()=>history.push('/history')}/>
                                 <Text style={style.heading}>Application Details</Text>
                                 </View>
                         <Image source={require('../assets/clipath.png')} />

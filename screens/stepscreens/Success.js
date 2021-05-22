@@ -4,10 +4,12 @@ import { ScrollView, Image, View, StyleSheet} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useHistory } from 'react-router';
+import ButtonBar from '../../component/ButtonBar';
 
 export default Success = () =>{
     const history= useHistory();
         return (
+            <>
             <ScrollView style={{padding:16}}>
                 <View style={{padding:20, justifyContent:'center', alignItems:'center'}}>
                     <Image source={require('../../assets/checked.png')} style={{margin:20}}/>
@@ -65,6 +67,8 @@ export default Success = () =>{
                 </LinearGradient>
                 </TouchableOpacity>
             </ScrollView>
+            <ButtonBar/>
+            </>
         )
 }
 

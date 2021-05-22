@@ -6,7 +6,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default History = () =>{
     let history= useHistory();
     const [application, setApplication] = React.useState([]);
-  
     useEffect(() => {
         getData();
     }, [])
@@ -83,10 +82,10 @@ const getData = async () =>{
                     </View>
                 </View>
                 </Card>
-            )}   
-            <Button rounded style={style.laodingButton}>
-                <Text style={style.buttonText}>Load More</Text>
-            </Button>
+             )}   
+            {/* // <Button rounded style={style.laodingButton}>
+            //     <Text style={style.buttonText}>Load More</Text>
+            // </Button> */}
             </Content>
             </ScrollView>
         )

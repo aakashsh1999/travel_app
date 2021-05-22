@@ -1,51 +1,105 @@
 import React, { useState } from "react";
-import Stepper from "react-native-stepper-ui";
-import { View, Alert, Text, StyleSheet, ScrollView } from "react-native";
-import ApplyNow from "./ApplyNow";
-import { H3 } from "native-base";
-import FillDetails from "./FillDetails";
-import BookAppointment from './BookAppointment';
-import UploadDocuments from './UploadDocuments';
-import Payment from './Payment';
-import Success from './Success';
-import {useHistory} from 'react-router-dom';
+import {StyleSheet, Text, View} from  'react-native';
+import {useLocation} from 'react-router-dom';
+import {LinearGradient} from 'expo-linear-gradient';
 
-
-const content = [
-  <ApplyNow/>,
-  <FillDetails/>,
-  <UploadDocuments/>,
-  <BookAppointment/>,
-  <Payment/>,
-];
-export default StepScreen = () => {
-  let history= useHistory();
-  const [active, setActive] = useState(0);
+export default StepScreen = ({active}) => {
+  const location = useLocation();
+  const [result, setResult] = useState(null);
+  const arr = ["/apply", "/fill", "/upload", "/book", "/payment"];
+  const titleArr = ["1", "Fill Details", "Upload Documents", "Book an appointment", "Payment"];
+  React.useEffect(() => {
+      let final = [];
+      for (let i = 0; i < arr.length; i++) {
+          if (arr[i] === location.pathname) {
+              final.push({ title: titleArr[i], status: true });
+              
+          }
+          else {
+              final.push({ title: titleArr[i], status: false });
+          }
+      }
+      console.log(final)
+      setResult(final);
+  },[]);
+  if(!result){
+  return (<View></View>);}
   return (
-    <ScrollView>
-     <H3 style={style.heading}><Text>{
-      active==0 ? 'Choose Service' : active==1 ? "Fill Details" : active===2 ? "Upload Documents":
-      active===3 ? "Book an Appointment": "Payment"
-       }</Text></H3>
-      <Stepper
-        active={active}
-       content={content}
-        onNext={() => setActive((p) => p + 1)}
-         onBack={() => setActive((p) => p - 1)}
-         onFinish={() => history.push('/success')}
-
-      />
-    </ScrollView>
-  );
+    <View style={{width:"100%", flexDirection:'row', justifyContent:'space-between', padding:20}}>
+        <>
+          {active===result.status ?  <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
+               <Text style={style.stepperTextActive}>1</Text>
+            </LinearGradient>
+               :<View style={style.stepperCircle}>
+               <Text style={style.stepperText}>1</Text>
+              </View>
+              }
+            {active===result.status ? <View style={style.activeLine}></View> : <View style={style.line}></View>}
+           {active===result.status ? 
+            <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
+               <Text style={style.stepperTextActive}>2</Text>
+            </LinearGradient>
+            :<View style={style.stepperCircle}>
+               <Text style={style.stepperText}>2</Text>
+            </View>}
+            <View style={style.line}></View>
+            {active==='3' ? 
+            <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
+               <Text style={style.stepperTextActive}>3</Text>
+            </LinearGradient>
+            :<View style={style.stepperCircle}>
+               <Text style={style.stepperText}>3</Text>
+            </View>}
+            <View style={style.line}></View>
+            {active==='4' ? <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
+               <Text style={style.stepperTextActive}>4</Text>
+            </LinearGradient>
+            : <View style={style.stepperCircle}>
+               <Text style={style.stepperText}>4</Text>
+            </View>}
+            <View style={style.line}></View>
+            {active==='4' ?  <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
+               <Text style={style.stepperTextActive}>5</Text>
+            </LinearGradient>
+            :<View style={style.stepperCircle}>
+               <Text style={style.stepperText}>5</Text>
+            </View>}
+            </>
+       </View>
+        );
 };
 
-const style = StyleSheet.create({
-    heading:{
-        marginTop:20,
-        fontSize:16, 
-        fontWeight:'bold',
-        marginBottom:10,
-        textAlign:'center',
-        fontFamily:"Lato"
+const style=StyleSheet.create({
+  stepperCircle:{
+    width:30, height:30,
+    backgroundColor:'#fff', 
+    justifyContent:'center',
+    alignItems:'center',
+    borderRadius:50,
+    borderWidth:1, 
+    borderColor:'#d5d5d5'
+    }, 
+    stepperText:{
+      fontSize:13,
+      fontWeight:'bold',
+      fontFamily:'Lato',
+      color:"#d5d5d5"
+    }, 
+    
+    stepperTextActive:{
+      fontSize:13,
+      fontWeight:'bold',
+      fontFamily:'Lato',
+      color:"#000"
+    }, 
+    line:{
+      width:40, height:1, backgroundColor:'#e6e6e6',
+      position:'relative',
+      top:14,
+    },
+    activeLine:{
+      width:40, height:2, backgroundColor:'#000000',
+      position:'relative',
+      top:14,
     }
 });

@@ -26,7 +26,7 @@ export default Contact = () => {
   });
   const history=useHistory();
 
-  const url = `http://13.234.123.221/contact/create`;
+  const url = `http://13.234.123.221/api/contact/create`;
   const [name, setName] = React.useState(null);
   const [email, setEmail] = React.useState(null);
   const [query, setQuery] = React.useState(null);
@@ -41,13 +41,9 @@ export default Contact = () => {
         },
         body: JSON.stringify(jsonData),
       })).json();
+        history.push('/');
+        alert('Query submitted successfully.')
 
-      const data=await res.json();
-      if (data && result.status == 200) {
-        console.log(data.msg);
-        history.push('/')
-        alert('Submitted Successfully')
-      }
   };
 
 

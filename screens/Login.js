@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 // import Config from 'react-native-config';
 import { BASE_URL } from '../react-native.config';
 import {ImageBackground , CheckBox, StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
-import {H3, Button, Item, Body, Input, Container, Content} from 'native-base';
+import {H3, Button, Item,Icon, Body, Input, Container, Content} from 'native-base';
 import Bottombar from '../component/Bottombar';
 import {useHistory} from 'react-router-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -10,18 +10,14 @@ import {LinearGradient} from 'expo-linear-gradient';
 import {useFonts} from 'expo-font';
 
 export default Login =  () =>{     
-  const [loaded] = useFonts({
-    OpenSans: require('../assets/fonts/openSans.ttf'),
-    Lato: require('../assets/fonts/lato.ttf'),
-  });
 
   const history= useHistory();
   const url =  `${BASE_URL}/login`;
   console.log(url);
   const [isLogin, setIsLogin] =React.useState(false);
   const [gvalue, setGvalue] = React.useState(false);
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = React.useState(null);
+  const [password, setPassword] = React.useState(null);
   const [msg, setMsg] = React.useState(null);
 
 //   useEffect(() => {
@@ -54,8 +50,7 @@ export default Login =  () =>{
           })).json();
       idData = idData.data;
       await AsyncStorage.setItem('id', idData._id);
-      alert(idData._id);
-      
+     
       if (res.token) {
         await AsyncStorage.setItem('token', res.token);
         setIsLogin(true);
@@ -67,10 +62,15 @@ export default Login =  () =>{
          <Content style={style.body}>
             <View style={style.loginBody}>
                 <H3 style={style.title}>Login Into Your Account</H3>
+              {email==="" || password===""?<View style={{width:"100%", backgroundColor:'rgba(229, 24, 26, 0.1)', borderRadius:5, flexDirection:'row', alignItems:'center', height:30,  marginBottom:10}}>
+                  <Text style={{marginLeft:10, color:'#e5181a', fontSize:15, fontFamily:'Lato'}}>Please fill all the details for login.</Text>
+                </View>
+                : null
+              }
+                <View>  
                 <View>
-                <View>
-                    <Text style={style.label}>Username</Text>
-                     <TextInput style={style.input} placeholder='Enter username' onChangeText={setEmail} value={email}/>
+                    <Text style={style.label}>Email</Text>
+                     <TextInput style={style.input} placeholder='Enter email' onChangeText={setEmail} value={email}/>
                  </View>
                     <Text style={style.label}>Password</Text>
                      <TextInput style={style.input} placeholder='Enter password' onChangeText={setPassword} value={password}/>

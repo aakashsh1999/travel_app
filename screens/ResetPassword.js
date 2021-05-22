@@ -1,9 +1,8 @@
 import React from 'react';
 import {ImageBackground , CheckBox, StyleSheet, Text, View, TextInput, TouchableNativeFeedback, TouchableOpacity} from 'react-native';
 import {H3, Button, Item, Body, Input, Content} from 'native-base';
-import PhoneInput from "react-native-phone-number-input";
 import Bottombar from '../component/Bottombar';
-import {Link, useHistory} from 'react-router-native'
+import {Link, useHistory} from 'react-router-dom';  
 import {LinearGradient} from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFonts} from 'expo-font';
@@ -20,31 +19,23 @@ export default ResetPassword =  () => {
     const [password, setPassword] = React.useState('');
 
     const handleSubmit = async () =>{
-        const jsonData= {'otp':parseInt(otp), 'password':password, 'confirm':confirm};
-        if(password === confirm)
-        {
+        const email = await AsyncStorage.getItem('email');
+        const jsonData= {'otp ':parseInt(otp), 'new_password':password, 'confirm_password':confirm, 'email':email};
         const res = await ( await fetch(url, {
             method: "POST",
             headers: {
-              Accept: "application/json",
+              Accept: "application/json",   
               "Content-Type": "application/json",
             },
             body: JSON.stringify(jsonData),
           })).json();
           if(res.status===1)
-          {
+          { 
               await AsyncStorage.setItem(res.token);
-              console.log(res.token);
-              alert('Your password is changed successfully!')
               history.push('/login');
           }
-        }
-        else{
-            alert('Password is not matching');
-            history.push('/reset');
-        }
-    
     }
+
     return(
         <>
         <Content style={style.body}>

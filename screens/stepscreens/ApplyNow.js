@@ -1,13 +1,16 @@
-import { Container, Content, Icon, List, ListItem, Body, Radio, Left } from 'native-base';
+import { Container, Content, Icon, List, ListItem, Body, Radio,H3, Left } from 'native-base';
 import React from 'react';
-import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useHistory} from 'react-router-dom';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import ButtonBar from '../../component/ButtonBar';
+import Stepper from './Stepper';
 
 export default ApplyNow = () =>{
     const service_url = `http://13.234.123.221/api/serviceCategory`;
     const [service, setServices] = React.useState(null);
+    const [checked, setChecked] = React.useState(false);
     const history = useHistory();
   
     React.useEffect(() => {
@@ -41,7 +44,6 @@ export default ApplyNow = () =>{
         },
         body: JSON.stringify(jsonPostData)
        })).json();
-       
       await AsyncStorage.setItem("applicationId", result.data._id);
       history.push('/fill');
      }
@@ -51,21 +53,35 @@ export default ApplyNow = () =>{
       return <ActivityIndicator color='yellow'></ActivityIndicator>
   }
     return (
-        <Content>
-            <View>
-                    <List style={{marginTop:45, borderColor:"#f4f4f4", borderWidth:1, paddingLeft:16, paddingRight:16, marginBottom:30}}>
+      <>
+        <ScrollView>
+            <H3 style={style.heading}>Choose Service</H3>
+            <Stepper value='1'/>
+                    <List style={{marginTop:10,borderColor:"#f4f4f4", borderWidth:1, paddingLeft:16, paddingRight:16, marginBottom:30}}>
                         {service && service.map((data)=> 
-                        <TouchableOpacity onPress={()=>handleSubmit(service.name,service.slug)}>
-                        <ListItem style={{height:62, borderColor:"#fff", borderBottomColor:'#f4f4f4', borderBottomWidth:1}} key={service._id}>
+                        <TouchableOpacity onPress={()=>handleSubmit(data.name,data.slug)} key={data._id}>
+                        <ListItem style={{height:62, borderColor:"#fff", borderBottomColor:'#f4f4f4', borderBottomWidth:1}}>
                         <Radio selectedColor="#c7a006" color='#000'/>
                         <Body>
                         <Text style={{fontSize:14,marginLeft:16}}>{data.name}</Text>
                         </Body>
                         </ListItem>
-                </TouchableOpacity>
+                        </TouchableOpacity>
                         )}
                    </List>
-            </View>
-        </Content>
+        </ScrollView>  
+        <ButtonBar/>
+      </>
     )
 }
+
+const style = StyleSheet.create({
+  heading:{
+      marginTop:20,
+      fontSize:16, 
+      fontWeight:'bold',
+      marginBottom:10,
+      textAlign:'center',
+      fontFamily:"Lato"
+  }
+});

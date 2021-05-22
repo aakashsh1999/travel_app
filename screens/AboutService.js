@@ -15,11 +15,7 @@ const AboutService  = () =>{
 
     setService(serviceData);
     console.log(serviceData);
-  };
-    //   
-    //   setService(serviceData);
-    //   console.log(serviceData);
-    // };
+         };
   return (<>
               <ScrollView>
                             <View style={{paddingTop:20, paddingLeft:16, paddingRight:16, backgroundColor:'#000'}}>
@@ -35,25 +31,23 @@ const AboutService  = () =>{
                             </View>
                             <View>
                                 <H3 style={style.subheading}>How to Apply</H3>
-                                {service.serviceDetail && service.serviceDetail.map((data)=> 
-                                 <ListItem style={{height:52, borderBottomColor:'#fff'}}>
-                                 <Icon type='Feather' name='square' style={style.iconStyle}/>
-                                 <Body>
-                                 <Text style={{fontSize:14,marginLeft:16, color:'#9d9494'}}>Emirates Id.jpg</Text>
-                                 </Body>
-                                 </ListItem>)
-                               
-                                    }
+                                {
+                            service.serviceDetail && service.serviceDetail.serviceHowToApply.map((data, index)=>{
+                                <ListItem style={{height:52, borderBottomColor:'#fff'}} key={index}>
+                                <Icon type='Feather' name='square' style={style.iconStyle}/>
+                                <Body>
+                                <Text style={{fontSize:14,marginLeft:16, color:'#9d9494'}}>{data[index]}</Text>
+                                </Body>
+                                    </ListItem>
+                                    })}   
                             </View>
-                            <View>
                                 <H3 style={style.subheading}>Documents Required</H3>
                                 <ListItem style={{height:52, borderBottomColor:'#fff'}}>
                                 <Icon type='Feather' name='square' style={style.iconStyle}/>
                                 <Body>
-                                <Text style={{fontSize:14,marginLeft:16, color:'#9d9494'}}>Emirates Id.jpg</Text>
+                                <Text style={{fontSize:14,marginLeft:16, color:'#9d9494'}}>{service.serviceDetail &&service.serviceDetail.reqDocs}</Text>
                                 </Body>
                                 </ListItem>
-                            </View>
                     </ScrollView>
                     </>)
 }   
@@ -69,7 +63,7 @@ const style = StyleSheet.create({
         color:'#000' 
     },
     iconStyle:{
-        rotation:135,
+        transform:[{rotate:'135deg'}],
         fontSize:10,  backgroundColor:"#9d9494", color:"#9d9494"
     },
     ourServices:{

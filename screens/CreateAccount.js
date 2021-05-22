@@ -1,48 +1,46 @@
 import React from 'react';
-import {BASE_URL} from 'react-native-config';
 import {ImageBackground , CheckBox, StyleSheet, Text, View, TextInput, TouchableNativeFeedback, TouchableOpacity} from 'react-native';
 import {H3, Button, Item, Body, Input, Content} from 'native-base';
 import PhoneInput from "react-native-phone-number-input";
 import Bottombar from '../component/Bottombar';
-import {Link, useHistory} from 'react-router-native'
+import {Link, useHistory} from 'react-router-dom'
 import {LinearGradient} from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useFonts} from 'expo-font';
-export default CreateAccount =  () => {       
+export default CreateAccount =  () => {     
     let history= useHistory();
-    const [loaded] = useFonts({
-        OpenSans: require('../assets/fonts/openSans.ttf'),
-        Lato: require('../assets/fonts/lato.ttf'),
-      });
-
-    const url = `${BASE_URL}/create`;
-    const [name, setName] = React.useState('');
-    const [phone, setPhone] = React.useState('');
-    const[email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const url = 'http://13.234.123.221/api/create';
+    const [name, setName] = React.useState(null);
+    const [phone, setPhone] = React.useState(null);
+    const[email, setEmail] = React.useState(null);
+    const [password, setPassword] = React.useState(null);
 
     const handleSubmit = async () =>{
         const jsonData= {'name':name, 'email':email, 'phone':parseInt(phone), 'password':password};
-        const res = await ( await fetch(url, {
-            method: "POST",
+        const res = await( await fetch(url, {
+            method: 'POST',
             headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
             },
-            body: JSON.stringify(jsonData),
+            body: JSON.stringify(jsonData)
           })).json();
-          if(res.status===1)
-          {
-              await AsyncStorage.setItem(res.token);
-              console.log(res.token);
-              history.push('/');
+            alert(res.status)
+          if (res.status===1) {
+            await AsyncStorage.setItem('token', res.token);
+            history.push('/login');
           }
+      
     }
     return(
         <>
         <Content style={style.body}>
             <View style={style.loginBody}>
                 <H3 style={style.title}>Create An Account</H3>
+                {email==="" || password==="" || phone==="" || name==="" ?<View style={{width:"100%", backgroundColor:'rgba(229, 24, 26, 0.1)', borderRadius:5, flexDirection:'row', alignItems:'center', height:30,  marginBottom:10}}>
+                  <Text style={{marginLeft:10, color:'#e5181a', fontSize:15, fontFamily:'Lato'}}>Please fill all the details.</Text>
+                </View>
+                : null
+              }
                 <View>
                 <View>
                         <Text style={style.label}>Name</Text>
@@ -78,14 +76,14 @@ export default CreateAccount =  () => {
                 </View>
 
                 </View>
-                <TouchableOpacity  onPress={()=>handleSubmit()}>
+                <TouchableOpacity onPress={handleSubmit}>
                 <LinearGradient   
                     colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={0,2.57}
                     style={style.loginButton}>
                 <Text style={{fontSize:15, fontWeight:'bold'}}>SUBMIT</Text>
                 </LinearGradient>
                 </TouchableOpacity>
-                 <TouchableOpacity onPress={()=>history.push('/')}>
+                 <TouchableOpacity onPress={()=>history.push('/login')}>
                  <Text style={style.links}>Already an existing customer? Login here</Text>
                 </TouchableOpacity>
             </View>
