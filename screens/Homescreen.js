@@ -31,8 +31,8 @@ export default Homescreen = () =>{
 }, [])
     return (
          <>
-            <Content>
-            <ScrollView style={{backgroundColor:'#fff', marginBottom:80}}>
+         <ScrollView>
+            <Content style={{marginBottom:80}}>
             <Card>
                 <Image style={{width:"100%", position: 'relative'}}
                 source={require('../assets/homeBg.png')}
@@ -59,8 +59,8 @@ export default Homescreen = () =>{
             <View style={{padding:15}}>
             <TouristGrid/>            
             </View>
-            </ScrollView></Content>
-   
+            </Content>
+            </ScrollView>
             <Bottombar/>
             </>
      );

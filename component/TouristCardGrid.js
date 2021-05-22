@@ -29,7 +29,7 @@ export default function TouristGrid() {
   }
   return (
   service.map((data)=> 
-   <Card style={{borderWidth:1, borderColor:'#e6e6e6', marginBottom:20}}>
+   <Card style={{borderWidth:1, borderColor:'#e6e6e6', marginBottom:20}} key={data._id}>
   <CardItem style={{borderBottomWidth:1, borderColor:'#e6e6e6'}}>
   <View style={{marginTop:10, marginBottom:10}}>
       <H3 style={{fontFamily:'Lato', fontWeight:'bold'}}>{data.serviceDetail.hours} Hours</H3>

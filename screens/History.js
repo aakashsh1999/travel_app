@@ -41,7 +41,7 @@ const getData = async () =>{
             </View>
             <Content style={{padding:16}}>
             {!application ? <ActivityIndicator color='red'/> : application.map((data)=>
-                <Card style={style.card}>
+                <Card style={style.card} key={data._id}>
                 <CardItem header style={{borderBottomColor:'#e6e6e6', borderBottomWidth:1, justifyContent:'space-between',}}>
                 <View>
                     <Text style={{fontSize:12, color:'#9d9494'}}>Service name</Text>

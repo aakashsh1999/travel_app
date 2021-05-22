@@ -1,5 +1,6 @@
 import React,{useEffect} from 'react';
 import {Content, H2, List, ListItem, Left, Right, Body, Header,Switch,Icon, Button} from 'native-base';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ScrollView, StyleSheet, View, Text,  Image, TouchableOpacity} from 'react-native';
 import {useHistory} from 'react-router-dom';
 import {useFonts} from 'expo-font';
@@ -75,14 +76,6 @@ const getData = async () =>{
                 </Body>
                 <Icon type="Feather" name='eye' style={{fontSize:20, color:'black'}}/>
                 </ListItem>
-
-                <ListItem style={{height:52, borderColor:"#fff"}}>
-                 <Icon type='Feather' name='square' style={{fontSize:10,  backgroundColor:"#9d9494", color:"#9d9494"}}/>
-                <Body>
-                <Text style={{fontSize:14,marginLeft:16, fontFamily:'OpenSans'}}>XYZ Government ID.jpg</Text>
-                </Body>
-                 <Icon type="Feather" name='eye' style={{fontSize:20, color:'black'}}/>
-                </ListItem>
             </List>
         </Content>
         </>
@@ -102,7 +95,7 @@ const style = StyleSheet.create({
         alignItems:'center',
     }, 
     iconStyle:{
-        rotation:135,
+        transform:[{rotate:'135deg'}],
         fontSize:10,  backgroundColor:"#9d9494", color:"#9d9494"
     },
 });

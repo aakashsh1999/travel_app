@@ -24,15 +24,15 @@ export default StepScreen = () => {
   return (
     <ScrollView>
      <H3 style={style.heading}><Text>{
-       active==0 ? 'Choose Service' : active==1 ? "Fill Details" : active===2 ? "Upload Documents":
+      active==0 ? 'Choose Service' : active==1 ? "Fill Details" : active===2 ? "Upload Documents":
       active===3 ? "Book an Appointment": "Payment"
        }</Text></H3>
       <Stepper
         active={active}
        content={content}
-        // onNext={() => setActive((p) => p + 1)}
-        // onBack={() => setActive((p) => p - 1)}
-        // onFinish={() => history.push('/success')}
+        onNext={() => setActive((p) => p + 1)}
+         onBack={() => setActive((p) => p - 1)}
+         onFinish={() => history.push('/success')}
 
       />
     </ScrollView>

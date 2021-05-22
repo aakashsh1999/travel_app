@@ -32,7 +32,7 @@ export default Contact = () => {
   const [query, setQuery] = React.useState(null);
 
   const createContact = async () => {
-    const jsonData= {name:name, email:email, query:query};
+    const jsonData= {'name':name, 'email':email, 'query':query};
     const res = await ( await fetch(url, {
         method: "POST",
         headers: {

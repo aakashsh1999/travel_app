@@ -56,7 +56,7 @@ export default ApplyNow = () =>{
                     <List style={{marginTop:45, borderColor:"#f4f4f4", borderWidth:1, paddingLeft:16, paddingRight:16, marginBottom:30}}>
                         {service && service.map((data)=> 
                         <TouchableOpacity onPress={()=>handleSubmit(service.name,service.slug)}>
-                        <ListItem style={{height:62, borderColor:"#fff", borderBottomColor:'#f4f4f4', borderBottomWidth:1}}>
+                        <ListItem style={{height:62, borderColor:"#fff", borderBottomColor:'#f4f4f4', borderBottomWidth:1}} key={service._id}>
                         <Radio selectedColor="#c7a006" color='#000'/>
                         <Body>
                         <Text style={{fontSize:14,marginLeft:16}}>{data.name}</Text>

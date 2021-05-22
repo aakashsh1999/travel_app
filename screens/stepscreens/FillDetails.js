@@ -98,8 +98,9 @@ export default FillDetails= () =>{
                         <DatePicker
                         value={dob}
                         placeHolderText={'Choose your Date of Birth'}
-                        onDateChange={setDob}
                         textStyle={'#000'}
+                        onDateChange={e => console.log(e)}
+                        onChange={e => console.log(e)}
                         placeHolderTextStyle={'#000'}
                         disabled={false}
                         locale={"en"}

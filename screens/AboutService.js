@@ -26,21 +26,24 @@ const AboutService  = () =>{
                                 <H2 style={style.ourServices}>{service.name}</H2>
                                 <Image source={require('../assets/clipath.png')} />    
                                 <Text style={style.paraText}>
-                                
+                                {service.description}
                                 </Text>
                             </View>
                             <View>
                                 <H3 style={style.subheading}>Overview</H3>
-                                <Text style={style.paraText2}>Based on the duration and purpose of your visit, you will have to opt for a Dubai visa type. Askepro can help you manage all types of visas such as student visas, family visas, residence visas, visitors visas, sponsor visas, retirement visas, freelance visas, visa renewals, extensions and cancellation. Consular services will help you in ensuring the best for your visit/stay in Dubai. Contact us and schedule an appointment with our consultants for VISA and get it done seamlessly with the best visa services across Dubai.</Text>
+                                <Text style={style.paraText2}>{service.serviceDetail && service.serviceDetail.overview}</Text>
                             </View>
                             <View>
                                 <H3 style={style.subheading}>How to Apply</H3>
-                                <ListItem style={{height:52, borderBottomColor:'#fff'}}>
-                                <Icon type='Feather' name='square' style={style.iconStyle}/>
-                                <Body>
-                                <Text style={{fontSize:14,marginLeft:16, color:'#9d9494'}}>Emirates Id.jpg</Text>
-                                </Body>
-                                </ListItem>
+                                {service.serviceDetail && service.serviceDetail.map((data)=> 
+                                 <ListItem style={{height:52, borderBottomColor:'#fff'}}>
+                                 <Icon type='Feather' name='square' style={style.iconStyle}/>
+                                 <Body>
+                                 <Text style={{fontSize:14,marginLeft:16, color:'#9d9494'}}>Emirates Id.jpg</Text>
+                                 </Body>
+                                 </ListItem>)
+                               
+                                    }
                             </View>
                             <View>
                                 <H3 style={style.subheading}>Documents Required</H3>

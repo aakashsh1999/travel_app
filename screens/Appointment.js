@@ -50,7 +50,8 @@ return (
             <Image source={require('../assets/clipath.png')} />
         </View>
         <Content style={[{padding:16}]}>
-        {!appointment.data ? <ActivityIndicator color='red'/> : appointment.data.map((data)=>  <Card style={style.card}>
+        {!appointment.data ? <ActivityIndicator color='red'/> : appointment.data.map((data)=> 
+         <Card style={style.card} key={data._id}>
             <Left>
                 <View style={style.labelBox}>
                     <H3 style={style.labelheading}>{data.appt_date}</H3>
