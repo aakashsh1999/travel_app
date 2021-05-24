@@ -33,7 +33,7 @@ const getData = async () =>{
     console.log(application);
     setApplication(application);
 }
-    return (<>
+    return (<ScrollView style={{backgroundColor:'#fff'}}>
             <View style={{marginTop:20,margin:16}}>
                 <View style={style.title}>
                 <TouchableOpacity onPress={()=>history.push('/profile')}>
@@ -78,7 +78,7 @@ const getData = async () =>{
                 </ListItem>
             </List>
         </Content>
-        </>
+        </ScrollView>
     );
 }
 

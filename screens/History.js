@@ -29,7 +29,7 @@ const getData = async () =>{
     setApplication(application.data || []);
     }
         return (
-        <ScrollView>
+        <ScrollView style={{backgroundColor:'#fff'}}>
          <View style={{marginTop:20,margin:16}}>
             <View style={style.title}>
             <TouchableOpacity onPress={()=>history.push('/profile')}>

@@ -5,6 +5,9 @@ import { ActivityIndicator, ScrollView, StyleSheet, Text, TextInput} from 'react
 import {useHistory, useLocation} from 'react-router';
 import Stepper from './Stepper';
 import AsyncStorage from '@react-native-async-storage/async-storage';import ButtonBar from '../../component/ButtonBar';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { LinearGradient } from 'expo-linear-gradient';
+import CardHeader from '../../component/CardHeader';
 export default FillDetails= () =>{
     const history = useHistory();
     if (!AsyncStorage.getItem("token") && !AsyncStorage.getItem("id"))
@@ -62,7 +65,7 @@ export default FillDetails= () =>{
     }
     return (
         <>
-        <ScrollView>
+        <ScrollView style={{backgroundColor:'#fff'}}>
             <H3 style={style.heading}>Fill Details</H3>
             <Stepper active='/fill'/>
             <View style={{flexDirection:'row', marginTop:25, paddingLeft:16, paddingRight:16}}>
@@ -81,9 +84,8 @@ export default FillDetails= () =>{
                  <View>
                  <Text style={style.label}>Date of Birth*</Text>
                    <DatePicker
-                        date={dob}
                         mode="date"
-                        placeholder="select date"
+                        placeholder="Choose date of Birth"
                         format="YYYY-MM-DD"
                         minDate="2016-05-01"
                         maxDate="2016-06-01"
@@ -91,22 +93,16 @@ export default FillDetails= () =>{
                         cancelBtnText="Cancel"
                         customStyles={{
                         dateIcon: {
-                            position: 'absolute',
-                            left: 0,
-                            top: 4,
-                            marginLeft: 0
+                            display:'none',
                         },
                         dateInput: {
-                            marginLeft: 36
+                            width:"100%",
+                            borderWidth:0
                         }
                         // ... You can check the source to find the other keys.
                         }}
                         onDateChange={(date) =>setDob(date)}
       />
-                 {/* <DatePicker
-                    date={dob}
-                    onDateChange={setDob}
-                    />                 */}
                 </View>       
            </View>
            <View style={{flexDirection:'row', marginTop:15, justifyContent:'flex-start', paddingLeft:16, paddingRight:16,}}>
@@ -141,8 +137,12 @@ export default FillDetails= () =>{
                  <Text style={style.label}>Country*</Text>
                  <TextInput style={style.input} placeholder='Enter country name' value={country} onChangeText={setCountry}/>
                 </View>    
-                <Button onPress={()=>handleSubmitForm()}><Text>Save</Text></Button>
+                <TouchableOpacity onPress={()=>handleSubmitForm()}>
+                <LinearGradient  colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5] } style={{width:137, height:38, borderRadius:50, alignSelf:'center', marginBottom:20}}>
+                    <Text style={{fontWeight:'bold', textAlign:'center', fontSize:14, marginTop:9}}>SAVE</Text></LinearGradient>
+                </TouchableOpacity>
         </ScrollView>
+        <CardHeader/>
         <ButtonBar/>
         </>
     );

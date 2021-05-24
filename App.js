@@ -1,8 +1,8 @@
 import React,{useEffect} from 'react';
+import {useFonts} from 'expo-font';
 import { AndroidBackButton, NativeRouter, Route} from 'react-router-native';
 import TopHeader from './component/TopHeader';
 import Profile from './screens/Profile';
-import SlideDrawer from './component/Drawer';
 import Appointment from './screens/Appointment';
 import MyDocument from './screens/MyDocument';
 import Homescreen from "./screens/Homescreen";
@@ -26,6 +26,11 @@ import SplashScreen from './component/SplashScreen'
 import ModalCard from './component/ModalCard';
 
 export default function App() {
+
+  const [loaded] = useFonts({
+    OpenSans: require('./assets/fonts/openSans.ttf'),
+    Lato: require('./assets/fonts/lato.ttf'),
+  });
   //Splash Screen
   const [isVisible, setIsVisible] =React.useState(true);
   const Hide_Splash_Screen=()=>{  
@@ -44,7 +49,6 @@ export default function App() {
       <TopHeader/>
       <Route exact path="/" component={Homescreen}/>
       <Route exact path="/login" component={Login}/>
-      <Route exact path="/drawer" component={SlideDrawer}/>
       <Route exact path="/appointment" component={Appointment}/>
       <Route exact path="/profile" component={Profile}/>
       <Route exact path="/mydocument" component={MyDocument}/>

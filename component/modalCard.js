@@ -1,13 +1,16 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Card, CardItem, H3, Icon} from 'native-base';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const ModalCard = () => {
+const ModalCard = (props) => {
   return (
     <Card>
       <CardItem style={{justifyContent:'space-between', borderBottomColor:'#e6e6e6', borderBottomWidth:1}}>
         <H3 style={{fontSize:16, fontFamily:'Lato', fontWeight:'bold'}}>Company Formation Services</H3>
+        <TouchableOpacity onPress={()=>props.setShowCard(false)}>
         <Icon type='Feather' name='x'/>
+        </TouchableOpacity>
       </CardItem>
             <CardItem style={{flexDirection:'column'}}>  
                     <View style={{flexDirection:'row', alignItems:'baseline', width:"100%",  marginBottom:20} }>

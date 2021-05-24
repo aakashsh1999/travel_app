@@ -14,7 +14,6 @@ export default function ServiceGrid() {
     Lato: require('../assets/fonts/lato.ttf'),
   });
   
-  console.log(service_url);
   React.useEffect(() => {
     getServices();
   }, []);
@@ -30,7 +29,6 @@ export default function ServiceGrid() {
     }));
 
     setServices(serviceData);
-    console.log(services);
   };
 
 

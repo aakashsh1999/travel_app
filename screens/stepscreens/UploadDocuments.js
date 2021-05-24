@@ -5,6 +5,7 @@ import DocumentPicker from 'react-native-document-picker';
 import ButtonBar from '../../component/ButtonBar';
 import {useHistory} from 'react-router-dom';
 import Stepper from './Stepper';
+import CardHeader from '../../component/CardHeader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -48,7 +49,9 @@ export default UploadDocuments  = () =>{
 
     };
     if (!services) {
-        return (<View></View>)
+        return (<View>
+               <ButtonBar/>
+        </View>)
     }
 
          return (
@@ -78,6 +81,7 @@ export default UploadDocuments  = () =>{
                     </View>
                     </View>
             </ScrollView>
+            <CardHeader/>
             <ButtonBar/>
             </>
         )

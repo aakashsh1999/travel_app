@@ -6,6 +6,7 @@ import {useHistory, useLocation} from 'react-router-dom';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ButtonBar from '../../component/ButtonBar';
 import Stepper from './Stepper';
+import CardHeader from '../../component/CardHeader';
 
 export default ApplyNow = () =>{
     const service_url = `http://13.234.123.221/api/serviceCategory`;
@@ -56,7 +57,7 @@ export default ApplyNow = () =>{
   }
     return (
       <>
-        <ScrollView>
+        <ScrollView style={{backgroundColor:'#fff'}}>
             <H3 style={style.heading}>Choose Service</H3>
             <Stepper active='/apply'/>
                     <List style={{marginTop:10,borderColor:"#f4f4f4", borderWidth:1, paddingLeft:16, paddingRight:16, marginBottom:30}}>
@@ -72,6 +73,7 @@ export default ApplyNow = () =>{
                         )}
                    </List>
         </ScrollView>  
+        <CardHeader/>
         <ButtonBar/>
       </>
     )

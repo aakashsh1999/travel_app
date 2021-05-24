@@ -17,7 +17,7 @@ const AboutService  = () =>{
     console.log(serviceData);
          };
   return (<>
-              <ScrollView>
+              <ScrollView style={{backgroundColor:'#fff'}}>
                             <View style={{paddingTop:20, paddingLeft:16, paddingRight:16, backgroundColor:'#000'}}>
                                 <H2 style={style.ourServices}>{service.name}</H2>
                                 <Image source={require('../assets/clipath.png')} />    
@@ -31,8 +31,8 @@ const AboutService  = () =>{
                             </View>
                             <View>
                                 <H3 style={style.subheading}>How to Apply</H3>
-                              {service.serviceDetail && service.serviceDetail.serviceHowToApply.map((data)=>
-                                <ListItem style={{height:52, borderBottomColor:'#fff'}}>
+                              {service.serviceDetail && service.serviceDetail.serviceHowToApply.map((data, index)=>
+                                <ListItem style={{height:52, borderBottomColor:'#fff'}} key={index}>
                                 <Icon type='Feather' name='square' style={style.iconStyle}/>
                                 <Body>
                                 <Text style={{fontSize:14,marginLeft:16, color:'#9d9494'}}>{data}</Text>
@@ -41,8 +41,8 @@ const AboutService  = () =>{
                                 )}
                             </View>
                                 <H3 style={style.subheading}>Documents Required</H3>
-                                {service.serviceDetail && service.serviceDetail.reqDocs.map((data)=>
-                                <ListItem style={{height:52, borderBottomColor:'#fff'}}>
+                                {service.serviceDetail && service.serviceDetail.reqDocs.map((data, index)=>
+                                <ListItem style={{height:52, borderBottomColor:'#fff'}} key={index}>
                                 <Icon type='Feather' name='square' style={style.iconStyle}/>
                                 <Body>
                                 <Text style={{fontSize:14,marginLeft:16, color:'#9d9494'}}>{data}</Text>

@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ButtonBar from '../../component/ButtonBar';
 import {useHistory} from 'react-router-dom';
 import Stepper from './Stepper';
+import CardHeader from '../../component/CardHeader';
 export default BookAppointment = () =>{
     const history = useHistory();
         let jsonData;
@@ -51,7 +52,7 @@ export default BookAppointment = () =>{
 
         return (
             <>
-            <ScrollView>   
+            <ScrollView style={{backgroundColor:'#fff'}}>   
                  <H3 style={style.heading}>Book an Appointment</H3>
                  <Stepper active='/book'/>
                  <View style={{paddingLeft:16, paddingRight:16}}>
@@ -77,6 +78,7 @@ export default BookAppointment = () =>{
                  </View>
                  </View>
             </ScrollView>
+            <CardHeader/>
             <ButtonBar/>
             </>
         )

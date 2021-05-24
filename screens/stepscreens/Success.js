@@ -10,7 +10,7 @@ export default Success = () =>{
     const history= useHistory();
         return (
             <>
-            <ScrollView style={{padding:16}}>
+            <ScrollView style={{padding:16, backgroundColor:'#fff'}}>
                 <View style={{padding:20, justifyContent:'center', alignItems:'center'}}>
                     <Image source={require('../../assets/checked.png')} style={{margin:20}}/>
                     <Text style={{textAlign:'center', fontSize:16, color:'#9d9494'}}>Your payment was successful and we have also reserved the slot for your appointment.

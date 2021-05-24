@@ -3,29 +3,31 @@ import React from 'react';
 import { ScrollView, StyleSheet, Text} from 'react-native';
 import ButtonBar from '../../component/ButtonBar';
 import Stepper from './Stepper';
+import CardHeader  from '../../component/CardHeader';
 
 export default Payment = () =>{
     return (
         <>
-        <ScrollView>
+        <ScrollView style={{backgroundColor:'#fff'}}>
             <H3 style={style.heading}>Payment</H3>
             <Stepper active='/payment'/>
             <View style={{padding:16}}>
             <Text style={style.label}>Choose payment method</Text>
-            <ListItem style={{height:62, borderColor:"#f4f4f4", borderWidth:1, marginBottom:15}}>
+            <ListItem style={{height:62, borderColor:"#f4f4f4", borderWidth:1, marginBottom:15, padding:16}}>
                 <Radio selected={true} />   
                 <Text style={{fontSize:14,marginLeft:16}}>Pay via Debit Card</Text>
             </ListItem>
-            <ListItem style={{height:62, borderColor:"#f4f4f4", borderWidth:1, marginBottom:15}}>
+            <ListItem style={{height:62, borderColor:"#f4f4f4", borderWidth:1, marginBottom:15, padding:16}}>
                 <Radio selected={false} />   
                 <Text style={{fontSize:14,marginLeft:16}}>Pay via Credit Card</Text>
             </ListItem>
-            <ListItem style={{height:62, borderColor:"#f4f4f4", borderWidth:1, marginBottom:15}}>
+            <ListItem style={{height:62, borderColor:"#f4f4f4", borderWidth:1, marginBottom:15, padding:16}}>
                 <Radio selected={false} />   
                 <Text style={{fontSize:14,marginLeft:16}}>Pay via Net Banking</Text>
             </ListItem>
             </View>
         </ScrollView>
+        <CardHeader/>
         <ButtonBar/>
         </>
     )

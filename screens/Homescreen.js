@@ -6,7 +6,6 @@ import TouristGrid from '../component/TouristCardGrid';
 import Bottombar from '../component/Bottombar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useHistory } from 'react-router';
-import { set } from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import {useFonts} from 'expo-font'; 
 
@@ -15,6 +14,7 @@ export default Homescreen = () =>{
         OpenSans: require('../assets/fonts/openSans.ttf'),
         Lato: require('../assets/fonts/lato.ttf'),
       });
+
     const history = useHistory();
     const [isLogin, setIsLogin] =React.useState(false);
     const checkLogin = async ()=>{
@@ -28,7 +28,7 @@ export default Homescreen = () =>{
 }, [])
     return (
          <>
-         <ScrollView>
+         <ScrollView style={{backgroundColor:'#fff'}}>
             <Card>
                 <Image style={{width:"100%", position: 'relative'}}
                 source={require('../assets/homeBg.png')}
