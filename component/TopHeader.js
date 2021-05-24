@@ -20,34 +20,38 @@ export default TopHeader = () => {
                 />
           </Body>
         </Header>
-        {showDrawer ? <View style={style.container}>
+        {showDrawer ? 
+        <View style={style.container}>
                     <View style={style.closeMenu}>
                     <TouchableOpacity onPress={()=>setShowDrawer(false)}>
                     <Icon type='Feather' name='x' style={style.Drawericon}/>
                     </TouchableOpacity>
                       <Text style={{fontSize:20, fontWeight:'bold', marginLeft:20, color:"#fff", fontFamily:'Lato'}}>Menu</Text>
-                    </View>
-                    <View style={{padding:20, width:"100%" ,height:"100%"}}>             
-                    <TouchableOpacity onPress={history.push('/')}>
+                    </View>        
+                    <View style={{padding:20, elevation:200, zIndex:200}}>     
+                    <TouchableOpacity onPress={()=>history.push('/')}>
                     <Text style={style.menuItem}>Home</Text>  
                     </TouchableOpacity>
+                    </View>
+
+                    <View style={{padding:20, elevation:200, zIndex:200}}>     
                     <TouchableOpacity onPress={()=>history.push('/about')}>
                     <Text style={style.menuItem}>About</Text>  
                     </TouchableOpacity>
+                    </View>
+                    <View style={{padding:20, elevation:200, zIndex:200}}>     
                     <TouchableOpacity onPress={()=>history.push('/contact')}>
                     <Text style={style.menuItem}>Contact</Text>  
                     </TouchableOpacity>
-                    <View>
-                    <View style={{position:'relative', top:380}}>
-                    <Text style={{fontSize:14, color:'#fff', fontWeight:'400', marginBottom:15, fontFamily:'Lato'}}>CopyRight &copy; 2020 Askepro</Text>
+                    </View>
+                    <View style={{position:'absolute',bottom:30,left:20}}>
+                    <Text style={{fontSize:14, color:'#fff', fontWeight:'400', marginBottom:15, fontFamily:'Lato'}}>Copyright &copy; 2020 Askepro</Text>
                     <View style={style.bottomDetail}>
                         <Text style={style.terms}>Terms and Condition</Text>
                         <Text style={style.terms}>|</Text>
                         <Text style={style.terms}>Privacy Policy</Text></View>
                     </View>
-                    </View>
-                    </View>
-            </View>  : null }
+                    </View>  : null }
          </>
     );
   }
@@ -70,10 +74,10 @@ const style =StyleSheet.create({
 
     container:{
         width:300,
-        position:'absolute',
-        top:0,
+        bottom:56,
         left:0,
-        elevation:1,
+        elevation:100,
+        zIndex:100,
         height:"100%",
         backgroundColor:"#333333"
     }, 
