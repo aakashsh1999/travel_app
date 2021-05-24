@@ -10,7 +10,7 @@ export default AboutScreen = () =>{
       });
 
     return (
-            <ScrollView>
+            <ScrollView style={{backgroundColor:'#fff'}}>
                 <Image style={style.logo} source={require('../assets/aboutLogo.png')} />
                 <View style={{marginTop:20, alignSelf:'center'}}>
                 <H2 style={style.aboutHeading}>About</H2>

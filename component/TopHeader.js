@@ -20,16 +20,15 @@ export default TopHeader = () => {
                 />
           </Body>
         </Header>
-        {showDrawer ? 
-                <View style={style.container}>
+        {showDrawer ? <View style={style.container}>
                     <View style={style.closeMenu}>
                     <TouchableOpacity onPress={()=>setShowDrawer(false)}>
                     <Icon type='Feather' name='x' style={style.Drawericon}/>
                     </TouchableOpacity>
                       <Text style={{fontSize:20, fontWeight:'bold', marginLeft:20, color:"#fff", fontFamily:'Lato'}}>Menu</Text>
                     </View>
-                    <View style={{padding:20}}>             
-                    <TouchableOpacity onPress={()=>history.push('/')}>
+                    <View style={{padding:20, width:"100%" ,height:"100%"}}>             
+                    <TouchableOpacity onPress={history.push('/')}>
                     <Text style={style.menuItem}>Home</Text>  
                     </TouchableOpacity>
                     <TouchableOpacity onPress={()=>history.push('/about')}>
@@ -71,7 +70,6 @@ const style =StyleSheet.create({
 
     container:{
         width:300,
-        display:'flex',
         position:'absolute',
         top:0,
         left:0,

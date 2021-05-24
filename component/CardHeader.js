@@ -18,13 +18,7 @@ export default CardHeader = () =>{
 
   const getServices = async () => {
     const services = await (await fetch(service_url, { method: "GET" })).json();
-    const serviceData = services.data.map((e) => ({
-      _id: e._id,
-      name: e.name,
-      tv_type: e.tv_type,
-      slug: e.slug,
-      image: e.serviceDetail.image
-    }));
+    const serviceData = services.data;
 
     setServices(serviceData);
     console.log(services);
