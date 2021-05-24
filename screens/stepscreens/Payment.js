@@ -9,7 +9,7 @@ export default Payment = () =>{
         <>
         <ScrollView>
             <H3 style={style.heading}>Payment</H3>
-            <Stepper value='5'/>
+            <Stepper active='/payment'/>
             <View style={{padding:16}}>
             <Text style={style.label}>Choose payment method</Text>
             <ListItem style={{height:62, borderColor:"#f4f4f4", borderWidth:1, marginBottom:15}}>

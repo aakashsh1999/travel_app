@@ -27,38 +27,42 @@ export default StepScreen = ({active}) => {
   return (
     <View style={{width:"100%", flexDirection:'row', justifyContent:'space-between', padding:20}}>
         <>
-          {active===result.status ?  <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
+          {(active==='/apply' || active==='/fill' || active==='/upload' || active==='/book' || active==='/payment') ?  <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
                <Text style={style.stepperTextActive}>1</Text>
             </LinearGradient>
                :<View style={style.stepperCircle}>
                <Text style={style.stepperText}>1</Text>
               </View>
               }
-            {active===result.status ? <View style={style.activeLine}></View> : <View style={style.line}></View>}
-           {active===result.status ? 
+            {(active==='/fill' || active==='/upload' || active==='/book' || active==='/payment')  ? <View style={style.activeLine}></View> : <View style={style.line}></View>}
+
+           {(active==='/fill' || active==='/upload' || active==='/book' || active==='/payment') ? 
             <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
                <Text style={style.stepperTextActive}>2</Text>
             </LinearGradient>
             :<View style={style.stepperCircle}>
                <Text style={style.stepperText}>2</Text>
             </View>}
-            <View style={style.line}></View>
-            {active==='3' ? 
+            {(active==='/upload' || active==='/book' || active==='/payment') ?<View style={style.activeLine}></View>:<View style={style.line}></View>}
+
+            {(active==='/upload' || active==='/book' || active==='/payment') ? 
             <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
                <Text style={style.stepperTextActive}>3</Text>
             </LinearGradient>
             :<View style={style.stepperCircle}>
                <Text style={style.stepperText}>3</Text>
             </View>}
-            <View style={style.line}></View>
-            {active==='4' ? <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
+            {(active==='/book' || active==='/payment') ?<View style={style.activeLine}></View>:<View style={style.line}></View>}
+
+            {(active==='/book' || active==='/payment') ? <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
                <Text style={style.stepperTextActive}>4</Text>
             </LinearGradient>
             : <View style={style.stepperCircle}>
                <Text style={style.stepperText}>4</Text>
             </View>}
-            <View style={style.line}></View>
-            {active==='4' ?  <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
+            {(active==='/payment') ?<View style={style.activeLine}></View>:<View style={style.line}></View>}
+
+            { (active==='/payment') ?  <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
                <Text style={style.stepperTextActive}>5</Text>
             </LinearGradient>
             :<View style={style.stepperCircle}>

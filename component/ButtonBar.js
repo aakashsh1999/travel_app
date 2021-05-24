@@ -1,6 +1,6 @@
 import {Button, Content } from 'native-base';
 import React from 'react';
-import {View, TouchableOpacity, Text, Touchable } from 'react-native';
+import {View, TouchableOpacity, Text} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import {useLocation, useHistory} from 'react-router-dom';
 
@@ -28,9 +28,11 @@ export default ButtonBar = () =>{
                 <Button rounded style={{width:137, justifyContent:'center', height:38, borderWidth:1, backgroundColor:'#fff' ,alignSelf:'center'}} onPress={() => history.push(prevPath)}>
                         <Text style={{fontSize:15, fontWeight:'bold', fontFamily:'Lato'}} >Prev</Text>
                 </Button>
-                <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]}  style={{width:137, height:38, borderRadius:20,alignItems:'center',alignSelf:'center'}} onPress={() => history.push(nextPath)}>
-                        <Text style={{fontSize:15, marginTop:8, fontWeight:'bold', fontFamily:'Lato', textAlign:'center'}}>Next</Text>
+                <TouchableOpacity onPress={() => history.push(nextPath)} style={{marginTop:20}}>
+                <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]}  style={{width:137, height:38, borderRadius:20,alignItems:'center'}}>
+                <Text style={{fontSize:15, fontWeight:'bold', fontFamily:'Lato', textAlign:'center'}}>Next</Text>
                 </LinearGradient>
+                </TouchableOpacity>
                  </View>
         );
 }

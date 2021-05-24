@@ -9,12 +9,13 @@ import Stepper from './Stepper';
 export default BookAppointment = () =>{
     const history = useHistory();
         let jsonData;
-        const requestId=AsyncStorage.getItem("applicationId");
-        const url = `http://13.234.123.221/api/service/appointment/${requestId}`;
         const [selectedStartDate, setSelectedStartDate] = useState(null);
         const [selectedEndDate, setSelectedEndDate] = useState(null);
       
         const onDateChange = async (date, type) => {
+            const requestId = await AsyncStorage.getItem("applicationId");
+            const url = `http://13.234.123.221/api/service/appointment/${requestId}`;
+
           //function to handle the date change
           if (type === 'END_DATE') {
             setSelectedEndDate(date);
@@ -28,18 +29,19 @@ export default BookAppointment = () =>{
                  "year": dates[3]
             }
             console.log(dates);
+            console.log(jsonData)
             if(dates){
             const result = await(await fetch(url, {
-                method: 'POST',
+                method: 'PUT',
                    headers: {
                        'Accept': 'application/json',
                       'Content-Type': 'application/json',
-                      'x-access-token':AsyncStorage.getItem("token")
+                      'x-access-token':await AsyncStorage.getItem("token")
                   },
                    body: JSON.stringify(jsonData)
                })).json();
-  
               history.push("/payment");
+               console.log(result);
            } else {
               console.log('Thing was not saved to the database.');
             }
@@ -51,7 +53,7 @@ export default BookAppointment = () =>{
             <>
             <ScrollView>   
                  <H3 style={style.heading}>Book an Appointment</H3>
-                 <Stepper value='4'/>
+                 <Stepper active='/book'/>
                  <View style={{paddingLeft:16, paddingRight:16}}>
                 <Text style={style.label}>Choose your preferred Date</Text>
                 <View style={{marginTop:20, marginBottom:20, borderWidth:1, borderColor:'#e6e6e6'}}>

@@ -1,51 +1,80 @@
 import React from 'react';
 import {Icon, Body, Button, List,H3, ListItem} from 'native-base'; 
-import { ScrollView, Text, View, StyleSheet, TextInput } from 'react-native';
+import { ScrollView, Text, View, StyleSheet, TextInput, Touchable, TouchableOpacity } from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
 import ButtonBar from '../../component/ButtonBar';
+import {useHistory} from 'react-router-dom';
 import Stepper from './Stepper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default UploadDocuments  = () =>{
+
+    // try {
+    //     const res = await DocumentPicker.pick({
+    //       type: [DocumentPicker.types.allFiles],
+    //     });
+    //     console.log(
+    //       res.uri,
+    //       res.type, // mime type
+    //       res.name,
+    //       res.size
+    //     );
+    //   } catch (err) {
+    //     if (DocumentPicker.isCancel(err)) {
+    //       // User cancelled the picker, exit any dialogs or menus and move on
+    //     } else {
+    //       throw err;
+    //     }
+    //   }
+
+    const [fileName, setfilename] = React.useState("");
+    const [file, setFile] = React.useState(null);
+    const [docsArray, updateMyArray] = React.useState([]);
+    const history = useHistory();
+
+    const [services, setService] = React.useState(null);
+    React.useEffect(() => {
+        getServices();
+    }, []);
+
+    const getServices = async () => { 
+    const slug =await AsyncStorage.getItem("serviceSlug");
+    const service_url = `http://13.234.123.221/api/serviceCategory/${slug}`;
+        const service = await (await fetch(service_url, { method: "GET" })).json();
+        const serviceData = service.data;
+        setService(serviceData);
+        console.log(service);
+
+    };
+    if (!services) {
+        return (<View></View>)
+    }
+
          return (
              <>
             <ScrollView>
                 <H3 style={style.heading}>Upload Documents</H3>
-                <Stepper value='3'/>
+                <Stepper active='/upload'/>
                 <View style={{padding:16}}>
                 <View style={style.uploadContainer}>
                 <Text style={style.label, {textAlign:'center', margin:20, fontFamily:'Lato'}}>Scan and Upload Documents</Text>
-                <TextInput style={style.input} placeholder='Upload file(s) from your computer' />
+                <TouchableOpacity>
+                <Text style={style.input}>Upload file(s) from your computer</Text>
+                </TouchableOpacity>
                 <Button rounded style={style.button}> 
                     <Text style={{fontWeight:'bold', fontSize:15}}>UPLOAD</Text>
                 </Button>
                 </View>
                 <View style={{marginTop:40, marginBottom:40}}>
                 <Text style={style.label}>Documents Required</Text>
-                    <ListItem style={{borderColor:'#fff'}} >
-                        <Icon type='Feather' name='square' style={style.iconStyle}/>
-                        <Body>
-                        <Text style={style.listText}>Lorem Ipsum is simply dummy text</Text>
-                        </Body>
+                {services.serviceDetail && services.serviceDetail.reqDocs.map((data, index)=> <ListItem style={{height:52, borderBottomColor:'#fff'}} key={index}>
+                    <Icon type='Feather' name='square' style={style.iconStyle}/>
+                    <Body>
+                    <Text style={{fontSize:14,marginLeft:16, color:'#9d9494'}}>{data}</Text>
+                    </Body>
                     </ListItem>
-                    <ListItem style={{borderColor:'#fff'}} >
-                        <Icon type='Feather' name='square' style={style.iconStyle}/>
-                        <Body>
-                        <Text style={style.listText}>Lorem Ipsum is simply dummy text</Text>
-                        </Body>
-                    </ListItem>
-                    <ListItem style={{borderColor:'#fff'}} >
-                        <Icon type='Feather' name='square' style={style.iconStyle}/>
-                        <Body>
-                        <Text style={style.listText}>Lorem Ipsum is simply dummy text</Text>
-                        </Body>
-                    </ListItem>
-                    <ListItem style={{borderColor:'#fff'}} >
-                        <Icon type='Feather' name='square' style={style.iconStyle}/>
-                        <Body>
-                        <Text style={style.listText}>Lorem Ipsum is simply dummy text</Text>
-                        </Body>
-                    </ListItem>
+                         )}
                     </View>
                     </View>
             </ScrollView>

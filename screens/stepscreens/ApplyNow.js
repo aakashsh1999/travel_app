@@ -2,7 +2,7 @@ import { Container, Content, Icon, List, ListItem, Body, Radio,H3, Left } from '
 import React from 'react';
 import { ActivityIndicator, Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useHistory} from 'react-router-dom';
+import {useHistory, useLocation} from 'react-router-dom';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ButtonBar from '../../component/ButtonBar';
 import Stepper from './Stepper';
@@ -10,8 +10,9 @@ import Stepper from './Stepper';
 export default ApplyNow = () =>{
     const service_url = `http://13.234.123.221/api/serviceCategory`;
     const [service, setServices] = React.useState(null);
-    const [checked, setChecked] = React.useState(false);
+    const [checked, setChecked] = React.useState(null);
     const history = useHistory();
+    const location = useLocation();
   
     React.useEffect(() => {
       getServices();
@@ -29,6 +30,7 @@ export default ApplyNow = () =>{
     };
   console.log(service);
      const handleSubmit = async (name,slug) => {
+       setChecked(service.name);
       await AsyncStorage.setItem("serviceSlug",slug);
       const jsonPostData={
          "serviceName": name
@@ -40,14 +42,14 @@ export default ApplyNow = () =>{
         headers: {
            'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'x-access-token':await AsyncStorage.getItem("token")
+          'x-access-token':  await AsyncStorage.getItem("token")
         },
         body: JSON.stringify(jsonPostData)
        })).json();
       await AsyncStorage.setItem("applicationId", result.data._id);
       history.push('/fill');
      }
-     
+     console.log(location);
   if(!service)
   {
       return <ActivityIndicator color='yellow'></ActivityIndicator>
@@ -56,12 +58,12 @@ export default ApplyNow = () =>{
       <>
         <ScrollView>
             <H3 style={style.heading}>Choose Service</H3>
-            <Stepper value='1'/>
+            <Stepper active='/apply'/>
                     <List style={{marginTop:10,borderColor:"#f4f4f4", borderWidth:1, paddingLeft:16, paddingRight:16, marginBottom:30}}>
                         {service && service.map((data)=> 
                         <TouchableOpacity onPress={()=>handleSubmit(data.name,data.slug)} key={data._id}>
                         <ListItem style={{height:62, borderColor:"#fff", borderBottomColor:'#f4f4f4', borderBottomWidth:1}}>
-                        <Radio selectedColor="#c7a006" color='#000'/>
+                        <Radio selectedColor="#c7a006" color='#000' selected={checked === data.name}/>
                         <Body>
                         <Text style={{fontSize:14,marginLeft:16}}>{data.name}</Text>
                         </Body>

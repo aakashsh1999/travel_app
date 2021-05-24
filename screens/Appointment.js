@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {Card, Content, Icon, H3, H2, Left, Body, Button} from 'native-base';
 import { ScrollView, Text, View, StyleSheet, Image, ActivityIndicator} from 'react-native';
+import NoData from '../component/NoData';
 import {useHistory} from 'react-router-dom';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -72,7 +73,7 @@ return (
         </Content>
         </ScrollView>
         );
-}
+}   
 
 const style = StyleSheet.create({
     heading:{

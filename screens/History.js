@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {Content, Icon, Card, CardItem, Right, Button} from 'native-base'
 import { ScrollView, StyleSheet, View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import {useHistory} from 'react-router-dom';
+import NoData from '../component/NoData';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 export default History = () =>{
     let history= useHistory();
@@ -26,7 +27,7 @@ const getData = async () =>{
       ).json();
     console.log(application);
     setApplication(application.data || []);
-}
+    }
         return (
         <ScrollView>
          <View style={{marginTop:20,margin:16}}>
@@ -38,7 +39,7 @@ const getData = async () =>{
             </View>
             <Image source={require('../assets/clipath.png')} />
             </View>
-            <Content style={{padding:16}}>
+            {application? <Content style={{padding:16}}>
             {!application ? <ActivityIndicator color='red'/> : application.map((data)=>
                 <Card style={style.card} key={data._id}>
                 <CardItem header style={{borderBottomColor:'#e6e6e6', borderBottomWidth:1, justifyContent:'space-between',}}>
@@ -86,7 +87,7 @@ const getData = async () =>{
             {/* // <Button rounded style={style.laodingButton}>
             //     <Text style={style.buttonText}>Load More</Text>
             // </Button> */}
-            </Content>
+            </Content>: <NoData text='History'/>}
             </ScrollView>
         )
 }

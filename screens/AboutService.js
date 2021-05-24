@@ -31,23 +31,24 @@ const AboutService  = () =>{
                             </View>
                             <View>
                                 <H3 style={style.subheading}>How to Apply</H3>
-                                {
-                            service.serviceDetail && service.serviceDetail.serviceHowToApply.map((data, index)=>{
-                                <ListItem style={{height:52, borderBottomColor:'#fff'}} key={index}>
-                                <Icon type='Feather' name='square' style={style.iconStyle}/>
-                                <Body>
-                                <Text style={{fontSize:14,marginLeft:16, color:'#9d9494'}}>{data[index]}</Text>
-                                </Body>
-                                    </ListItem>
-                                    })}   
-                            </View>
-                                <H3 style={style.subheading}>Documents Required</H3>
+                              {service.serviceDetail && service.serviceDetail.serviceHowToApply.map((data)=>
                                 <ListItem style={{height:52, borderBottomColor:'#fff'}}>
                                 <Icon type='Feather' name='square' style={style.iconStyle}/>
                                 <Body>
-                                <Text style={{fontSize:14,marginLeft:16, color:'#9d9494'}}>{service.serviceDetail &&service.serviceDetail.reqDocs}</Text>
+                                <Text style={{fontSize:14,marginLeft:16, color:'#9d9494'}}>{data}</Text>
                                 </Body>
                                 </ListItem>
+                                )}
+                            </View>
+                                <H3 style={style.subheading}>Documents Required</H3>
+                                {service.serviceDetail && service.serviceDetail.reqDocs.map((data)=>
+                                <ListItem style={{height:52, borderBottomColor:'#fff'}}>
+                                <Icon type='Feather' name='square' style={style.iconStyle}/>
+                                <Body>
+                                <Text style={{fontSize:14,marginLeft:16, color:'#9d9494'}}>{data}</Text>
+                                </Body>
+                                </ListItem>
+                                )}
                     </ScrollView>
                     </>)
 }   

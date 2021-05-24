@@ -1,4 +1,4 @@
-import {H2, Container, Text, Content, Card, CardItem, Left, ListItem } from 'native-base';
+import {H2, Container, Text, Content, Card, CardItem, Left, ListItem, Icon } from 'native-base';
 import {View, Image, StyleSheet, ImageBackground, TextInput, ScrollView, TouchableOpacityComponent, ActivityIndicator} from 'react-native';
 import React, {useEffect} from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -72,9 +72,11 @@ console.log(user);
             <Card style={style.card}>
             <ImageBackground source={require('../assets/profilebg.png')} style={style.image}>
             <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
-             {user ?
+             {user.profileImage ?
              <Image source={{uri: 'data:image/png;base64,'+user.profilePicture}} style={style.profileImage}/>
-             :null
+             :<View style={{width:90, height:90, borderRadius:50, marginTop:20, marginRight:15,color:'#fff', backgroundColor:'#fff', justifyContent:'center', alignItems:'center' }}>
+             <Icon type='Feather' name='user' style={{fontSize:70}}/>
+             </View>
               }
                 <View style={{marginLeft:20}}>
                     <View>

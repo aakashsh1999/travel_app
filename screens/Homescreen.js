@@ -34,8 +34,9 @@ export default Homescreen = () =>{
                 source={require('../assets/homeBg.png')}
                 />
                 <View style={{ position: 'absolute', bottom: 24,  left: 15}}>
-                 <H1 style={style.heading}>Mainland Company</H1>
-                 <H1 style={style.heading}>Registration in UAE</H1>
+                 <H1 style={style.heading}>Leading Immigration</H1>
+                 <H1 style={style.heading}>Consultants in Dubai</H1>
+                 <Text style={{fontSize:14, color:"#000",fontFamily:'Lato', marginTop:5}}>Our business is to make your business easier in the UAE.</Text>
                  </View>
             </Card>
             <View style={{marginTop:20, marginLeft:16, backgroundColor:"#fff"}}>
