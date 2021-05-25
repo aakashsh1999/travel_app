@@ -44,7 +44,7 @@ const getData = async () =>{
                 </View>
                 <Image source={require('../assets/clipath.png')} />
             </View>
-        <Content style={{padding:16}}>
+        {/* <Content style={{padding:16}}>
             <List style={style.list}>
               <ListItem style={{height:52, borderColor:"#fff"}}>
                <Icon type='Feather' name='square' style={style.iconStyle}/>
@@ -54,31 +54,8 @@ const getData = async () =>{
                 <Icon type="Feather" name='eye' style={{fontSize:20, color:'black'}}/>
                 </ListItem>
 
-                <ListItem style={{height:52, borderColor:"#fff"}}>
-                 <Icon type='Feather' name='square' style={style.iconStyle}/>
-                <Body>
-                <Text style={{fontSize:14,marginLeft:16}}>Special ID.jpg</Text>
-                </Body>
-                <Icon type="Feather" name='eye' style={{fontSize:20, color:'black'}}/>
-                </ListItem>
-
-                <ListItem style={{height:52, borderColor:"#fff"}}>
-                 <Icon type='Feather' name='square' style={style.iconStyle}/>
-                <Body>
-                <Text style={{fontSize:14,marginLeft:16}}>GDFRA permit.jpg</Text>
-                </Body>
-                <Icon type="Feather" name='eye' style={{fontSize:20, color:'black'}}/>
-                </ListItem>
-
-                <ListItem style={{height:52, borderColor:"#fff"}}>
-                 <Icon type='Feather' name='square' style={style.iconStyle}/>
-                <Body>
-                <Text style={{fontSize:14,marginLeft:16}}>Entry Permit.jpg</Text>
-                </Body>
-                <Icon type="Feather" name='eye' style={{fontSize:20, color:'black'}}/>
-                </ListItem>
             </List>
-        </Content>
+        </Content> */}
         </ScrollView>
     );
 }

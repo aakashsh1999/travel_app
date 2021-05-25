@@ -14,7 +14,6 @@ import ForgetAccount from './screens/ForgetAccount';
 import History from "./screens/History";
 import Homescreen from "./screens/Homescreen";
 import Login from './screens/Login';
-import ModalCard from './component/ModalCard';
 import MyDocument from './screens/MyDocument';
 import Payment from './screens/stepscreens/Payment'
 import Profile from './screens/Profile';
@@ -68,7 +67,6 @@ export default function App() {
       <Route exact path="/payment" component={Payment}/>
       <Route exact path='/stepper' component={Stepper}/>
       <Route exact path='/success' component={Success}/>
-      <Route exact path='/model' component={ModalCard}/>
     </TopHeader>
     </NativeRouter>
   );

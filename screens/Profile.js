@@ -69,7 +69,7 @@ if(!user && !application){
             <Card style={style.card}>
             <ImageBackground source={require('../assets/profilebg.png')} style={style.image}>
             <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
-             {user.profilePicturetea ?
+             {user && user.profilePicture ?
                 <LinearGradient colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={0,2.57} style={{width:100, height:100, borderRadius:50, marginTop:20, justifyContent:'center', alignItems:'center'}}>
              <Image source={{uri: 'data:image/png;base64,'+user.profilePicture}} style={style.profileImage}/> 
              </LinearGradient>

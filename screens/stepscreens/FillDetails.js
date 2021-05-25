@@ -14,17 +14,18 @@ export default FillDetails= () =>{
     const history = useHistory();
     if (!AsyncStorage.getItem("token") && !AsyncStorage.getItem("id"))
     history.push("/login");
+    const [validation, setValidation] = React.useState(false);
     const [user, setUser] = React.useState('');   
     const [name, setName] = React.useState(null);
     const [dob, setDob] = React.useState(new Date());
     const [type, setType] = React.useState(null);
     const [alias, setAlias] = React.useState(null);
-    const [lineOne, setLineOne] = React.useState(null);
-    const [lineTwo, setLineTwo] = React.useState(null);
+    const [lineOne, setLineOne] = React.useState("");
+    const [lineTwo, setLineTwo] = React.useState("");
     const [state, setState] = React.useState(null);
-    const [city, setCity] = React.useState(null);
-    const [country, setCountry] = React.useState(null);
-    const [pincode, setPincode] = React.useState(null);
+    const [city, setCity] = React.useState("");
+    const [country, setCountry] = React.useState("");
+    const [pincode, setPincode] = React.useState("");
    
     const jsonPostData = {
         "name": name,

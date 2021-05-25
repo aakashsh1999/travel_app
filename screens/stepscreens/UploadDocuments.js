@@ -12,6 +12,7 @@ export default UploadDocuments  = () =>{
     let token, requestId;
     
     const [docsArray, updateMyArray] = React.useState([]);
+    let filename;
     const history = useHistory();
     const [services, setService] = React.useState(null);
     React.useEffect(() => {
@@ -29,6 +30,7 @@ export default UploadDocuments  = () =>{
             multiple: false,
             type: 'application/*'
           });
+          filename=file;
           let formData = new FormData();
           const type = file.name.split('.');
           formData.append("name", 'pan');
@@ -79,12 +81,12 @@ export default UploadDocuments  = () =>{
                 <Text style={style.label, {textAlign:'center', margin:20, fontFamily:'Lato'}}>Scan and Upload Documents</Text>
                 <View style={style.uploadInput}>
                 <TouchableOpacity onPress={async () => await selectFile()}>
-                <Text style={{textAlign:'center',marginTop:10, fontSize:16, color:'#9d9494'}}> 'Upload file(s) from your computer'</Text>
+                <Text style={{textAlign:'center',marginTop:10, fontSize:16, color:'#9d9494'}}>{filename ? filename.name :'Upload file(s) from your computer'}</Text>
                 </TouchableOpacity>
                 </View>
-                <Button rounded style={style.button} onPress={() => uploadWithFormData()}> 
+                {/* <Button rounded style={style.button} onPress={() => uploadWithFormData()}> 
                     <Text style={{fontWeight:'bold', fontSize:15, color:"#000"}}>UPLOAD</Text>
-                </Button>
+                </Button> */}
                 </View>
                 <View style={{marginTop:40, marginBottom:40}}>
                 <Text style={style.label}>Documents Required</Text>

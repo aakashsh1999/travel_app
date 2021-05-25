@@ -44,7 +44,7 @@ const getData = async () =>{
 
     function dateFormat(d) {
         const date = new Date(d).toLocaleString();
-        const [b, month, a, dayDate, c, year] = date.split(" ");
+        const [b, month, dayDate, a, year, c] = date.split(" ");
         return `${dayDate} ${month} ${year}`;
       };
     

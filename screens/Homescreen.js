@@ -21,8 +21,8 @@ export default Homescreen = () =>{
        if(await AsyncStorage.getItem('token'))
        {
            setIsLogin(true);
-       }        
-        }
+        }        
+    }
     
   useEffect(()=> {
     checkLogin();

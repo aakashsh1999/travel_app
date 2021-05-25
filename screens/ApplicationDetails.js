@@ -35,13 +35,11 @@ export default ApplicationDetails = () => {
         setapplication(application || []);
       }
           
-      const generateLink = async (key) => {
-    
+      const generateLink = async (key) => { 
         const jsonPostData = {
           'key': key
         }
         const url = `http://13.234.123.221/api/users/download`
-        console.log(url)
         const resu = await (await fetch(url, {
           method: 'PUT',
           headers: {
@@ -51,13 +49,13 @@ export default ApplicationDetails = () => {
           body: JSON.stringify(jsonPostData)
         })).json()
       }
-      console.log(application);
       
     function dateFormat(d) {
-        const date = new Date(d).toLocaleString();
-        const [b, month, a, dayDate, c, year] = date.split(" ");
-        return `${dayDate} ${month} ${year}`;
-      };
+      const date = new Date(d).toLocaleString();
+      const [b, month, dayDate, a, year, c] = date.split(" ");
+      return `${dayDate} ${month} ${year}`;
+    };
+  
       if(!application)
       {
           return <View></View>
@@ -176,13 +174,13 @@ export default ApplicationDetails = () => {
                     </View>
                     <View>
                     <Text style={style.infoHeading}>Date of Birth</Text>
-                    <Text style={style.infoText}>{application.dob !==undefined ? dateFormat(application.dob) : "N/A"}</Text>
+                    <Text style={style.infoText}>{application.dob !=="" ? dateFormat(application.dob) : "N/A"}</Text>
                     </View>
                     <View>
                     <Text style={style.infoHeading}>Address</Text>
-                    <Text style={style.infoText}>{application && application.users.address.addressLineOne}</Text>
-                    <Text style={style.infoText}>{application && application.users.address.addressLineTwo} {application && application.users.address.city}</Text>
-                    <Text style={style.infoText}>{application && application.users.address.state} {application && application.users.address.country}</Text>
+                    <Text style={style.infoText}>{application.users.address !==undefined ? application.users.address.addressLineOne: ''}</Text>
+                    <Text style={style.infoText}>{application.users.address !==undefined ? application.users.address.addressLineTwo: ''} {application.users.address !==undefined ?  application.users.address.city:''}</Text>
+                    <Text style={style.infoText}>{application.users.address !==undefined ? application.users.address.state:''} {application.users.address !==undefined ?  application.users.address.country:''}</Text>
                     </View>
             </View>
             <View style={style.stepIndicator}>
