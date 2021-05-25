@@ -24,7 +24,6 @@ export default CreateAccount =  () => {
             },
             body: JSON.stringify(jsonData)
           })).json();
-            console.log(jsonData)
           if (res.status===1) {
               alert('Your account created successfully.')
             history.push('/login');

@@ -29,8 +29,6 @@ export default BookAppointment = () =>{
                  "date": dates[2],
                  "year": dates[3]
             }
-            console.log(dates);
-            console.log(jsonData)
             if(dates){
             const result = await(await fetch(url, {
                 method: 'PUT',
@@ -42,11 +40,8 @@ export default BookAppointment = () =>{
                    body: JSON.stringify(jsonData)
                })).json();
               history.push("/payment");
-               console.log(result);
-           } else {
-              console.log('Thing was not saved to the database.');
-            }
-      
+           } 
+
         };
         
 

@@ -33,7 +33,6 @@ export default ResetPassword =  () => {
           { 
               history.push('/login');
           }
-          console.log(res);
     }
 
     return(

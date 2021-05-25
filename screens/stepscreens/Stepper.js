@@ -19,7 +19,6 @@ export default StepScreen = ({active}) => {
               final.push({ title: titleArr[i], status: false });
           }
       }
-      console.log(final)
       setResult(final);
   },[]);
   if(!result){

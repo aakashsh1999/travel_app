@@ -22,7 +22,6 @@ const getData = async () =>{
     const id =await AsyncStorage.getItem('id');
     setId(id);
     const token = await AsyncStorage.getItem('token');
-console.log(application);
       let user = await (    
         await fetch(`http://13.234.123.221/api/users/${id}`, {
           method: "GET",
@@ -31,7 +30,6 @@ console.log(application);
           },
         })
       ).json();
-      console.log(user)
     setUser(user.data);
 
     let application = await (
@@ -60,8 +58,6 @@ const logout = async () =>{
 if(!user && !application){
     return <ActivityIndicator color="yellow"/>
 }
-console.log(Id);
-console.log(user);
         return (
             <Container>
             <Content >

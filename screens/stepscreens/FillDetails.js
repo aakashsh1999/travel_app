@@ -9,12 +9,12 @@ import ButtonBar from '../../component/ButtonBar';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
 import CardHeader from '../../component/CardHeader';
+
 export default FillDetails= () =>{
     const history = useHistory();
     if (!AsyncStorage.getItem("token") && !AsyncStorage.getItem("id"))
     history.push("/login");
-    const [user, setUser] = React.useState('');
-   
+    const [user, setUser] = React.useState('');   
     const [name, setName] = React.useState(null);
     const [dob, setDob] = React.useState(new Date());
     const [type, setType] = React.useState(null);
@@ -45,8 +45,6 @@ export default FillDetails= () =>{
     const handleSubmitForm = async () => {
     const requestId = await AsyncStorage.getItem("applicationId");
     const url = `http://13.234.123.221/api/service/fill/${requestId}`;
-        console.log(requestId);
-        console.log(jsonPostData);
         const result = await (await fetch(url, {
             method: 'PUT',
             headers: {

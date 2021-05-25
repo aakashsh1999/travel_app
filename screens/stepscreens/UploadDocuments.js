@@ -11,7 +11,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default UploadDocuments  = () =>{
     let token, requestId;
     
-    const [file, setFile] = React.useState(null);
     const [docsArray, updateMyArray] = React.useState([]);
     const history = useHistory();
     const [services, setService] = React.useState(null);
@@ -30,21 +29,38 @@ export default UploadDocuments  = () =>{
             multiple: false,
             type: 'application/*'
           });
+          let formData = new FormData();
+          const type = file.name.split('.');
+          formData.append("name", 'pan');
+          formData.append("file", {uri:file.uri, name:file.name, type:`application/${type[type.length-1]}`});
     
           if (file.type === "success") {
-            setFile(file);
-            console.log('file: '+JSON.stringify(file));
+            const res = await fetch(url, {
+                method: "PUT",
+                headers:{
+                    'Content-Type': 'multipart/form-data',
+                    'x-access-token': token
+                },                
+                body: formData,
+                    })
+                 
+                if(res.status===1){
+                    alert('File uploaded Successfully.');
+                    history.push("/book");
+                }
+                else{
+                    alert('File already Uploaded')
+                    history.push('/upload');
+                }
           }
     
         } catch (err) {
           // Expo didn't build with iCloud, expo turtle fallback
-          console.log("error", err);
     
         }
       }
-   
-
-    //Getting the List of Document
+    
+      //Getting the List of Document
     const getServices = async () => { 
     const slug =await AsyncStorage.getItem("serviceSlug");
 
@@ -52,26 +68,6 @@ export default UploadDocuments  = () =>{
         const service = await (await fetch(service_url, { method: "GET" })).json();
         const serviceData = service.data;
         setService(serviceData);
-        console.log(service);
-    }
-    //Uploading the File
-    const uploadWithFormData = async () => {
-   
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("name", fileName);
-        const result = await (await fetch(url, {
-            method: 'PUT',
-            headers:{
-                'Content-Type': 'multipart/form-data',
-                'x-access-token': token},
-            body: formData
-        })).json();
-        
-      if(result.status===1){
-      alert('File uploaded Successfully.');
-      history.push("/book");
-      }
     }
          return (
              <>
@@ -83,7 +79,7 @@ export default UploadDocuments  = () =>{
                 <Text style={style.label, {textAlign:'center', margin:20, fontFamily:'Lato'}}>Scan and Upload Documents</Text>
                 <View style={style.uploadInput}>
                 <TouchableOpacity onPress={async () => await selectFile()}>
-                <Text style={{textAlign:'center',marginTop:10, fontSize:16, color:'#9d9494'}}>{!file ? 'Upload file(s) from your computer': file.name}</Text>
+                <Text style={{textAlign:'center',marginTop:10, fontSize:16, color:'#9d9494'}}> 'Upload file(s) from your computer'</Text>
                 </TouchableOpacity>
                 </View>
                 <Button rounded style={style.button} onPress={() => uploadWithFormData()}> 

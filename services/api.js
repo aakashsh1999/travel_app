@@ -30,7 +30,6 @@ export const setData = async (endpoint, body, token) => {
         }
         catch(error)
         {
-                console.log(error);
         }  
 }
 
@@ -49,7 +48,6 @@ export const deleteData = async (endpoint, query, token) =>{
         return data;
         }
         catch(error){
-        console.log(error);
         }
         
 }
@@ -70,6 +68,5 @@ export const updateData =async (endpoint,state, token)=>{
                 return data;
                 }
                 catch(error){
-                console.log(error);
             }    
   }
