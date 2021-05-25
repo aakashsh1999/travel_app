@@ -4,7 +4,6 @@ import { ScrollView, Image, View, StyleSheet} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useHistory } from 'react-router';
-import ButtonBar from '../../component/ButtonBar';
 
 export default Success = () =>{
     const history= useHistory();
@@ -67,7 +66,6 @@ export default Success = () =>{
                 </LinearGradient>
                 </TouchableOpacity>
             </ScrollView>
-            <ButtonBar/>
             </>
         )
 }

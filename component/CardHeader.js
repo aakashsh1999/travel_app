@@ -3,13 +3,15 @@ import { Icon, ListItem, Left, Right, Card, CardItem, H3 } from 'native-base';
 import React from 'react';
 import {View, Text,StyleSheet, TouchableOpacity} from 'react-native';
 import {useFonts} from 'expo-font';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createNativeWrapper } from 'react-native-gesture-handler';
 export default CardHeader = () =>{
   const [loaded] = useFonts({
     OpenSans: require('../assets/fonts/openSans.ttf'),
     Lato: require('../assets/fonts/lato.ttf'),
   }); 
   const service_url = `http://13.234.123.221/api/serviceCategory`;
-  const [services, setServices] = React.useState(null);
+  const [service, setServices] = React.useState(null);
 
   React.useEffect(() => {
     getServices();
@@ -17,24 +19,33 @@ export default CardHeader = () =>{
 
 
   const getServices = async () => {
+    const serviceName = await AsyncStorage.getItem("serviceName");
     const services = await (await fetch(service_url, { method: "GET" })).json();
-    const serviceData = services.data;
-
-    setServices(serviceData);
-    console.log(services);
+    const serviceData = services.data.map((e)=> ({
+      name: e.name,
+      processT:e.serviceDetail.processT,
+      stay: e.serviceDetail.stayPeriod,
+      validity: e.serviceDetail.validity,
+      entry: e.serviceDetail.entry,
+    })
+    );
+    let result=serviceData.filter(obj=> obj.name == serviceName);
+    setServices(result);
+    console.log(serviceName);
+    console.log(result)
   };
 
-
-
 const [showCard, setShowCard] = React.useState(false);
-
-
-    return (  
+if(!service)
+{
+  return null
+}
+return (  
         <View>
         {showCard ? 
             <Card>
             <CardItem style={{justifyContent:'space-between', borderBottomColor:'#e6e6e6', borderBottomWidth:1}}>
-              <H3 style={{fontSize:16, fontFamily:'Lato', fontWeight:'bold'}}>Company Formation Services</H3>
+              <H3 style={{fontSize:16, fontFamily:'Lato', fontWeight:'bold', color:'#000'}}>{service[0].name}</H3>
               <TouchableOpacity onPress={()=>setShowCard(false)}>
               <Icon type='Feather' name='x'/>
               </TouchableOpacity>
@@ -44,26 +55,26 @@ const [showCard, setShowCard] = React.useState(false);
                           <View style={{width:120 }}>
                           <Text style={ style.itemHeading}>Processing Time:</Text>
                           </View>
-                          <Text style={style.itemText}>Upto 10Days</Text>
+                          <Text style={style.itemText}>{service[0].processT} Hours</Text>
                           </View>
                           <View style={{flexDirection:'row', alignItems:'baseline', width:"100%", marginBottom:20} } >
                             <View style={{width:120}}>
                           <Text style={style.itemHeading}>Stay Period:</Text>
                           </View>
-                          <Text style={style.itemText}>14 days</Text>
+                          <Text style={style.itemText}>{service[0].stay} days</Text>
                           </View>
                           <View style={{flexDirection:'row', alignItems:'baseline', width:"100%", marginBottom:20} } >
                             <View style={{width:120}}>
                           <Text style={style.itemHeading}>Validity:</Text>
                           </View>
-                          <Text style={style.itemText}>58days</Text>
+                          <Text style={style.itemText}>{service[0].validity} days</Text>
                           </View>
                 
                           <View style={{flexDirection:'row', alignItems:'baseline', width:"100%", marginBottom:20} } >
                           <View style={{width:120}}>
                           <Text style={style.itemHeading}>Entry:</Text>
                           </View>
-                          <Text style={style.itemText}>Single</Text>
+                          <Text style={style.itemText}>{service[0].entry}</Text>
                           </View>
                         </CardItem>
           </Card> 
@@ -76,7 +87,7 @@ const [showCard, setShowCard] = React.useState(false);
               <Icon type='Feather' name='info'  style={{color:'#ffff', fontSize:18, marginLeft:14, fontWeight:'500', fontFamily:'Lato'}}/>
               </TouchableOpacity>
               </Left>
-                <Text style={{color:'#fff',fontSize:20, fontFamrily:'Lato', textAlignVertical:'center'}}>300 AED</Text>
+                <Text style={{color:'#fff',fontSize:20, fontFamily:'Lato', textAlignVertical:'center'}}>300 AED</Text>
               </ListItem>
               </LinearGradient>
               <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5] }

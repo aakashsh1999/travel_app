@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import {useHistory} from 'react-router-dom';
 import Bottombar from '../component/Bottombar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default Profile = () =>{
     const history = useHistory();
@@ -72,11 +73,16 @@ console.log(user);
             <Card style={style.card}>
             <ImageBackground source={require('../assets/profilebg.png')} style={style.image}>
             <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
-             {user.profileImage ?
-             <Image source={{uri: 'data:image/png;base64,'+user.profilePicture}} style={style.profileImage}/>
-             :<View style={{width:90, height:90, borderRadius:50, marginTop:20, marginRight:15,color:'#fff', backgroundColor:'#fff', justifyContent:'center', alignItems:'center' }}>
+             {user.profilePicturetea ?
+                <LinearGradient colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={0,2.57} style={{width:100, height:100, borderRadius:50, marginTop:20, justifyContent:'center', alignItems:'center'}}>
+             <Image source={{uri: 'data:image/png;base64,'+user.profilePicture}} style={style.profileImage}/> 
+             </LinearGradient>
+             : 
+             <LinearGradient colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={0,2.57} style={{width:100, height:100, borderRadius:50, marginTop:20, justifyContent:'center', alignItems:'center'}}>
+             <View style={{width:92, height:92, borderRadius:50, color:'#fff', backgroundColor:'#fff', justifyContent:'center', alignItems:'center' }}>
              <Icon type='Feather' name='user' style={{fontSize:70}}/>
              </View>
+             </LinearGradient>
               }
                 <View style={{marginLeft:20}}>
                     <View>
@@ -147,10 +153,9 @@ const style = StyleSheet.create({
            height:150
       },
       profileImage:{
-          width:100, height:100,
-          marginTop:20,
+          width:92, 
+          height:92,
           borderRadius:50,
-          marginRight:5
       }, 
       infoHeading:{
         fontSize:12, color:'#707070', marginTop:20

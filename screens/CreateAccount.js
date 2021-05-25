@@ -24,9 +24,9 @@ export default CreateAccount =  () => {
             },
             body: JSON.stringify(jsonData)
           })).json();
-            alert(res.status)
+            console.log(jsonData)
           if (res.status===1) {
-            await AsyncStorage.setItem('token', res.token);
+              alert('Your account created successfully.')
             history.push('/login');
           }
       
@@ -72,7 +72,7 @@ export default CreateAccount =  () => {
                 </View>
                 <View>
                     <Text style={style.label}>Enter Password</Text>
-                    <TextInput style={style.input} placeholder='Enter your password' onChangeText={setPassword} value={password}/>
+                    <TextInput style={style.input} placeholder='Enter your password' onChangeText={setPassword}  secureTextEntry={true} value={password}/>
                 </View>
 
                 </View>

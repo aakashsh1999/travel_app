@@ -27,7 +27,6 @@ export default function ServiceGrid() {
       slug: e.slug,
       image: e.serviceDetail.image
     }));
-
     setServices(serviceData);
   };
 

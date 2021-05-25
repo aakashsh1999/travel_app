@@ -6,7 +6,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 export default StepScreen = ({active}) => {
   const location = useLocation();
   const [result, setResult] = useState(null);
-  const arr = ["/apply", "/fill", "/upload", "/book", "/payment"];
+  const arr = ["/apply", "/fill", "/upload", "/book", "/payment",];
   const titleArr = ["1", "Fill Details", "Upload Documents", "Book an appointment", "Payment"];
   React.useEffect(() => {
       let final = [];

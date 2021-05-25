@@ -17,7 +17,7 @@ const AboutService  = () =>{
     console.log(serviceData);
          };
   return (<>
-              <ScrollView style={{backgroundColor:'#fff'}}>
+       <ScrollView style={{backgroundColor:'#fff'}}>
                             <View style={{paddingTop:20, paddingLeft:16, paddingRight:16, backgroundColor:'#000'}}>
                                 <H2 style={style.ourServices}>{service.name}</H2>
                                 <Image source={require('../assets/clipath.png')} />    

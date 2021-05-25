@@ -56,12 +56,11 @@ export default function App() {
       <Route exact path="/apply" component={ApplyNow}/>
       <Route exact path="/about" component={AboutScreen}/>
       <Route exact path="/contact" component={Contact}/>
-      <Route exact path="/application" component={ApplicationDetails}/>
+      <Route exact path="/application/:applicationId" component={ApplicationDetails}/>
       <Route exact path="/create" component={CreateAccount}/>
       <Route exact path="/forget" component={ForgetAccount}/>
       <Route exact path="/reset" component={ResetPassword}/>
       <Route exact path="/fill" component={FillDetails}/>
-      <Route exact path="/success" component={Success}/>
       <Route exact path="/aboutservice/:slug" component={AboutService}/>
       <Route exact path="/upload" component={UploadDocuments}/>
       <Route exact path="/book" component={BookAppointment}/>

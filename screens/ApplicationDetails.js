@@ -1,11 +1,67 @@
-import { Text, Icon, Radio, Body, Card, Left, Button, H3, ListItem, List} from 'native-base';
+import { Text, Icon, Radio, Body, Card, Left, Button,CardItem, H3, ListItem, List} from 'native-base';
 import React from 'react';
 import { ScrollView, View, Image, StyleSheet} from 'react-native';
-import { useHistory } from 'react-router';
 import TouristGrid from '../component/TouristCardGrid';
+import {useFonts} from 'expo-font';
+import {useParams} from 'react-router';
+import {LinearGradient} from 'expo-linear-gradient';
+import {useHistory} from 'react-router-dom';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default ApplicationDetails = () => {
-    const history= useHistory();
+    const [loaded] = useFonts({
+        OpenSans: require('../assets/fonts/openSans.ttf'),
+        Lato: require('../assets/fonts/lato.ttf'),
+      }); 
+      const service_url = `http://13.234.123.221/api/serviceCategory`;
+    const history = useHistory();
+    let { applicationId } = useParams();
+      const [application, setapplication] = React.useState(null);
+      const [service, setServices] = React.useState(null);
+      React.useEffect(() => {
+        getapplication();
+    }, []);
+
+      const getapplication = async () => {
+        let application = await (
+          await fetch(`http://13.234.123.221/api/admin/application/${applicationId}`, {
+            method: "GET",
+            headers: {
+              "x-access-token": await AsyncStorage.getItem("token"),
+            },
+          })
+        ).json();
+        application = application.data[0];
+        setapplication(application || []);
+      }
+          
+      const generateLink = async (key) => {
+    
+        const jsonPostData = {
+          'key': key
+        }
+        const url = `http://13.234.123.221/api/users/download`
+        console.log(url)
+        const resu = await (await fetch(url, {
+          method: 'PUT',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(jsonPostData)
+        })).json()
+      }
+      console.log(application);
+      
+    function dateFormat(d) {
+        const date = new Date(d).toLocaleString();
+        const [b, month, a, dayDate, c, year] = date.split(" ");
+        return `${dayDate} ${month} ${year}`;
+      };
+      if(!application)
+      {
+          return <View></View>
+      }
         return (
             <>
             <View style={{borderBottomColor:'#e6e6e6',borderBottomWidth:1, paddingLeft:16, paddingBottom:24}}>
@@ -17,41 +73,41 @@ export default ApplicationDetails = () => {
                         <Image source={require('../assets/clipath.png')} />
                     </View>
             <ScrollView>
-            <View style={style.listContainer}>   
+                <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:15,}}>
                     <View>
+                    <View >
                     <Text style={style.itemHeading}>Date</Text>
-                    <Text style={style.itemText}>22/01/2021</Text>
+                    <Text style={style.itemText}>{dateFormat(application.serviceCategory.createdAt)}</Text>
                     </View>
-                    <View style={{marginLeft:106}}>
-                    <Text style={style.itemHeading}>Transaction ID</Text>
-                    <Text style={style.itemText}>XMBC3457XNT0</Text>
-                    </View>
-                </View>
-                <View style={style.listContainer}>
-                <View> 
+                    <View> 
                     <Text style={style.itemHeading}>Service Id</Text>
-                    <Text style={style.itemText}>BXCJCR34</Text>
+                     <Text style={style.itemText}>{application.serviceCategory.scode}</Text>
                     </View>
-                    <View style={{marginLeft:115}}> 
-                    <Text style={style.itemHeading}>Service Name</Text>
-                    <Text style={style.itemText}>BXCJCR34</Text>
-                    </View>
-                </View>
-
-                <View style={style.listContainer}>                
                     <View>
                     <Text style={style.itemHeading}>Mode</Text>
                     <Text style={style.itemText}>Debit Card</Text>
                     </View>
-                    <View style={{marginLeft:120}}>
+                    </View>
+                    <View style={{width:"50%"}}>
+                    <View>
+                    <Text style={style.itemHeading}>Transaction ID</Text>
+                    <Text style={style.itemText}>XMBC3457XNT0</Text>
+                    </View>
+                    <View> 
+                    <Text style={style.itemHeading}>Service Name</Text>
+                    <Text style={style.itemText}>{application.serviceCategory.name}</Text>
+                    </View>
+                    <View>
                     <Text style={style.itemHeading}>Amount(AED)</Text>
                     <Text style={style.itemText}>350.00</Text>
                     </View>
-                </View>
-                <View style={{width:100}}>
+                    </View>
+                    </View>
+
+                <View>
                     <Text style={style.itemHeading}>Status</Text>
-                    <View style={{borderRadius:24, backgroundColor:'#4ca0dd', marginTop:10, paddingLeft:10, paddingRight:10}}>
-                    <Text style={{fontSize:14, color:'blue', opacity:1.0}}>In-Progress</Text>
+                    <View style={application.status=='Success' ? style.successChip  : style.pendingChip}>
+                    <Text style={application.status=='Success' ? style.successStyle : style.pendingStyle}>{application.status}</Text>
                     </View>
                  </View>
                  </ScrollView>
@@ -59,87 +115,82 @@ export default ApplicationDetails = () => {
             <ScrollView>
             <View style={{padding:15}}>
             <View style={style.stepIndicator}>
-            <Radio selected={true} />
+            <Radio selected={true}  selectedColor="#c7a006"/>
             <Text style={{fontSize:12,marginLeft:10}}>Appointment Booked</Text>
             </View>
             <View style={{marginLeft:30, marginBottom:10, borderColor:'#e6e6e6', borderWidth:1, padding:14, flexDirection:'row'}}>
-                <Image source={require('../assets/checked.png')} style={{width:24, height:24}}/>
+            {application.status !=='Success'? <Image source={require('../assets/clock.png')} 
+            style={{width:30, height:30, marginTop:2}}/> :<Image source={require('../assets/checked.png')} 
+            style={{width:24, height:24}}/>}
                 <Body>
-                <Text style={{fontSize:14, color:'#9d9494', marginLeft:10}}>Your payment was successful and we have also reserved the slot for your appointment.
-                    You can keep track of your application from your “History”.</Text>
+                {application.status !=='Success'?<Text style={{fontSize:14, color:'#9d9494', marginLeft:10}}>
+                    Your {application.status}. You can keep track of your application from your “History”.</Text> : <Text style={{fontSize:14, color:'#9d9494', marginLeft:10}}>
+                    Your payment was successful and we have also reserved the slot for your appointment.
+                    You can keep track of your application from your “History”.</Text>}
                 </Body>
             </View>
             <View style={style.stepIndicator}>
-            <Radio selected={true} />
+            <Radio selected={true} selectedColor="#c7a006" />
             <Text style={{fontSize:12,marginLeft:10}}>Appointment Date</Text>
             </View>
             <View style={{marginLeft:30}}>
-            <Card style={style.card}>
+            {application.appointment ? <Card style={style.card}>
             <Left>
                 <View style={style.labelBox}>
-                    <H3 style={style.labelheading}>23</H3>
-                    <Text style={{fontSize:12}}>Jan 21</Text>
+                    <H3 style={style.labelheading}>{application.appointment.appt_date}</H3>
+                    <Text style={{fontSize:12}}>{application.appointment.appt_month} {application.appointment.appt_year}</Text>
                 </View>
             </Left>
-            <View style={{width:200, marginRight:40}}>
-                <Button rounded style={{ height:19, justifyContent:'center', backgroundColor:'yellow', marginTop:2}}>
-                    <Text style={{color:'#000'}}>Upcoming</Text>
-                </Button>
-                <Text style={{fontSize:14, fontWeight:'500', marginBottom:10, marginTop:14}}>Appointment with AMER 
-                executive in Dubai Media City</Text>
+            <View style={{width:200, marginRight:20}}>
+            <LinearGradient  
+                style={{width:90, height:19, justifyContent:'center', marginTop:2, borderRadius:50}}
+                    colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={0,2.57}>
+                    <Text style={{textAlign:'center', fontSize:12, fontFamily:'Lato', padding:5, textTransform:'uppercase', fontWeight:"500"}}>Upcoming</Text>
+                </LinearGradient>
+                <Text style={{fontSize:14, fontWeight:'500', marginBottom:10, marginTop:14}}>{application.appointment.title}</Text>
                 <Text style={{color:"#9d9494"}}>11:00 - 12:00</Text>
              </View>
-            </Card>
-            </View>
+            </Card>: <View style={{width:"100%", marginBottom:10, borderColor:'#e6e6e6', borderWidth:1,}}>
+                <ListItem style={{padding:5,borderColor:'#fff'}}>
+                    <Text style={{fontSize:14, color:'#9d9494', marginLeft:10}}>You dont have any Appointment.</Text></ListItem></View>}
+            </View> 
             
             <View style={style.stepIndicator}>
-            <Radio selected={true} />
+            <Radio selected={true} selectedColor="#c7a006"/>
             <Text style={{fontSize:12,marginLeft:10}}>Documents Uploaded</Text>
             </View>
-                <View style={{marginLeft:30, marginBottom:10, borderColor:'#e6e6e6', borderWidth:1, padding:20}}>
-                    <ListItem style={{borderColor:'#fff'}} >
+                <View style={{marginLeft:30, marginBottom:10, borderColor:'#e6e6e6', borderWidth:1,}}>
+                    <ListItem style={{padding:5,borderColor:'#fff'}} >
                         <Icon type='Feather' name='square' style={style.iconStyle}/>
-                        <Text style={style.listText}>Emirates ID.jpg</Text>
-                    </ListItem>
-                    <ListItem style={{borderColor:'#fff'}} >
-                        <Icon type='Feather' name='square' style={style.iconStyle}/>
-                        <Text style={style.listText}>Emirates ID.jpg</Text>
-                    </ListItem>
-                    <ListItem style={{borderColor:'#fff'}} >
-                        <Icon type='Feather' name='square' style={style.iconStyle}/>
-                        <Text style={style.listText}>Emirates ID.jpg</Text>
-                    </ListItem>
-                    <ListItem style={{borderColor:'#fff'}} >
-                        <Icon type='Feather' name='square' style={style.iconStyle}/>
-                        <Text style={style.listText}>Emirates ID.jpg</Text>
+                        <Text style={style.listText}>No Documents found</Text>
                     </ListItem>
                  </View>
             <View style={style.stepIndicator}>
-            <Radio selected={true} />
+            <Radio selected={true} selectedColor="#c7a006"/>
             <Text style={{fontSize:12,marginLeft:10}}>Details Provided</Text>
             </View>
             <View style={{marginLeft:30, marginBottom:10, borderColor:'#e6e6e6', borderWidth:1, padding:20}}>
                     <View>
                     <Text style={style.infoHeading}>Name</Text>
-                    <Text style={style.infoText}>Vikas Sharma</Text>
+                    <Text style={style.infoText}>{application && application.users.name}</Text>
                     </View>
                     <View>
                     <Text style={style.infoHeading}>Date of Birth</Text>
-                    <Text style={style.infoText}>14 Sep 1987</Text>
+                    <Text style={style.infoText}>{application.dob !==undefined ? dateFormat(application.dob) : "N/A"}</Text>
                     </View>
                     <View>
                     <Text style={style.infoHeading}>Address</Text>
-                    <Text style={style.infoText}>Marina Crown, King Salman Bin</Text>
-                    <Text style={style.infoText}>Abdulaziz Al Saud St</Text>
-                    <Text style={style.infoText}>Dubai, United Arab Emirates</Text>
+                    <Text style={style.infoText}>{application && application.users.address.addressLineOne}</Text>
+                    <Text style={style.infoText}>{application && application.users.address.addressLineTwo} {application && application.users.address.city}</Text>
+                    <Text style={style.infoText}>{application && application.users.address.state} {application && application.users.address.country}</Text>
                     </View>
             </View>
             <View style={style.stepIndicator}>
-            <Radio selected={true} />
+            <Radio selected={true} selectedColor="#c7a006"/>
             <Text style={{fontSize:12,marginLeft:10}}>Service Chosen</Text>
             </View>
             <View style={{marginLeft:30, marginBottom:120, borderColor:'#e6e6e6', borderWidth:1, padding:20}}>
-            <Text style={{fontWeight:'bold', fontSize:16}}>Company Formation Services</Text>
+            <Text style={{fontWeight:'bold', fontSize:16}}>{application && application.serviceCategory.name}</Text>
             <TouristGrid/>
             </View>
             </View>
@@ -183,7 +234,7 @@ const style =StyleSheet.create({
         fontSize:15,
         textTransform:'uppercase'
     },
-    listContainer:{justifyContent:'flex-start', flexDirection:'row',marginTop:10}
+    listContainer:{justifyContent:'space-between', flexDirection:'row',marginTop:10}
     ,
     labelBox:{
         width:70,
@@ -223,4 +274,17 @@ const style =StyleSheet.create({
       infoText:{
         color:'#000', fontSize:14, marginTop:4
       }, 
+      gridHeading:{
+        fontSize:12, color:'#9d9494',
+        fontFamily:'OpenSans'
+      },
+      text:{color:'#000', fontSize:14, marginTop:5, fontFamily:'OpenSans'},
+      successStyle:{
+        fontSize:14, color:'rgb(12, 190, 12)',
+      },
+      successChip:{borderRadius:24, width:140, backgroundColor:'rgba(12,190,12, 0.2)', marginTop:10, paddingLeft:10, paddingRight:10},
+      pendingChip:{borderRadius:24, width:140, backgroundColor:'rgba(76, 160, 221, 0.2)', marginTop:10, paddingLeft:10, paddingRight:10},
+      pendingStyle:{
+        fontSize:14, color:'rgb(76,160,221)'
+      }
 });

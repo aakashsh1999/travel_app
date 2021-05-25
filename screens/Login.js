@@ -13,12 +13,9 @@ export default Login =  () =>{
 
   const history= useHistory();
   const url =  `${BASE_URL}/login`;
-  console.log(url);
   const [isLogin, setIsLogin] =React.useState(false);
-  const [gvalue, setGvalue] = React.useState(false);
   const [email, setEmail] = React.useState(null);
   const [password, setPassword] = React.useState(null);
-  const [msg, setMsg] = React.useState(null);
 
 //   useEffect(() => {
 //       checkLogin();
@@ -41,7 +38,7 @@ export default Login =  () =>{
 
       let idData = await (
         await fetch(
-          `${BASE_URL}/users`,
+          `http://13.234.123.221/api/users`,
           {
             method: "GET",
             headers: {
@@ -73,7 +70,7 @@ export default Login =  () =>{
                      <TextInput style={style.input} placeholder='Enter email' onChangeText={setEmail} value={email}/>
                  </View>
                     <Text style={style.label}>Password</Text>
-                     <TextInput style={style.input} placeholder='Enter password' onChangeText={setPassword} value={password}/>
+                     <TextInput style={style.input} placeholder='Enter password' onChangeText={setPassword} secureTextEntry={true}  value={password}/>
                 </View>
                 {/* <View style={style.checboxContainer}>
                 <CheckBox checked={false} />

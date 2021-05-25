@@ -33,6 +33,7 @@ export default ApplyNow = () =>{
      const handleSubmit = async (name,slug) => {
        setChecked(service.name);
       await AsyncStorage.setItem("serviceSlug",slug);
+      await AsyncStorage.setItem('serviceName',name);
       const jsonPostData={
          "serviceName": name
       }
@@ -49,8 +50,8 @@ export default ApplyNow = () =>{
        })).json();
       await AsyncStorage.setItem("applicationId", result.data._id);
       history.push('/fill');
+      console.log(result.data._id);
      }
-     console.log(location);
   if(!service)
   {
       return <ActivityIndicator color='yellow'></ActivityIndicator>

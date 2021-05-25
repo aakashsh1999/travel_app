@@ -4,7 +4,8 @@ import DatePicker from 'react-native-datepicker';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, TextInput} from 'react-native';
 import {useHistory, useLocation} from 'react-router';
 import Stepper from './Stepper';
-import AsyncStorage from '@react-native-async-storage/async-storage';import ButtonBar from '../../component/ButtonBar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import ButtonBar from '../../component/ButtonBar';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
 import CardHeader from '../../component/CardHeader';
@@ -43,7 +44,7 @@ export default FillDetails= () =>{
     }
     const handleSubmitForm = async () => {
     const requestId = await AsyncStorage.getItem("applicationId");
-    const url = `http://13.234.123.221/api/service//fill/${requestId}`;
+    const url = `http://13.234.123.221/api/service/fill/${requestId}`;
         console.log(requestId);
         console.log(jsonPostData);
         const result = await (await fetch(url, {
@@ -93,8 +94,8 @@ export default FillDetails= () =>{
                         mode="date"
                         placeholder="Choose date of Birth"
                         format="YYYY-MM-DD"
-                        minDate="2016-05-01"
-                        maxDate="2016-06-01"
+                        minDate="1950-01-01"
+                        maxDate="2021-01-01"
                         confirmBtnText="Confirm"
                         cancelBtnText="Cancel"
                         customStyles={{

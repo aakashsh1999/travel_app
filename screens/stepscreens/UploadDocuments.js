@@ -8,8 +8,8 @@ import * as DocumentPicker from 'expo-document-picker';
 import CardHeader from '../../component/CardHeader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
 export default UploadDocuments  = () =>{
+
     const selectFile = async () => {
         try {
           const file = await DocumentPicker.getDocumentAsync({
@@ -20,7 +20,8 @@ export default UploadDocuments  = () =>{
     
           if (file.type === "success") {
             setFile(file);
-            setfilename(file.name);
+            setfilename('abc');
+            console.log(file)
           }
     
         } catch (err) {
@@ -28,14 +29,13 @@ export default UploadDocuments  = () =>{
           console.log("error", err);
     
         }
-      };
-
+      }
+    let token, requestId;
     const [fileName, setfilename] = React.useState("");
     const [file, setFile] = React.useState(null);
     const [docsArray, updateMyArray] = React.useState([]);
     const history = useHistory();
     const [services, setService] = React.useState(null);
-
     React.useEffect(() => {
         getServices();
     }, []);
@@ -43,6 +43,7 @@ export default UploadDocuments  = () =>{
     //Getting the List of Document
     const getServices = async () => { 
     const slug =await AsyncStorage.getItem("serviceSlug");
+
     const service_url = `http://13.234.123.221/api/serviceCategory/${slug}`;
         const service = await (await fetch(service_url, { method: "GET" })).json();
         const serviceData = service.data;
@@ -51,19 +52,22 @@ export default UploadDocuments  = () =>{
     }
     //Uploading the File
     const uploadWithFormData = async () => {
-    const requestId =await AsyncStorage.getItem("applicationId");
+    token = await AsyncStorage.getItem('token');
+    requestId = await AsyncStorage.getItem('applicationId');
     const url = `http://13.234.123.221/api/service/upload/${requestId}`;
+    console.log(url);
         console.log(file, fileName);
         const formData = new FormData();
         formData.append("file", file);
         formData.append("name", fileName);
-        console.log(...formData);
+        console.log(formData);
         const result = await (await fetch(url, {
             method: 'PUT',
-            headers:{'x-access-token':await AsyncStorage.getItem("token")},
+            headers:{
+                'Content-Type': 'multipart/form-data',
+                'x-access-token': token},
             body: formData
         })).json();
-       
       if(result.status===1){
       alert('File uploaded Successfully.');
       history.push("/book");
@@ -82,7 +86,7 @@ export default UploadDocuments  = () =>{
                 <Text style={{textAlign:'center',marginTop:10, fontSize:16, color:'#9d9494'}}>{!file ? 'Upload file(s) from your computer': file.name}</Text>
                 </TouchableOpacity>
                 </View>
-                <Button rounded style={style.button} onPress={uploadWithFormData}> 
+                <Button rounded style={style.button} onPress={() => uploadWithFormData()}> 
                     <Text style={{fontWeight:'bold', fontSize:15, color:"#000"}}>UPLOAD</Text>
                 </Button>
                 </View>

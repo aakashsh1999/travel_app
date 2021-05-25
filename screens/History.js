@@ -6,6 +6,7 @@ import NoData from '../component/NoData';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 export default History = () =>{
     let history= useHistory();
+    let p=1;
     const [application, setApplication] = React.useState([]);
     useEffect(() => {
         getData();
@@ -28,6 +29,24 @@ const getData = async () =>{
     console.log(application);
     setApplication(application.data || []);
     }
+
+    const pageClick = async () => {
+        const id =await AsyncStorage.getItem('id');
+        p+=1;
+        const app = await (await fetch(`http://13.234.123.221/api/service/application/${id}?page=${p}`, { method: "GET",
+        headers: {
+          "x-access-token": await AsyncStorage.getItem("token"),
+        }})).json();
+        setApplication((application.concat(app.data)) || []);
+      };
+
+
+    function dateFormat(d) {
+        const date = new Date(d).toLocaleString();
+        const [b, month, a, dayDate, c, year] = date.split(" ");
+        return `${dayDate} ${month} ${year}`;
+      };
+    
         return (
         <ScrollView style={{backgroundColor:'#fff'}}>
          <View style={{marginTop:20,margin:16}}>
@@ -47,7 +66,7 @@ const getData = async () =>{
                     <Text style={{fontSize:12, color:'#9d9494'}}>Service name</Text>
                     <Text style={style.itemText}>{data.serviceCategory && data.serviceCategory.name}</Text>
                     </View>
-                    <TouchableOpacity onPress={()=>history.push('/application')}>
+                    <TouchableOpacity onPress={()=>history.push(`/application/${data._id}`)}>
                     <View style={{flexDirection:'row', alignItems:'center', marginTop:25}}>
                         <Text style={{fontSize:12, fontWeight:'bold'}}>View Details</Text>
                         <Icon type='Feather' name='chevron-right'/>
@@ -57,7 +76,7 @@ const getData = async () =>{
                 <View style={{ flexDirection:'row', paddingLeft:15, paddingRight:15}}>   
                     <View style={{width:"33%"}}>
                     <Text style={style.itemHeading}>Date</Text>
-                    <Text style={style.itemText}>22/01/2021</Text>
+                    <Text style={style.itemText}>{dateFormat(data.serviceCategory.createdAt)}</Text>
                     </View>
                     <View style={{width:"33%", marginLeft:15}} > 
                     <Text style={style.itemHeading}>Service Id</Text>
@@ -84,9 +103,9 @@ const getData = async () =>{
                 </View>
                 </Card>
              )}   
-            {/* // <Button rounded style={style.laodingButton}>
-            //     <Text style={style.buttonText}>Load More</Text>
-            // </Button> */}
+             <Button rounded style={style.laodingButton} onPress={()=>pageClick()}>
+                <Text style={style.buttonText}>Load More</Text>
+            </Button> 
             </Content>: <NoData text='History'/>}
             </ScrollView>
         )

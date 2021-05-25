@@ -14,11 +14,11 @@ export default Payment = () =>{
             <View style={{padding:16}}>
             <Text style={style.label}>Choose payment method</Text>
             <ListItem style={{height:62, borderColor:"#f4f4f4", borderWidth:1, marginBottom:15, padding:16}}>
-                <Radio selected={true} />   
+                <Radio selected={true} selectedColor="#c7a006" color='#000' />   
                 <Text style={{fontSize:14,marginLeft:16}}>Pay via Debit Card</Text>
             </ListItem>
             <ListItem style={{height:62, borderColor:"#f4f4f4", borderWidth:1, marginBottom:15, padding:16}}>
-                <Radio selected={false} />   
+                <Radio selected={false} selectedColor="#c7a006" color='#000' />   
                 <Text style={{fontSize:14,marginLeft:16}}>Pay via Credit Card</Text>
             </ListItem>
             <ListItem style={{height:62, borderColor:"#f4f4f4", borderWidth:1, marginBottom:15, padding:16}}>
