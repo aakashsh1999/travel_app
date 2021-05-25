@@ -1,8 +1,9 @@
-import {Button, Content } from 'native-base';
-import React from 'react';
-import {View, TouchableOpacity, Text} from 'react-native';
+import {Button, Content} from 'native-base';
+import {Text, TouchableOpacity, View} from 'react-native';
+import {useHistory, useLocation} from 'react-router-dom';
+
 import {LinearGradient} from 'expo-linear-gradient';
-import {useLocation, useHistory} from 'react-router-dom';
+import React from 'react';
 import {useFonts} from 'expo-font';
 
 export default ButtonBar = () =>{
@@ -18,7 +19,6 @@ export default ButtonBar = () =>{
     const arr = ["/", "/apply", "/fill", "/upload", "/book", "/payment", "/"]
 
     React.useEffect(() => {
-        console.log(location)
         for (let i = 0; i < arr.length; i++) {
             if (arr[i] === location.pathname) {
                 setPrevPath(arr[i - 1]);

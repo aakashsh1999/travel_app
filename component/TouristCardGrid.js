@@ -1,13 +1,13 @@
-import React from 'react';
-import { StyleSheet, View, Text, Image, ActivityIndicator} from 'react-native';
-import {H3, Card , CardItem, } from 'native-base';
+import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native';
+import {Card, CardItem, H3,} from 'native-base';
+
 import { FlatGrid } from 'react-native-super-grid';
+import React from 'react';
 
 export default function TouristGrid() {
   const service_url = `http://13.234.123.221/api/serviceCategory`;
   let ser=[];
   const [service, setServices] = React.useState(null);
-  console.log(service_url);
   React.useEffect(() => {
     getServices();
   }, []);
@@ -17,7 +17,6 @@ export default function TouristGrid() {
     for(el of services.data){
       if(el.tv_type)
       ser.push(el);
-      console.log(el);  
     }
       setServices(ser);
   };

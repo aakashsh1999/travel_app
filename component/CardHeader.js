@@ -1,8 +1,10 @@
+import { Card, CardItem, H3, Icon, Left, ListItem, Right } from 'native-base';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+
 import { LinearGradient } from 'expo-linear-gradient';
-import { Icon, ListItem, Left, Right, Card, CardItem, H3 } from 'native-base';
 import React from 'react';
-import {View, Text,StyleSheet, TouchableOpacity} from 'react-native';
 import {useFonts} from 'expo-font';
+
 export default CardHeader = () =>{
   const [loaded] = useFonts({
     OpenSans: require('../assets/fonts/openSans.ttf'),
@@ -21,7 +23,6 @@ export default CardHeader = () =>{
     const serviceData = services.data;
 
     setServices(serviceData);
-    console.log(services);
   };
 
 

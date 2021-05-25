@@ -1,9 +1,11 @@
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {Button, Card, CardItem, Content, Icon, Right} from 'native-base'
 import React, {useEffect} from 'react';
-import {Content, Icon, Card, CardItem, Right, Button} from 'native-base'
-import { ScrollView, StyleSheet, View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
-import {useHistory} from 'react-router-dom';
-import NoData from '../component/NoData';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import NoData from '../component/NoData';
+import {useHistory} from 'react-router-dom';
+
 export default History = () =>{
     let history= useHistory();
     const [application, setApplication] = React.useState([]);
@@ -25,7 +27,6 @@ const getData = async () =>{
           }
         )
       ).json();
-    console.log(application);
     setApplication(application.data || []);
     }
         return (

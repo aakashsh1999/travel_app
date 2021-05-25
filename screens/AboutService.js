@@ -1,8 +1,10 @@
-import { Content, View, Container, H2, H3, List, ListItem, Icon, Body} from 'native-base';
-import React from 'react';
+import { Body, Container, Content, H2, H3, Icon, List, ListItem, View } from 'native-base';
+import { Image, ScrollView, StyleSheet, Text } from 'react-native';
+
 import {BASE_URL} from 'react-native-config';
-import { ScrollView, Text , StyleSheet, Image} from 'react-native';
+import React from 'react';
 import {useParams} from 'react-router';
+
 const AboutService  = () =>{
     const [service, setService] = React.useState({});
     const { slug } = useParams();
@@ -14,7 +16,6 @@ const AboutService  = () =>{
     const serviceData = services.data; 
 
     setService(serviceData);
-    console.log(serviceData);
          };
   return (<>
               <ScrollView style={{backgroundColor:'#fff'}}>

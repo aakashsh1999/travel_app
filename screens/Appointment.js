@@ -1,13 +1,15 @@
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {Body, Button, Card, Content, H2, H3, Icon, Left} from 'native-base';
 import React, {useEffect} from 'react';
-import {Card, Content, Icon, H3, H2, Left, Body, Button} from 'native-base';
-import { ScrollView, Text, View, StyleSheet, Image, ActivityIndicator} from 'react-native';
-import NoData from '../component/NoData';
-import {useHistory} from 'react-router-dom';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {LinearGradient} from 'expo-linear-gradient';
+import NoData from '../component/NoData';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import {useFonts} from 'expo-font';
- export default Appointment =  () =>{
+import {useHistory} from 'react-router-dom';
+
+export default Appointment =  () =>{
      
 const [loaded] = useFonts({
           Lato: require('../assets/fonts/lato.ttf'),
@@ -33,7 +35,6 @@ const getData = async () =>{
           }
         )
       ).json();
-console.log(appointment);
 setAppointment(appointment || []);
 }
 if(!appointment) {

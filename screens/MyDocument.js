@@ -1,9 +1,11 @@
+import {Body, Button, Content, H2, Header, Icon, Left, List, ListItem, Right, Switch} from 'native-base';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React,{useEffect} from 'react';
-import {Content, H2, List, ListItem, Left, Right, Body, Header,Switch,Icon, Button} from 'native-base';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ScrollView, StyleSheet, View, Text,  Image, TouchableOpacity} from 'react-native';
-import {useHistory} from 'react-router-dom';
 import {useFonts} from 'expo-font';
+import {useHistory} from 'react-router-dom';
+
 export default MyDocument = () =>{
     let history = useHistory();
     const [loaded] = useFonts({
@@ -30,7 +32,6 @@ const getData = async () =>{
           }
         )
       ).json();
-    console.log(application);
     setApplication(application);
 }
     return (<ScrollView style={{backgroundColor:'#fff'}}>
