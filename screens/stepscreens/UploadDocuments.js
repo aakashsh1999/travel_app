@@ -1,44 +1,46 @@
 import React from 'react';
 import {Icon, Body, Button, List,H3, ListItem} from 'native-base'; 
 import { ScrollView, Text, View, StyleSheet, TextInput, Touchable, TouchableOpacity } from 'react-native';
-import DocumentPicker from 'react-native-document-picker';
 import ButtonBar from '../../component/ButtonBar';
 import {useHistory} from 'react-router-dom';
 import Stepper from './Stepper';
+import * as DocumentPicker from 'expo-document-picker';
 import CardHeader from '../../component/CardHeader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default UploadDocuments  = () =>{
-
-    // try {
-    //     const res = await DocumentPicker.pick({
-    //       type: [DocumentPicker.types.allFiles],
-    //     });
-    //     console.log(
-    //       res.uri,
-    //       res.type, // mime type
-    //       res.name,
-    //       res.size
-    //     );
-    //   } catch (err) {
-    //     if (DocumentPicker.isCancel(err)) {
-    //       // User cancelled the picker, exit any dialogs or menus and move on
-    //     } else {
-    //       throw err;
-    //     }
-    //   }
+    const selectFile = async () => {
+        try {
+          const file = await DocumentPicker.getDocumentAsync({
+            copyToCacheDirectory: true,
+            multiple: false,
+            type: 'application/*'
+          });
+    
+          if (file.type === "success") {
+            setFile(file);
+            setfilename(file.name);
+          }
+    
+        } catch (err) {
+          // Expo didn't build with iCloud, expo turtle fallback
+          console.log("error", err);
+    
+        }
+      };
 
     const [fileName, setfilename] = React.useState("");
     const [file, setFile] = React.useState(null);
     const [docsArray, updateMyArray] = React.useState([]);
     const history = useHistory();
-
     const [services, setService] = React.useState(null);
+
     React.useEffect(() => {
         getServices();
     }, []);
 
+    //Getting the List of Document
     const getServices = async () => { 
     const slug =await AsyncStorage.getItem("serviceSlug");
     const service_url = `http://13.234.123.221/api/serviceCategory/${slug}`;
@@ -46,14 +48,27 @@ export default UploadDocuments  = () =>{
         const serviceData = service.data;
         setService(serviceData);
         console.log(service);
-
-    };
-    if (!services) {
-        return (<View>
-               <ButtonBar/>
-        </View>)
     }
-
+    //Uploading the File
+    const uploadWithFormData = async () => {
+    const requestId =await AsyncStorage.getItem("applicationId");
+    const url = `http://13.234.123.221/api/service/upload/${requestId}`;
+        console.log(file, fileName);
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("name", fileName);
+        console.log(...formData);
+        const result = await (await fetch(url, {
+            method: 'PUT',
+            headers:{'x-access-token':await AsyncStorage.getItem("token")},
+            body: formData
+        })).json();
+       
+      if(result.status===1){
+      alert('File uploaded Successfully.');
+      history.push("/book");
+      }
+    }
          return (
              <>
             <ScrollView>
@@ -62,22 +77,25 @@ export default UploadDocuments  = () =>{
                 <View style={{padding:16}}>
                 <View style={style.uploadContainer}>
                 <Text style={style.label, {textAlign:'center', margin:20, fontFamily:'Lato'}}>Scan and Upload Documents</Text>
-                <TouchableOpacity>
-                <Text style={style.input}>Upload file(s) from your computer</Text>
+                <View style={style.uploadInput}>
+                <TouchableOpacity onPress={async () => await selectFile()}>
+                <Text style={{textAlign:'center',marginTop:10, fontSize:16, color:'#9d9494'}}>{!file ? 'Upload file(s) from your computer': file.name}</Text>
                 </TouchableOpacity>
-                <Button rounded style={style.button}> 
-                    <Text style={{fontWeight:'bold', fontSize:15}}>UPLOAD</Text>
+                </View>
+                <Button rounded style={style.button} onPress={uploadWithFormData}> 
+                    <Text style={{fontWeight:'bold', fontSize:15, color:"#000"}}>UPLOAD</Text>
                 </Button>
                 </View>
                 <View style={{marginTop:40, marginBottom:40}}>
                 <Text style={style.label}>Documents Required</Text>
-                {services.serviceDetail && services.serviceDetail.reqDocs.map((data, index)=> <ListItem style={{height:52, borderBottomColor:'#fff'}} key={index}>
+                {services ?  (services.serviceDetail && services.serviceDetail.reqDocs.map((data, index)=> <ListItem style={{height:52, borderBottomColor:'#fff'}} key={index}>
                     <Icon type='Feather' name='square' style={style.iconStyle}/>
                     <Body>
                     <Text style={{fontSize:14,marginLeft:16, color:'#9d9494'}}>{data}</Text>
                     </Body>
                     </ListItem>
-                         )}
+                 )) : (<Text style={{fontSize:14, fontWeight:'bold', marginTop:10}}>Sorry! You don't have any previous document.</Text>)
+                         }
                     </View>
                     </View>
             </ScrollView>
@@ -120,5 +138,12 @@ const style= StyleSheet.create({
         marginBottom:10,
         textAlign:'center',
         fontFamily:"Lato"
-    }
+    },
+    uploadInput:{
+        height:40,
+        borderColor:'#e9e9e9',
+        borderWidth:1,
+        paddingLeft:15,
+        marginBottom:20
+    },
 });

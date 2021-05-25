@@ -73,7 +73,6 @@ export default ApplyNow = () =>{
                         )}
                    </List>
         </ScrollView>  
-        <CardHeader/>
         <ButtonBar/>
       </>
     )

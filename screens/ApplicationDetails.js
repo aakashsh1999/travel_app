@@ -207,7 +207,7 @@ const style =StyleSheet.create({
     }, 
     stepIndicator:{flexDirection:'row', alignItems:'center', marginBottom:10, marginTop:10},
     iconStyle:{
-        rotation:135,
+        transform:[{rotate:'135deg'}],
         fontSize:10,  backgroundColor:"#9d9494", color:"#9d9494"
     },
     label:{

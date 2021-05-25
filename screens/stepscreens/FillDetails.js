@@ -55,10 +55,8 @@ export default FillDetails= () =>{
             },
             body: JSON.stringify(jsonPostData)
         })).json();
-        console.log(result);
+        alert('Details saved successfully');
         history.push("/upload");
-
-
     }
     if (!user) {
         <ActivityIndicator color='yellow'></ActivityIndicator>
