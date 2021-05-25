@@ -9,9 +9,23 @@ import CardHeader from '../../component/CardHeader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default UploadDocuments  = () =>{
+    let token, requestId;
+    
+    const [file, setFile] = React.useState(null);
+    const [docsArray, updateMyArray] = React.useState([]);
+    const history = useHistory();
+    const [services, setService] = React.useState(null);
+    React.useEffect(() => {
+        getServices();
+    }, []);
 
     const selectFile = async () => {
         try {
+
+            token = await AsyncStorage.getItem('token');
+            requestId = await AsyncStorage.getItem('applicationId');
+            const url = `http://13.234.123.221/api/service/upload/${requestId}`;
+
           const file = await DocumentPicker.getDocumentAsync({
             copyToCacheDirectory: true,
             multiple: false,
@@ -20,8 +34,7 @@ export default UploadDocuments  = () =>{
     
           if (file.type === "success") {
             setFile(file);
-            setfilename('abc');
-            console.log(file)
+            console.log('file: '+JSON.stringify(file));
           }
     
         } catch (err) {
@@ -30,15 +43,7 @@ export default UploadDocuments  = () =>{
     
         }
       }
-    let token, requestId;
-    const [fileName, setfilename] = React.useState("");
-    const [file, setFile] = React.useState(null);
-    const [docsArray, updateMyArray] = React.useState([]);
-    const history = useHistory();
-    const [services, setService] = React.useState(null);
-    React.useEffect(() => {
-        getServices();
-    }, []);
+   
 
     //Getting the List of Document
     const getServices = async () => { 
@@ -52,15 +57,10 @@ export default UploadDocuments  = () =>{
     }
     //Uploading the File
     const uploadWithFormData = async () => {
-    token = await AsyncStorage.getItem('token');
-    requestId = await AsyncStorage.getItem('applicationId');
-    const url = `http://13.234.123.221/api/service/upload/${requestId}`;
-    console.log(url);
-        console.log(file, fileName);
+   
         const formData = new FormData();
         formData.append("file", file);
         formData.append("name", fileName);
-        console.log(formData);
         const result = await (await fetch(url, {
             method: 'PUT',
             headers:{
@@ -68,6 +68,7 @@ export default UploadDocuments  = () =>{
                 'x-access-token': token},
             body: formData
         })).json();
+        
       if(result.status===1){
       alert('File uploaded Successfully.');
       history.push("/book");
