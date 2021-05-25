@@ -21,7 +21,6 @@ export default UploadDocuments  = () =>{
 
     const selectFile = async () => {
         try {
-
             token = await AsyncStorage.getItem('token');
             requestId = await AsyncStorage.getItem('applicationId');
             const url = `http://13.234.123.221/api/service/upload/${requestId}`;
