@@ -1,9 +1,9 @@
 import { Card, CardItem, H3, Icon, Left, ListItem, Right } from 'native-base';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import {useFonts} from 'expo-font';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default CardHeader = () =>{
   const [loaded] = useFonts({
     OpenSans: require('../assets/fonts/openSans.ttf'),
@@ -21,7 +21,7 @@ export default CardHeader = () =>{
     const serviceName = await AsyncStorage.getItem("serviceName");
     const services = await (await fetch(service_url, { method: "GET" })).json();
     const serviceData = services.data;
-
+    console.log(serviceData);
     setServices(serviceData);
   };
 
@@ -45,26 +45,26 @@ return (
                           <View style={{width:120 }}>
                           <Text style={ style.itemHeading}>Processing Time:</Text>
                           </View>
-                          <Text style={style.itemText}>{service[0].processT} Hours</Text>
+                          <Text style={style.itemText}>{service[0].serviceDetail.processT} Hours</Text>
                           </View>
                           <View style={{flexDirection:'row', alignItems:'baseline', width:"100%", marginBottom:20} } >
                             <View style={{width:120}}>
                           <Text style={style.itemHeading}>Stay Period:</Text>
                           </View>
-                          <Text style={style.itemText}>{service[0].stay} days</Text>
+                          <Text style={style.itemText}>{service[0].serviceDetail.stay} days</Text>
                           </View>
                           <View style={{flexDirection:'row', alignItems:'baseline', width:"100%", marginBottom:20} } >
                             <View style={{width:120}}>
                           <Text style={style.itemHeading}>Validity:</Text>
                           </View>
-                          <Text style={style.itemText}>{service[0].validity} days</Text>
+                          <Text style={style.itemText}>{service[0].serviceDetail.validity} days</Text>
                           </View>
                 
                           <View style={{flexDirection:'row', alignItems:'baseline', width:"100%", marginBottom:20} } >
                           <View style={{width:120}}>
                           <Text style={style.itemHeading}>Entry:</Text>
                           </View>
-                          <Text style={style.itemText}>{service[0].entry}</Text>
+                          <Text style={style.itemText}>{service[0].serviceDetail.entry}</Text>
                           </View>
                         </CardItem>
           </Card> 

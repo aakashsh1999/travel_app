@@ -14,7 +14,7 @@ export default FillDetails= () =>{
     const history = useHistory();
     if (!AsyncStorage.getItem("token") && !AsyncStorage.getItem("id"))
     history.push("/login");
-    const [validation, setValidation] = React.useState(false);
+    const [validation, setValidation] = React.useState(true);
     const [user, setUser] = React.useState('');   
     const [name, setName] = React.useState(null);
     const [dob, setDob] = React.useState(new Date());
@@ -66,14 +66,16 @@ export default FillDetails= () =>{
         <ScrollView style={{backgroundColor:'#fff'}}>
             <H3 style={style.heading}>Fill Details</H3>
             <Stepper active='/fill'/>
-            <View style={{padding:16    }}>
+            {validation ?
+            <View style={{padding:16}}>
             {name === "" ||  dob === "" ||  type === "" || alias == "", lineOne === "" || lineTwo === "" || state === "" ||  city=== "" || pincode === "" || country==="" ?<View style={{width:"100%", backgroundColor:'rgba(229, 24, 26, 0.1)', borderRadius:5, flexDirection:'row', alignItems:'center',padding:8, marginBottom:10}}>
-                <Icon type='Feather' name='x'/>
+                <Icon type='Feather' name='x' onPress={()=>setValidation(false)}/>
                   <Text style={{marginLeft:10, color:'#e5181a', fontSize:15, fontFamily:'Lato'}}>Please fill all the mandatory fields in order to proceed and complete the application request.</Text>
                 </View>
                 : null
               }
-            </View>
+            </View>: null
+            }
             <View style={{flexDirection:'row', marginTop:25, paddingLeft:16, paddingRight:16}}>
                 <View style={{flexDirection:'row', alignItems:'center'}}>
                 <Radio onPress={() => setType('self')} selected={type === 'self'} selectedColor="#c7a006" color='#000' />
