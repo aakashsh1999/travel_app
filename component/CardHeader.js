@@ -1,10 +1,9 @@
+import { Card, CardItem, H3, Icon, Left, ListItem, Right } from 'native-base';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+
 import { LinearGradient } from 'expo-linear-gradient';
-import { Icon, ListItem, Left, Right, Card, CardItem, H3 } from 'native-base';
 import React from 'react';
-import {View, Text,StyleSheet, TouchableOpacity} from 'react-native';
 import {useFonts} from 'expo-font';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createNativeWrapper } from 'react-native-gesture-handler';
 export default CardHeader = () =>{
   const [loaded] = useFonts({
     OpenSans: require('../assets/fonts/openSans.ttf'),
@@ -21,18 +20,9 @@ export default CardHeader = () =>{
   const getServices = async () => {
     const serviceName = await AsyncStorage.getItem("serviceName");
     const services = await (await fetch(service_url, { method: "GET" })).json();
-    const serviceData = services.data.map((e)=> ({
-      name: e.name,
-      processT:e.serviceDetail.processT,
-      stay: e.serviceDetail.stayPeriod,
-      validity: e.serviceDetail.validity,
-      entry: e.serviceDetail.entry,
-    })
-    );
-    let result=serviceData.filter(obj=> obj.name == serviceName);
-    setServices(result);
-    console.log(serviceName);
-    console.log(result)
+    const serviceData = services.data;
+
+    setServices(serviceData);
   };
 
 const [showCard, setShowCard] = React.useState(false);

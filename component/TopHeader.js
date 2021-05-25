@@ -1,16 +1,60 @@
-import React, { Component } from 'react';
-import {Image, StyleSheet, TouchableOpacity, View, Text} from 'react-native';
-import { Container, Header, Left, Body, Right, Button, Icon, Content} from 'native-base';
+import { Body, Drawer, Header, Icon, Left } from 'native-base';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-export default TopHeader = () => {
-    const history = useHistory();
+export default TopHeader = (props) => {
     const [showDrawer, setShowDrawer] =React.useState(false);
+    const drawer = React.useRef(null);
+    const openDrawer = () => {
+        setShowDrawer(true); 
+    };
+    const closeDrawer = () => {
+        setShowDrawer(false);
+    };
+    const SideBar = ()=>{
+        const history = useHistory();
+
+        return(
+        <View style={style.container}>
+        <View style={style.closeMenu}>
+        <TouchableOpacity onPress={()=>setShowDrawer(false)}>
+        <Icon type='Feather' name='x' style={style.Drawericon}/>
+        </TouchableOpacity>
+          <Text style={{fontSize:20, fontWeight:'bold', marginLeft:20, color:"#fff", fontFamily:'Lato'}}>Menu</Text>
+        </View>        
+        <View >     
+        <TouchableOpacity onPress={()=>{setShowDrawer(false) ; history.push('/')}}>
+        <Text style={style.menuItem}>Home</Text>  
+        </TouchableOpacity>
+        </View>
+    
+        <View >     
+        <TouchableOpacity onPress={()=>{setShowDrawer(false) ; history.push('/about')}}>
+        <Text style={style.menuItem}>About</Text>  
+        </TouchableOpacity>
+        </View>
+        <View >     
+        <TouchableOpacity onPress={()=>{setShowDrawer(false) ; history.push('/contact')}}>
+        <Text style={style.menuItem}>Contact</Text>  
+        </TouchableOpacity>
+        </View>
+        <View style={{position:'absolute',bottom:30,left:20}}>
+        <Text style={{fontSize:14, color:'#fff', fontWeight:'400', marginBottom:15, fontFamily:'Lato'}}>Copyright &copy; 2020 Askepro</Text>
+        <View style={style.bottomDetail}>
+            <Text style={style.terms}>Terms and Condition</Text>
+            <Text style={style.terms}>|</Text>
+            <Text style={style.terms}>Privacy Policy</Text></View>
+        </View>
+        </View>
+      )};
+    
     return (
-        <>
+        <Drawer ref={drawer} content={<SideBar />} onClose={()=>closeDrawer()}  open={showDrawer}>
         <Header style={style.header}>
           <Left>
-              <TouchableOpacity onPress={()=>setShowDrawer(true)}>
+              <TouchableOpacity onPress={()=>openDrawer()}>
               <Icon type="Feather" name='align-left' style={{color:'black'}} />
               </TouchableOpacity>
           </Left>
@@ -20,39 +64,8 @@ export default TopHeader = () => {
                 />
           </Body>
         </Header>
-        {showDrawer ? 
-        <View style={style.container}>
-                    <View style={style.closeMenu}>
-                    <TouchableOpacity onPress={()=>setShowDrawer(false)}>
-                    <Icon type='Feather' name='x' style={style.Drawericon}/>
-                    </TouchableOpacity>
-                      <Text style={{fontSize:20, fontWeight:'bold', marginLeft:20, color:"#fff", fontFamily:'Lato'}}>Menu</Text>
-                    </View>        
-                    <View style={{padding:20, elevation:200, zIndex:200}}>     
-                    <TouchableOpacity onPress={()=>history.push('/')}>
-                    <Text style={style.menuItem}>Home</Text>  
-                    </TouchableOpacity>
-                    </View>
-
-                    <View style={{padding:20, elevation:200, zIndex:200}}>     
-                    <TouchableOpacity onPress={()=>history.push('/about')}>
-                    <Text style={style.menuItem}>About</Text>  
-                    </TouchableOpacity>
-                    </View>
-                    <View style={{padding:20, elevation:200, zIndex:200}}>     
-                    <TouchableOpacity onPress={()=>history.push('/contact')}>
-                    <Text style={style.menuItem}>Contact</Text>  
-                    </TouchableOpacity>
-                    </View>
-                    <View style={{position:'absolute',bottom:30,left:20}}>
-                    <Text style={{fontSize:14, color:'#fff', fontWeight:'400', marginBottom:15, fontFamily:'Lato'}}>Copyright &copy; 2020 Askepro</Text>
-                    <View style={style.bottomDetail}>
-                        <Text style={style.terms}>Terms and Condition</Text>
-                        <Text style={style.terms}>|</Text>
-                        <Text style={style.terms}>Privacy Policy</Text></View>
-                    </View>
-                    </View>  : null }
-         </>
+            {props.children}
+        </Drawer>
     );
   }
 
@@ -74,10 +87,6 @@ const style =StyleSheet.create({
 
     container:{
         width:300,
-        bottom:56,
-        left:0,
-        elevation:100,
-        zIndex:100,
         height:"100%",
         backgroundColor:"#333333"
     }, 
@@ -97,7 +106,7 @@ const style =StyleSheet.create({
         fontSize:20,
         fontWeight:'bold', 
         color:"#fff", 
-        marginBottom:30,
+        margin:15,
        fontFamily:'Lato'
     }, 
     bottomDetail:{
@@ -114,3 +123,4 @@ const style =StyleSheet.create({
 
 
 });
+

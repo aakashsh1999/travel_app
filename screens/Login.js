@@ -1,13 +1,23 @@
-import React, {useState, useEffect} from 'react';
-// import Config from 'react-native-config';
-import { BASE_URL } from '../react-native.config';
-import {ImageBackground , CheckBox, StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
-import {H3, Button, Item,Icon, Body, Input, Container, Content} from 'native-base';
-import Bottombar from '../component/Bottombar';
-import {useHistory} from 'react-router-native';
+import {Body, Button, Container, Content, H3, Icon, Input, Item} from 'native-base';
+import {CheckBox, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_URL } from '../react-native.config';
+import Bottombar from '../component/Bottombar';
 import {LinearGradient} from 'expo-linear-gradient';
 import {useFonts} from 'expo-font';
+import {useHistory} from 'react-router-native';
+
+// import Config from 'react-native-config';
+
+
+
+
+
+
+
+
 
 export default Login =  () =>{     
 

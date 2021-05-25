@@ -1,6 +1,7 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
 import {Card, CardItem, H3, Icon} from 'native-base';
+import {StyleSheet, Text, View} from 'react-native';
+
+import React from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const ModalCard = (props) => {

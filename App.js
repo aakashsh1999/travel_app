@@ -1,29 +1,30 @@
+import { AndroidBackButton, NativeRouter, Route } from 'react-router-native';
 import React,{useEffect} from 'react';
-import {useFonts} from 'expo-font';
-import { AndroidBackButton, NativeRouter, Route} from 'react-router-native';
-import TopHeader from './component/TopHeader';
-import Profile from './screens/Profile';
-import Appointment from './screens/Appointment';
-import MyDocument from './screens/MyDocument';
-import Homescreen from "./screens/Homescreen";
-import CreateAccount from './screens/CreateAccount';
-import ForgetAccount from './screens/ForgetAccount';
-import Login from './screens/Login';
-import Contact from './screens/Contact';
+
 import AboutScreen from './screens/AboutScreen';
-import History from "./screens/History";
-import Stepper from "./screens/stepscreens/Stepper";
-import ApplicationDetails from './screens/ApplicationDetails';
-import ResetPassword from './screens/ResetPassword';
-import Success from './screens/stepscreens/Success';
 import AboutService from './screens/AboutService';
-import FillDetails from './screens/stepscreens/FillDetails';
+import ApplicationDetails from './screens/ApplicationDetails';
 import ApplyNow from './screens/stepscreens/ApplyNow';
-import UploadDocuments from './screens/stepscreens/UploadDocuments';
+import Appointment from './screens/Appointment';
 import BookAppointment from './screens/stepscreens/BookAppointment';
-import Payment from './screens/stepscreens/Payment'
-import SplashScreen from './component/SplashScreen'
+import Contact from './screens/Contact';
+import CreateAccount from './screens/CreateAccount';
+import FillDetails from './screens/stepscreens/FillDetails';
+import ForgetAccount from './screens/ForgetAccount';
+import History from "./screens/History";
+import Homescreen from "./screens/Homescreen";
+import Login from './screens/Login';
 import ModalCard from './component/ModalCard';
+import MyDocument from './screens/MyDocument';
+import Payment from './screens/stepscreens/Payment'
+import Profile from './screens/Profile';
+import ResetPassword from './screens/ResetPassword';
+import SplashScreen from './component/SplashScreen'
+import Stepper from "./screens/stepscreens/Stepper";
+import Success from './screens/stepscreens/Success';
+import TopHeader from './component/TopHeader';
+import UploadDocuments from './screens/stepscreens/UploadDocuments';
+import {useFonts} from 'expo-font';
 
 export default function App() {
 
@@ -44,9 +45,9 @@ export default function App() {
   return <SplashScreen/>
   }
   return (
-    <>
     <NativeRouter>
-      <TopHeader/>
+      
+      <TopHeader>
       <Route exact path="/" component={Homescreen}/>
       <Route exact path="/login" component={Login}/>
       <Route exact path="/appointment" component={Appointment}/>
@@ -68,8 +69,8 @@ export default function App() {
       <Route exact path='/stepper' component={Stepper}/>
       <Route exact path='/success' component={Success}/>
       <Route exact path='/model' component={ModalCard}/>
+    </TopHeader>
     </NativeRouter>
-  </>
   );
 }
 
