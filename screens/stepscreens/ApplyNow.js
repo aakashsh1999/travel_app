@@ -1,12 +1,11 @@
 import { Container, Content, Icon, List, ListItem, Body, Radio,H3, Left } from 'native-base';
 import React from 'react';
-import { ActivityIndicator, Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Modal, ScrollView, StyleSheet, Text, BackHandler, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useHistory, useLocation} from 'react-router-dom';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import ButtonBar from '../../component/ButtonBar';
 import Stepper from './Stepper';
-import CardHeader from '../../component/CardHeader';
 
 export default ApplyNow = () =>{
     const service_url = `http://13.234.123.221/api/serviceCategory`;
@@ -18,6 +17,19 @@ export default ApplyNow = () =>{
     React.useEffect(() => {
       getServices();
     }, []);
+
+    React.useEffect(()=>{
+      const backAction = () => {
+        history.push('/');
+         return true;
+       };
+    
+       const backHandler = BackHandler.addEventListener(
+         "hardwareBackPress",
+         backAction
+       );
+       return () => backHandler.remove();
+    });
   
     const getServices = async () => {
       const services = await (await fetch(service_url, { method: "GET" })).json();

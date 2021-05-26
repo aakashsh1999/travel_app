@@ -1,5 +1,5 @@
 import {Body, Button, Content, H2, Header, Icon, Left, List, ListItem, Right, Switch} from 'native-base';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, BackHandler } from 'react-native';
 import React,{useEffect} from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -17,6 +17,21 @@ export default MyDocument = () =>{
     useEffect(() => {
         getData();
     }, [])
+
+    
+
+React.useEffect(()=>{
+    const backAction = () => {
+      history.push('/profile');
+       return true;
+     };
+  
+     const backHandler = BackHandler.addEventListener(
+       "hardwareBackPress",
+       backAction
+     );
+     return () => backHandler.remove();
+  });
 
 const getData = async () =>{
     const id =await AsyncStorage.getItem('id');

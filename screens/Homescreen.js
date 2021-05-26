@@ -23,7 +23,6 @@ export default Homescreen = () =>{
            setIsLogin(true);
         }        
     }
-    
   useEffect(()=> {
     checkLogin();
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);

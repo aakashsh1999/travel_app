@@ -1,6 +1,6 @@
 import { Text, Icon, Radio, Body, Card, Left, Button,CardItem, H3, ListItem, List} from 'native-base';
 import React from 'react';
-import { ScrollView, View, Image, StyleSheet} from 'react-native';
+import { ScrollView, View, Image, StyleSheet, BackHandler } from 'react-native';
 import TouristGrid from '../component/TouristCardGrid';
 import {useFonts} from 'expo-font';
 import {useParams} from 'react-router';
@@ -22,6 +22,21 @@ export default ApplicationDetails = () => {
         getapplication();
     }, []);
 
+    
+
+React.useEffect(()=>{
+  const backAction = () => {
+    history.push('/history');
+     return true;
+   };
+
+   const backHandler = BackHandler.addEventListener(
+     "hardwareBackPress",
+     backAction
+   );
+   return () => backHandler.remove();
+});
+
       const getapplication = async () => {
         let application = await (
           await fetch(`http://13.234.123.221/api/admin/application/${applicationId}`, {
@@ -40,7 +55,7 @@ export default ApplicationDetails = () => {
           'key': key
         }
         const url = `http://13.234.123.221/api/users/download`
-        const resu = await (await fetch(url, {
+        const res = await (await fetch(url, {
           method: 'PUT',
           headers: {
             'Accept': 'application/json',
@@ -56,6 +71,13 @@ export default ApplicationDetails = () => {
         return `${dateArray[3]} ${dateArray[1]} ${dateArray[5]}`
       };
   
+      function dateOfBirth(){
+      let dateofBirth =  application && application.dob;
+      dateofBirth = dateofBirth.split('-');
+      let date = dateofBirth[2].split('T');
+      return `${date[0]}-${dateofBirth[1]}-${dateofBirth[0]}`
+      }
+
       if(!application)
       {
           return <View></View>
@@ -174,7 +196,7 @@ export default ApplicationDetails = () => {
                     </View>
                     <View>
                     <Text style={style.infoHeading}>Date of Birth</Text>
-                    <Text style={style.infoText}>{application.dob}</Text>
+                    <Text style={style.infoText}>{dateOfBirth(application.dob)}</Text>
                     </View>
                     <View>
                     <Text style={style.infoHeading}>Address</Text>

@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, Text, StyleSheet, View, Image, TextInput, TouchableOpacity } from "react-native";
+import { ScrollView, Text, StyleSheet, View, Image, TextInput, TouchableOpacity, BackHandler } from "react-native";
 import MapView from 'react-native-maps';
 import {
   H2,
@@ -17,9 +17,22 @@ import {
 import {LinearGradient} from 'expo-linear-gradient';
 import { useFonts } from 'expo-font'; 
 import { useHistory } from "react-router";
-import {BASE_URL} from 'react-native-config';
 
 export default Contact = () => {
+
+React.useEffect(()=>{
+  const backAction = () => {
+    history.push('/');
+     return true;
+   };
+
+   const backHandler = BackHandler.addEventListener(
+     "hardwareBackPress",
+     backAction
+   );
+   return () => backHandler.remove();
+});
+
  
   const [loaded] = useFonts({
     OpenSans: require('../assets/fonts/openSans.ttf'),
@@ -33,8 +46,13 @@ export default Contact = () => {
   const [query, setQuery] = React.useState(null);
 
   const createContact = async () => {
-    const jsonData= {'name':name, 'email':email, 'query':query};
-    const res = await ( await fetch(url, {
+    if(name === null || email === null || query === null )
+    {
+      alert('Please fill all the required fields.');
+    } 
+    else{
+      const jsonData= {'name':name, 'email':email, 'query':query};
+      const res = await ( await fetch(url, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -44,7 +62,7 @@ export default Contact = () => {
       })).json();
         history.push('/');
         alert('Query submitted successfully.')
-
+    }
   };
 
 

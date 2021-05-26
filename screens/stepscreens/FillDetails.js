@@ -1,19 +1,18 @@
 import { Container, Content, Icon, List, H3, ListItem, Body, Radio, Left, View, Picker, Form, Button} from 'native-base';
 import React from 'react';
 import DatePicker from 'react-native-datepicker';
-import { ActivityIndicator, ScrollView, StyleSheet, Text, TextInput} from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, Text, TextInput, BackHandler} from 'react-native';
 import {useHistory, useLocation} from 'react-router';
 import Stepper from './Stepper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ButtonBar from '../../component/ButtonBar';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { createNativeWrapper, TouchableOpacity } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
 import CardHeader from '../../component/CardHeader';
+import { set } from 'react-native-reanimated';
 
 export default FillDetails= () =>{
     const history = useHistory();
-    if (!AsyncStorage.getItem("token") && !AsyncStorage.getItem("id"))
-    history.push("/login");
     const [validation, setValidation] = React.useState(true);
     const [user, setUser] = React.useState('');   
     const [name, setName] = React.useState(null);
@@ -26,6 +25,42 @@ export default FillDetails= () =>{
     const [city, setCity] = React.useState("");
     const [country, setCountry] = React.useState("");
     const [pincode, setPincode] = React.useState("");
+    
+    React.useEffect(() => {
+        getUser();
+    }, []);
+    const getUser = async () => {
+        const id= await AsyncStorage.getItem("id")
+        let user = await (
+            await fetch(`http://13.234.123.221/api/users/${id}`, {
+                method: "GET",
+                headers: {
+                    "x-access-token": await AsyncStorage.getItem("token"),
+                },
+            })
+        ).json();
+        user = user.data;
+        setUser(user || []);
+    }
+
+
+    React.useEffect(()=>{
+        setTimeout(function(){
+            setValidation(true); 
+      }, 2000);
+      
+        const backAction = () => {
+          history.push('/apply');
+           return true;
+         };
+      
+         const backHandler = BackHandler.addEventListener(
+           "hardwareBackPress",
+           backAction
+         );
+         return () => backHandler.remove();
+      });
+
    
     const jsonPostData = {
         "name": name,
@@ -33,14 +68,13 @@ export default FillDetails= () =>{
         "type": type,
         "address":
         {
-
             "alias": alias,
             "addressLineOne": lineOne,
             "addressLineTwo": lineTwo,
             "state": state,
             "city": city,
             "pincode": pincode,
-            "country": country, 
+            "country": country
         }
     }
     const handleSubmitForm = async () => {
@@ -51,7 +85,7 @@ export default FillDetails= () =>{
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'x-access-token': await AsyncStorage.getItem("token")
+                'x-access-token': await AsyncStorage.getItem("token")   
             },
             body: JSON.stringify(jsonPostData)
         })).json();
@@ -88,7 +122,7 @@ export default FillDetails= () =>{
             </View>            
             <View style={{marginTop:20, paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>Name*</Text>
-                 <TextInput style={style.input} placeholder='Enter name' value={name} onChangeText={setName} />
+                 <TextInput style={style.input} placeholder='Enter name' value={name} onChangeText={setName}/>
                  <View>
                  <Text style={style.label}>Date of Birth*</Text>
                    <DatePicker
@@ -99,6 +133,7 @@ export default FillDetails= () =>{
                         maxDate="2021-01-01"
                         confirmBtnText="Confirm"
                         cancelBtnText="Cancel"
+                        value={dob}
                         customStyles={{
                         dateIcon: {
                             display:'none',
@@ -125,27 +160,33 @@ export default FillDetails= () =>{
             </View>         
                 <View style={{marginTop:20, paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>Address Line 1*</Text>
-                 <TextInput style={style.input} placeholder='Enter address line 1' value={lineOne} onChangeText={setLineOne}  />
+                 <TextInput style={style.input} placeholder='Enter address line 1' value={lineOne} onChangeText={setLineOne} defaultValue={user.address && user.address.addressLineOne}/>
                 </View>
                  <View style={{paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>Address Line 2*</Text>
-                 <TextInput style={style.input} placeholder='Enter address line 2' value={lineTwo} onChangeText={setLineTwo}/>
+                 <TextInput style={style.input} placeholder='Enter address line 2' value={lineTwo}  onChangeText={setLineTwo} />
                 </View>    
                 
                 <View style={{paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>City*</Text>
-                 <TextInput style={style.input} placeholder='Enter city' value={city} onChangeText={setCity}/>
+                 <TextInput style={style.input} placeholder='Enter city' value={city} onChangeText={setCity} />
                 </View>    
+
+                <View style={{paddingLeft:16, paddingRight:16,}}>
+                 <Text style={style.label}>State</Text>
+                 <TextInput style={style.input} placeholder='Enter city' value={state} onChangeText={setState} />
+                </View>    
+
                 <View style={{paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>PIN Code*</Text>
-                 <TextInput style={style.input} placeholder='Enter pin code' value={pincode} onChangeText={setPincode}/>
+                 <TextInput style={style.input} placeholder='Enter pin code' value={pincode} onChangeText={setPincode} />
                </View>    
 
                <View style={{marginBottom:20, paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>Country*</Text>
-                 <TextInput style={style.input} placeholder='Enter country name' value={country} onChangeText={setCountry}/>
+                 <TextInput style={style.input} placeholder='Enter country name' value={country} onChangeText={setCountry} />
                 </View>    
-                <TouchableOpacity onPress={()=>handleSubmitForm()}>
+                <TouchableOpacity onPress={handleSubmitForm}>
                 <LinearGradient  colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5] } style={{width:137, height:38, borderRadius:50, alignSelf:'center', marginBottom:20}}>
                     <Text style={{fontWeight:'bold', textAlign:'center', fontSize:14, marginTop:9}}>SAVE</Text></LinearGradient>
                 </TouchableOpacity>

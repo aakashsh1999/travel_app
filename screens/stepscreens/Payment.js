@@ -1,11 +1,25 @@
 import { View, List, ListItem, Body, Icon, H3, Radio } from 'native-base';
 import React from 'react';
-import { ScrollView, StyleSheet, Text} from 'react-native';
+import { ScrollView, StyleSheet, Text, BackHandler} from 'react-native';
 import ButtonBar from '../../component/ButtonBar';
 import Stepper from './Stepper';
 import CardHeader  from '../../component/CardHeader';
-
+import {useHistory} from 'react-router-dom';
 export default Payment = () =>{
+const history=useHistory();
+    React.useEffect(()=>{
+        const backAction = () => {
+          history.push('/book');
+           return true;
+         };
+      
+         const backHandler = BackHandler.addEventListener(
+           "hardwareBackPress",
+           backAction
+         );
+         return () => backHandler.remove();
+      });
+
     return (
         <>
         <ScrollView style={{backgroundColor:'#fff'}}>

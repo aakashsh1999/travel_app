@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, BackHandler } from 'react-native';
 import {Button, Card, CardItem, Content, Icon, Right} from 'native-base'
 import React, {useEffect} from 'react';
 
@@ -13,6 +13,20 @@ export default History = () =>{
     useEffect(() => {
         getData();
     }, [])
+    
+
+React.useEffect(()=>{
+    const backAction = () => {
+      history.push('/profile');
+       return true;
+     };
+  
+     const backHandler = BackHandler.addEventListener(
+       "hardwareBackPress",
+       backAction
+     );
+     return () => backHandler.remove();
+  });
 
 const getData = async () =>{
     const id =await AsyncStorage.getItem('id');

@@ -1,5 +1,5 @@
 import React from 'react';
-import {ImageBackground , CheckBox, StyleSheet, Text, View, TextInput, TouchableNativeFeedback, TouchableOpacity} from 'react-native';
+import {ImageBackground , CheckBox, StyleSheet, Text, View, TextInput, BackHandler, TouchableOpacity} from 'react-native';
 import {H3, Button, Item, Body, Input, Content} from 'native-base';
 import PhoneInput from "react-native-phone-number-input";
 import Bottombar from '../component/Bottombar';
@@ -28,8 +28,23 @@ export default CreateAccount =  () => {
               alert('Your account created successfully.')
             history.push('/login');
           }
-      
     }
+
+    
+
+React.useEffect(()=>{
+    const backAction = () => {
+      history.push('/login');
+       return true;
+     };
+  
+     const backHandler = BackHandler.addEventListener(
+       "hardwareBackPress",
+       backAction
+     );
+     return () => backHandler.remove();
+  });
+
     return(
         <>
         <Content style={style.body}>

@@ -40,7 +40,7 @@ export default function App() {
     setTimeout(Hide_Splash_Screen,5000);
     
     const backAction = () => {
-     Alert.alert("Hold on!", "Are you sure you want to go back?", [
+     Alert.alert("Hold on!", "Are you sure you want to exit App?", [
         {
           text: "Cancel",
           onPress: () => null,

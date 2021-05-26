@@ -1,5 +1,5 @@
 import React from 'react';
-import {ImageBackground , CheckBox, StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native';
+import {ImageBackground , CheckBox, StyleSheet, Text, View, TextInput, BackHandler, TouchableOpacity} from 'react-native';
 import {H3, Button, Item, Body, Input, Content} from 'native-base';
 import PhoneInput from "react-native-phone-number-input";
 import Bottombar from '../component/Bottombar';
@@ -34,13 +34,28 @@ const handleSubmit = async () =>{
 
     if (data.status==1){
     await AsyncStorage.setItem('email', data.email);
-    history.push('/reset');
+     history.push('/reset');
     }
     else{
-        alert('Please Enter a Proper Email');
+        alert('Please enter a valid Email');
     }
     
 }
+
+
+
+React.useEffect(()=>{
+    const backAction = () => {
+      history.push('/login');
+       return true;
+     };
+  
+     const backHandler = BackHandler.addEventListener(
+       "hardwareBackPress",
+       backAction
+     );
+     return () => backHandler.remove();
+  });
     return(
         <>
         <Content style={style.body}>

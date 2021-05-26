@@ -61,7 +61,7 @@ export default function TouristGrid() {
       </View>
      <View style={{ backgroundColor: '#fff', marginLeft:'37%' }}>
         <Text style={styles.gridHeading}>Fees</Text>
-        <Text style={{color:'#000', fontSize:20, fontWeight:'bold', marginTop:5, fontFamily:"OpenSans"}}>{data.serviceDetail.price}</Text>
+        <Text style={{color:'#000', fontSize:20, fontWeight:'bold', marginTop:5, fontFamily:"OpenSans"}}>{data.serviceDetail.price} AED</Text>
       </View>      
    </View>
    </CardItem>

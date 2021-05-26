@@ -1,37 +1,22 @@
 import {Body, Button, Container, Content, H3, Icon, Input, Item} from 'native-base';
 import {CheckBox, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BASE_URL } from '../react-native.config';
 import Bottombar from '../component/Bottombar';
 import {LinearGradient} from 'expo-linear-gradient';
-import {useFonts} from 'expo-font';
 import {useHistory} from 'react-router-native';
-
-// import Config from 'react-native-config';
-
-
-
-
-
-
-
-
 
 export default Login =  () =>{     
 
   const history= useHistory();
-  const url =  `${BASE_URL}/login`;
+  let response='';
+  let idData;
+  const url =  `http://13.234.123.221/api/login`;
   const [isLogin, setIsLogin] =React.useState(false);
   const [email, setEmail] = React.useState(null);
   const [password, setPassword] = React.useState(null);
-
-//   useEffect(() => {
-//       checkLogin();
-//   }, [])
-
   const handleSubmitForm = async () => {
+      
         const jsonPostData = {
         'email': email,
         'password': password
@@ -45,23 +30,29 @@ export default Login =  () =>{
         },
         body: JSON.stringify(jsonPostData)
       })).json();
+      response=res;
+      if (response.status == 1 && response.token) {
+        AsyncStorage.setItem('token', response.token);
+        idData = await (
+          await fetch(
+            `http://13.234.123.221/api/users`,
+            {
+              method: "GET",
+              headers: {
+                'x-access-token':await AsyncStorage.getItem('token'),
+              }
+            })).json();
 
-      let idData = await (
-        await fetch(
-          `http://13.234.123.221/api/users`,
-          {
-            method: "GET",
-            headers: {
-              'x-access-token': res.token
-            }
-          })).json();
-      idData = idData.data;
-      await AsyncStorage.setItem('id', idData._id);
-     
-      if (res.token) {
-        await AsyncStorage.setItem('token', res.token);
+        idData = idData.data;
+       await AsyncStorage.setItem('id', idData._id);
+        await AsyncStorage.setItem('name', idData.name);
+      }
+      if (idData !==undefined) {
         setIsLogin(true);
         history.push('/');
+      }
+      else{
+        alert('Invalid username and password. Try again!')
       }
  }
     return(

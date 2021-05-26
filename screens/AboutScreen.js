@@ -1,10 +1,25 @@
 import React from 'react';
 import {CardItem, H2, Card, Container, H3} from 'native-base';
-import {Image, Text, ScrollView, StyleSheet, View} from 'react-native';
+import {Image, Text, ScrollView,StyleSheet, View, BackHandler} from 'react-native';
 import {useFonts} from 'expo-font';
+import {useHistory} from 'react-router-dom';
 export default AboutScreen = () =>{
+    let history = useHistory();
+
+    React.useEffect(()=>{
+    const backAction = () => {
+        history.push('/');
+        return true;
+        };
     
-    const [loaded] = useFonts({
+        const backHandler = BackHandler.addEventListener(
+        "hardwareBackPress",
+        backAction
+        );
+        return () => backHandler.remove();
+    });      
+
+      const [loaded] = useFonts({
         OpenSans: require('../assets/fonts/openSans.ttf'),
         Lato: require('../assets/fonts/lato.ttf'),
       });

@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { ScrollView, StyleSheet, View, Text } from 'react-native';
+import { ScrollView, StyleSheet, View, Text, BackHandler} from 'react-native';
 import {H3} from 'native-base';
  import CalendarPicker from 'react-native-calendar-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,7 +12,20 @@ export default BookAppointment = () =>{
         let jsonData;
         const [selectedStartDate, setSelectedStartDate] = useState(null);
         const [selectedEndDate, setSelectedEndDate] = useState(null);
-      
+
+        React.useEffect(()=>{
+            const backAction = () => {
+              history.push('/upload');
+               return true;
+             };
+          
+             const backHandler = BackHandler.addEventListener(
+               "hardwareBackPress",
+               backAction
+             );
+             return () => backHandler.remove();
+          });
+
         const onDateChange = async (date, type) => {
             const requestId = await AsyncStorage.getItem("applicationId");
             const url = `http://13.234.123.221/api/service/appointment/${requestId}`;

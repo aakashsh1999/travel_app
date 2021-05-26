@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View, BackHandler } from 'react-native';
 import {Body, Button, Card, Content, H2, H3, Icon, Left} from 'native-base';
 import React, {useEffect} from 'react';
 
@@ -20,6 +20,21 @@ const [loaded] = useFonts({
     useEffect(() => {
         getData();
     }, [])
+
+    
+
+React.useEffect(()=>{
+    const backAction = () => {
+      history.push('/profile');
+       return true;
+     };
+  
+     const backHandler = BackHandler.addEventListener(
+       "hardwareBackPress",
+       backAction
+     );
+     return () => backHandler.remove();
+  });
 
 const getData = async () =>{
     const id =await AsyncStorage.getItem('id');

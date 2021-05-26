@@ -14,9 +14,9 @@ export default ResetPassword =  () => {
 
     let history= useHistory();
     const url = 'http://13.234.123.221/api/forget/password';
-    const [otp, setOtp] = React.useState('');
-    const [confirm, setConfirmPassword] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const [otp, setOtp] = React.useState(null);
+    const [confirm, setConfirmPassword] = React.useState(null);
+    const [password, setPassword] = React.useState(null);
 
     const handleSubmit = async () =>{
         const email = await AsyncStorage.getItem('email');
@@ -31,6 +31,7 @@ export default ResetPassword =  () => {
           })).json();
           if(res.status===1)
           { 
+              alert('Password changed successfully');
               history.push('/login');
           }
     }
@@ -41,6 +42,21 @@ export default ResetPassword =  () => {
             <View style={style.loginBody}>
                 <H3 style={style.title}>Reset Your Password</H3>
                 <View>
+                {password === "" ?<View style={{width:"100%", backgroundColor:'rgba(229, 24, 26, 0.1)', borderRadius:5, flexDirection:'row', alignItems:'center', height:30,  marginBottom:10}}>
+                  <Text style={{marginLeft:10, color:'#e5181a', fontSize:15, fontFamily:'Lato'}}>Please enter your password.</Text>
+                </View>
+                : null
+              }
+                 {confirm === "" ?<View style={{width:"100%", backgroundColor:'rgba(229, 24, 26, 0.1)', borderRadius:5, flexDirection:'row', alignItems:'center', height:30,  marginBottom:10}}>
+                  <Text style={{marginLeft:10, color:'#e5181a', fontSize:15, fontFamily:'Lato'}}>Please confirm your password.</Text>
+                </View>
+                : null
+              }
+                 {otp === "" ? <View style={{width:"100%", backgroundColor:'rgba(229, 24, 26, 0.1)', borderRadius:5, flexDirection:'row', alignItems:'center', height:30,  marginBottom:10}}>
+                  <Text style={{marginLeft:10, color:'#e5181a', fontSize:15, fontFamily:'Lato'}}>Please enter OTP.</Text>
+                </View>
+                : null
+              }
                 <View>
                         <Text style={style.label}>Password</Text>
                         <TextInput                       
@@ -54,7 +70,7 @@ export default ResetPassword =  () => {
                 
                 <View>
                     <Text style={style.label}>Confirm Password</Text>
-                    <TextInput style={style.input} placeholder='Re-enter your password' onChangeText={setConfirmPassword} value={confirm} textContentType='password'/>
+                    <TextInput style={style.input} placeholder='Re-enter your password' onChangeText={setConfirmPassword} value={confirm} secureTextEntry={true}/>
                 </View>
                 <View>
                     <Text style={style.label}>Enter OTP</Text>
@@ -63,7 +79,7 @@ export default ResetPassword =  () => {
 
                 </View>
                  <TouchableOpacity onPress={handleSubmit}>
-                    <LinearGradient colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={0,2.57} style={style.loginButton}>                    
+                    <LinearGradient colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={0,2.57} style={style.loginButton} secureTextEntry={true}>                    
                     <Text style={{fontSize:15, fontWeight:'bold'}}>SUBMIT</Text>
                     </LinearGradient>
                     </TouchableOpacity>

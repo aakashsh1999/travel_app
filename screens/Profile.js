@@ -1,5 +1,5 @@
 import {H2, Container, Text, Content, Card, CardItem, Left, ListItem, Icon } from 'native-base';
-import {View, Image, StyleSheet, ImageBackground, TextInput, ScrollView, TouchableOpacityComponent, ActivityIndicator} from 'react-native';
+import {View, Image, StyleSheet, ImageBackground, TextInput, ScrollView, BackHandler, TouchableOpacityComponent, ActivityIndicator} from 'react-native';
 import React, {useEffect} from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {useHistory} from 'react-router-dom';
@@ -17,6 +17,19 @@ export default Profile = () =>{
     useEffect(() => {
         getData();
     }, [])
+    
+    React.useEffect(()=>{
+      const backAction = () => {
+        history.push('/');
+         return true;
+       };
+    
+       const backHandler = BackHandler.addEventListener(
+         "hardwareBackPress",
+         backAction
+       );
+       return () => backHandler.remove();
+    });
 
 const getData = async () =>{
     const id =await AsyncStorage.getItem('id');
