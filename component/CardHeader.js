@@ -54,7 +54,7 @@ return (
                           <Text style={style.itemText}>{service[0].serviceDetail.stay} days</Text>
                           </View>
                           <View style={{flexDirection:'row', alignItems:'baseline', width:"100%", marginBottom:20} } >
-                            <View style={{width:120}}>
+                          <View style={{width:120}}>
                           <Text style={style.itemHeading}>Validity:</Text>
                           </View>
                           <Text style={style.itemText}>{service[0].serviceDetail.validity} days</Text>
