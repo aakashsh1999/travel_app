@@ -1,6 +1,6 @@
 import { AndroidBackButton, NativeRouter, Route } from 'react-router-native';
 import React,{useEffect} from 'react';
-
+import {BackHandler, Alert} from 'react-native';
 import AboutScreen from './screens/AboutScreen';
 import AboutService from './screens/AboutService';
 import ApplicationDetails from './screens/ApplicationDetails';
@@ -38,6 +38,25 @@ export default function App() {
   }  
   React.useEffect(()=>{
     setTimeout(Hide_Splash_Screen,5000);
+    
+    const backAction = () => {
+     Alert.alert("Hold on!", "Are you sure you want to go back?", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "YES", onPress: () => BackHandler.exitApp() }
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
   })
 
   if(isVisible){

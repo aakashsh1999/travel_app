@@ -1,5 +1,6 @@
 import React from "react";
 import { ScrollView, Text, StyleSheet, View, Image, TextInput, TouchableOpacity } from "react-native";
+import MapView from 'react-native-maps';
 import {
   H2,
   Container,
@@ -94,10 +95,21 @@ export default Contact = () => {
               </View>
             </ListItem>
           </Card>
-          <Image
-            source={require("../assets/map.png")}
-            style={{ marginTop: 30, marginBottom: 30 }}
-          />
+          <View style={{width:"100%", marginTop:40, marginBottom:50}}>
+            <MapView style={{width:"100%" ,height:274}}
+             initialRegion={{
+              latitude: 25.0898792,
+              longitude: 55.1460438,
+              latitudeDelta: 0.008,
+              longitudeDelta: 0.0002,
+            }}
+            > 
+          <MapView.Marker
+            coordinate= {{latitude: 25.0898792, longitude: 55.1460438}}
+            title={'Marina Crown'}
+          />       
+            </MapView>
+           </View>
         </ScrollView>
         <View style={{backgroundColor:'#000'}}>
           <View style={{ marginTop: 20, marginLeft: 16 }}>

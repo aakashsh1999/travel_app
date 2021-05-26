@@ -1,5 +1,5 @@
 import React from 'react';
-import {Icon, Body, Button, List,H3, ListItem} from 'native-base'; 
+import {Icon, Body, Button, List,H3, ListItem, Form, Picker} from 'native-base'; 
 import { ScrollView, Text, View, StyleSheet, TextInput, Touchable, TouchableOpacity } from 'react-native';
 import ButtonBar from '../../component/ButtonBar';
 import {useHistory} from 'react-router-dom';
@@ -11,8 +11,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default UploadDocuments  = () =>{
     let token, requestId;
     
-    const [docsArray, updateMyArray] = React.useState([]);
     let filename;
+    const [docsArray, updateMyArray] = React.useState([]);
     const history = useHistory();
     const [services, setService] = React.useState(null);
     React.useEffect(() => {
@@ -30,7 +30,7 @@ export default UploadDocuments  = () =>{
             multiple: false,
             type: 'application/*'
           });
-          filename=file;
+          filename=file.name;
           let formData = new FormData();
           const type = file.name.split('.');
           formData.append("name", 'pan');
@@ -45,12 +45,13 @@ export default UploadDocuments  = () =>{
                 },                
                 body: formData,
                     })
-                 
                 if(res.status===1){
+                    updateMyArray(oldArray => [...oldArray, fileName]);
                     alert('File uploaded Successfully.');
                     history.push("/book");
                 }
                 else{
+                    console.log(res.headers)
                     alert('File already Uploaded')
                     history.push('/upload');
                 }
@@ -77,6 +78,21 @@ export default UploadDocuments  = () =>{
                 <H3 style={style.heading}>Upload Documents</H3>
                 <Stepper active='/upload'/>
                 <View style={{padding:16}}>
+
+                <Form>
+            <Picker
+              mode="dropdown"
+              iosIcon={<Icon name="arrow-down" />}
+              placeholder="Choose a Document"
+             style={{ width: 100 }}
+             selectedValue={filename}
+            onValueChange={(value)=>setFilename(value)}
+            >
+             {services && 
+                services.serviceDetail.reqDocs.map((ele, index) =>  <Picker.Item label={ele} value={ele} key={index} />)}
+            </Picker>
+          </Form>
+
                 <View style={style.uploadContainer}>
                 <Text style={style.label, {textAlign:'center', margin:20, fontFamily:'Lato'}}>Scan and Upload Documents</Text>
                 <View style={style.uploadInput}>

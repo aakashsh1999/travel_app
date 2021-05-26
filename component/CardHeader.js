@@ -21,7 +21,6 @@ export default CardHeader = () =>{
     const serviceName = await AsyncStorage.getItem("serviceName");
     const services = await (await fetch(service_url, { method: "GET" })).json();
     const serviceData = services.data;
-    console.log(serviceData);
     setServices(serviceData);
   };
 
@@ -77,7 +76,7 @@ return (
               <Icon type='Feather' name='info'  style={{color:'#ffff', fontSize:18, marginLeft:14, fontWeight:'500', fontFamily:'Lato'}}/>
               </TouchableOpacity>
               </Left>
-                <Text style={{color:'#fff',fontSize:20, fontFamily:'Lato', textAlignVertical:'center'}}>300 AED</Text>
+                <Text style={{color:'#fff',fontSize:20, fontFamily:'Lato', textAlignVertical:'center'}}>{service[0].serviceDetail.price} AED</Text>
               </ListItem>
               </LinearGradient>
               <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5] }

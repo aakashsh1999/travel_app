@@ -44,8 +44,8 @@ const getData = async () =>{
 
     function dateFormat(d) {
         const date = new Date(d).toLocaleString();
-        const [b, month, dayDate, a, year, c] = date.split(" ");
-        return `${dayDate} ${month} ${year}`;
+        let dateArray =date.split(" ");
+        return `${dateArray[3]} ${dateArray[1]} ${dateArray[5]}`
       };
     
         return (
@@ -76,6 +76,7 @@ const getData = async () =>{
                 </CardItem>
                 <View style={{ flexDirection:'row', paddingLeft:15, paddingRight:15}}>   
                     <View style={{width:"33%"}}>
+        
                     <Text style={style.itemHeading}>Date</Text>
                     <Text style={style.itemText}>{dateFormat(data.serviceCategory.createdAt)}</Text>
                     </View>

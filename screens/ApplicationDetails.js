@@ -49,12 +49,12 @@ export default ApplicationDetails = () => {
           body: JSON.stringify(jsonPostData)
         })).json()
       }
-      
-    function dateFormat(d) {
-      const date = new Date(d).toLocaleString();
-      const [b, month, dayDate, a, year, c] = date.split(" ");
-      return `${dayDate} ${month} ${year}`;
-    };
+
+      function dateFormat(d) {
+        const date = new Date(d).toLocaleString();
+        let dateArray =date.split(" ");
+        return `${dateArray[3]} ${dateArray[1]} ${dateArray[5]}`
+      };
   
       if(!application)
       {
@@ -174,7 +174,7 @@ export default ApplicationDetails = () => {
                     </View>
                     <View>
                     <Text style={style.infoHeading}>Date of Birth</Text>
-                    <Text style={style.infoText}>{application.dob !=="" ? dateFormat(application.dob) : "N/A"}</Text>
+                    <Text style={style.infoText}>{application.dob}</Text>
                     </View>
                     <View>
                     <Text style={style.infoHeading}>Address</Text>
@@ -277,11 +277,11 @@ const style =StyleSheet.create({
         fontFamily:'OpenSans'
       },
       text:{color:'#000', fontSize:14, marginTop:5, fontFamily:'OpenSans'},
-      successStyle:{
+      successStyle:{  
         fontSize:14, color:'rgb(12, 190, 12)',
       },
-      successChip:{borderRadius:24, width:140, backgroundColor:'rgba(12,190,12, 0.2)', marginTop:10, paddingLeft:10, paddingRight:10},
-      pendingChip:{borderRadius:24, width:140, backgroundColor:'rgba(76, 160, 221, 0.2)', marginTop:10, paddingLeft:10, paddingRight:10},
+      successChip:{borderRadius:24, width:140, backgroundColor:'rgba(12,190,12, 0.2)', marginTop:10, paddingLeft:10, paddingRight:10, paddingBottom:5, paddingTop:5},
+      pendingChip:{borderRadius:24, width:140, backgroundColor:'rgba(76, 160, 221, 0.2)', marginTop:10, paddingLeft:10, paddingRight:10, paddingBottom:5, paddingTop:5},
       pendingStyle:{
         fontSize:14, color:'rgb(76,160,221)'
       }
