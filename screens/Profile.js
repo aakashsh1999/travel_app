@@ -117,7 +117,7 @@ if(!user && !application){
                     <View>
                     <Text style={style.infoHeading}>Address</Text>
                     <Text style={style.infoText}>{user.address && user.address.addressLineOne}</Text>
-                    <Text style={style.infoText}>{user.address && user.address.addressLineTwo}</Text>
+                    <Text style={style.infoText}>{user.address && user.address.addressLineTwo} {user.address && user.address.city}</Text>
                     <Text style={style.infoText}>{user.address && user.address.state} {user.address && user.address.country}</Text>
                     </View>
             </Content>
@@ -128,11 +128,11 @@ if(!user && !application){
             <Text>Appointments</Text>
             </ListItem>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=> history.push('/mydocument')}>
+            {/* <TouchableOpacity onPress={()=> history.push('/mydocument')}>
             <ListItem style={style.list}>
                 <Text>My Documents</Text>
             </ListItem>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity onPress={()=> history.push('/history')}>
             <ListItem style={style.list}>
                 <Text>History</Text>

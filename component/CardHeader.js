@@ -24,7 +24,7 @@ export default CardHeader = () =>{
     setServices(serviceData);
   };
 
-const [showCard, setShowCard] = React.useState(false);
+const [showCard, setShowCard] = React.useState(null);
 if(!service)
 {
   return null

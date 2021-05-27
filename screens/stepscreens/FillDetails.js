@@ -25,25 +25,7 @@ export default FillDetails= () =>{
     const [city, setCity] = React.useState("");
     const [country, setCountry] = React.useState("");
     const [pincode, setPincode] = React.useState("");
-    
-    React.useEffect(() => {
-        getUser();
-    }, []);
-    const getUser = async () => {
-        const id= await AsyncStorage.getItem("id")
-        let user = await (
-            await fetch(`http://13.234.123.221/api/users/${id}`, {
-                method: "GET",
-                headers: {
-                    "x-access-token": await AsyncStorage.getItem("token"),
-                },
-            })
-        ).json();
-        user = user.data;
-        setUser(user || []);
-    }
-
-
+     
     React.useEffect(()=>{
         setTimeout(function(){
             setValidation(true); 

@@ -70,7 +70,7 @@ export default function App() {
       <Route exact path="/login" component={Login}/>
       <Route exact path="/appointment" component={Appointment}/>
       <Route exact path="/profile" component={Profile}/>
-      <Route exact path="/mydocument" component={MyDocument}/>
+      {/* <Route exact path="/mydocument" component={MyDocument}/>  */}
       <Route exact path="/history" component={History}/>
       <Route exact path="/apply" component={ApplyNow}/>
       <Route exact path="/about" component={AboutScreen}/>

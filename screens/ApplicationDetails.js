@@ -71,12 +71,13 @@ React.useEffect(()=>{
         return `${dateArray[3]} ${dateArray[1]} ${dateArray[5]}`
       };
   
-      function dateOfBirth(){
-      let dateofBirth =  application && application.dob;
+      function dateOfBirth(d){
+      let dateofBirth =  d;
       dateofBirth = dateofBirth.split('-');
       let date = dateofBirth[2].split('T');
       return `${date[0]}-${dateofBirth[1]}-${dateofBirth[0]}`
       }
+      console.log(application);
 
       if(!application)
       {
@@ -179,11 +180,14 @@ React.useEffect(()=>{
             <Radio selected={true} selectedColor="#c7a006"/>
             <Text style={{fontSize:12,marginLeft:10}}>Documents Uploaded</Text>
             </View>
-                <View style={{marginLeft:30, marginBottom:10, borderColor:'#e6e6e6', borderWidth:1,}}>
-                    <ListItem style={{padding:5,borderColor:'#fff'}} >
+               <View style={{marginLeft:30, marginBottom:10, borderColor:'#e6e6e6', borderWidth:1,}}>
+               {!application.docs ? ( application.docs.map((data, index)=><ListItem style={{padding:5,borderColor:'#fff'}} key={index}>
                         <Icon type='Feather' name='square' style={style.iconStyle}/>
-                        <Text style={style.listText}>No Documents found</Text>
-                    </ListItem>
+                        <Text style={style.listText}>{data}</Text>
+                    </ListItem>))
+                    : <ListItem style={{borderColor:'#fff'}}>
+                    <Text style={style.listText}>No Documents uploaded</Text>
+                    </ListItem>}
                  </View>
             <View style={style.stepIndicator}>
             <Radio selected={true} selectedColor="#c7a006"/>
@@ -196,7 +200,7 @@ React.useEffect(()=>{
                     </View>
                     <View>
                     <Text style={style.infoHeading}>Date of Birth</Text>
-                    <Text style={style.infoText}>{dateOfBirth(application.dob)}</Text>
+                    <Text style={style.infoText}>{application.dob ? dateOfBirth(application.dob) : ""}</Text>
                     </View>
                     <View>
                     <Text style={style.infoHeading}>Address</Text>

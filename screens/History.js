@@ -55,11 +55,11 @@ const getData = async () =>{
         setApplication((application.concat(app.data)) || []);
       };
 
-
+let dateArray;
     function dateFormat(d) {
         const date = new Date(d).toLocaleString();
-        let dateArray =date.split(" ");
-        return `${dateArray[3]} ${dateArray[1]} ${dateArray[5]}`
+         dateArray = date.split(" ");
+        return `${dateArray[2]} ${dateArray[1]} ${dateArray[4]}`
       };
     
         return (

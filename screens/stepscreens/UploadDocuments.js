@@ -1,6 +1,6 @@
 import React from 'react';
 import {Icon, Body, Button, List,H3, ListItem, Form, Picker, Item, Label} from 'native-base'; 
-import { ScrollView, Text, View, StyleSheet, TextInput, BackHandler, TouchableOpacity } from 'react-native';
+import { ScrollView, Text, View, StyleSheet, TextInput, BackHandler, TouchableOpacity, ActivityIndicator } from 'react-native';
 import ButtonBar from '../../component/ButtonBar';
 import {useHistory} from 'react-router-dom';
 import Stepper from './Stepper';
@@ -10,7 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default UploadDocuments  = () =>{
     let token, requestId, file;
-    const [filename, setFilename] = React.useState('');
+    const [filename, setFilename] = React.useState(null);
     const [docsArray, updateMyArray] = React.useState([]);
     const history = useHistory();
     const [services, setService] = React.useState(null);
@@ -57,17 +57,14 @@ export default UploadDocuments  = () =>{
                     'x-access-token': token
                 },                
                 body: formData,
-              });
+              })
               const response=res.json();
-              console.log(response.status);
-                 if(response.status===1){
+              console.log(response.msg);
+                 if(response.status == undefined){
                      alert('File uploaded succesfully');
                      updateMyArray(oldArray => [...oldArray, filename]);
                      history.push('/book');
                  }
-                else{
-                    alert('File already Uploaded')
-                }
           }
     
         } catch (err) {
@@ -78,13 +75,16 @@ export default UploadDocuments  = () =>{
       //Getting the List of Document
     const getServices = async () => { 
     const slug =await AsyncStorage.getItem("serviceSlug");
-
     const service_url = `http://13.234.123.221/api/serviceCategory/${slug}`;
         const service = await (await fetch(service_url, { method: "GET" })).json();
         const serviceData = service.data;
         setService(serviceData);
     }
-         return (
+
+if(!services){
+    return <ActivityIndicator color='yellow'></ActivityIndicator>
+}
+     return (
              <>
             <ScrollView>
                 <H3 style={style.heading}>Upload Documents</H3>
@@ -99,15 +99,15 @@ export default UploadDocuments  = () =>{
              selectedValue={filename}
              onValueChange={(value)=>setFilename(value)}
             >
-             {services && 
-                services.serviceDetail.reqDocs.map((ele, index) => <Picker.Item label={ele} value={ele} key={index} />)}
+             {services.serviceDetail && 
+                services.serviceDetail.reqDocs.map((ele, index) => <Picker.Item label={ele} value={ele} key={ele} />)}
             </Picker>
           </View>   
                 <View style={style.uploadContainer}>
                 <Text style={style.label, {textAlign:'center', margin:20, fontFamily:'Lato'}}>Scan and Upload Documents</Text>
                 <View style={style.uploadInput}>
                 <TouchableOpacity onPress={async () => await selectFile()}>
-                <Text style={{textAlign:'center',marginTop:10, fontSize:16, color:'#9d9494'}}>{file ? file.name :'Upload file(s) from your computer'}</Text>
+                <Text style={{textAlign:'center',marginTop:10, fontSize:16, color:'#9d9494'}}>{'Upload file(s) from your computer'}</Text>
                 </TouchableOpacity>
                 </View>
                  {/* <Button rounded style={style.button} onPress={() => handleSubmitForm()}> 

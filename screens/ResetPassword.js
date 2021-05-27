@@ -1,5 +1,5 @@
 import React from 'react';
-import {ImageBackground , CheckBox, StyleSheet, Text, View, TextInput, TouchableNativeFeedback, TouchableOpacity} from 'react-native';
+import {ImageBackground , CheckBox, StyleSheet, Text, View, TextInput, BackHandler, TouchableNativeFeedback, TouchableOpacity} from 'react-native';
 import {H3, Button, Item, Body, Input, Content} from 'native-base';
 import Bottombar from '../component/Bottombar';
 import {Link, useHistory} from 'react-router-dom';  
@@ -20,7 +20,8 @@ export default ResetPassword =  () => {
 
     const handleSubmit = async () =>{
         const email = await AsyncStorage.getItem('email');
-        const jsonData= {'otp':parseInt(otp), 'new_password':password, 'confirm_password':confirm, 'email':email};
+        console.log(email);
+        const jsonData= {'otp': parseInt(otp), 'new_password':password, 'confirm_password':confirm, 'email':email};
         const res = await ( await fetch(url, {
             method: "POST",
             headers: {
@@ -29,12 +30,26 @@ export default ResetPassword =  () => {
             },
             body: JSON.stringify(jsonData),
           })).json();
+          console.log(res.msg);
           if(res.status===1)
           { 
-              alert('Password changed successfully');
+           alert('Password changed successfully');
               history.push('/login');
           }
     }
+    
+    React.useEffect(()=>{
+      const backAction = () => {
+        history.push('/forget');
+         return true;
+       };
+    
+       const backHandler = BackHandler.addEventListener(
+         "hardwareBackPress",
+         backAction
+       );
+       return () => backHandler.remove();
+    });
 
     return(
         <>
@@ -63,7 +78,7 @@ export default ResetPassword =  () => {
                         style={style.input}
                         onChangeText={setPassword}
                         value={password} 
-                        textContentType='password'
+                        secureTextEntry={true}
                         placeholder='Enter your password'
                         />
                 </View>

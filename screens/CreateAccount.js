@@ -24,10 +24,15 @@ export default CreateAccount =  () => {
             },
             body: JSON.stringify(jsonData)
           })).json();
+          console.log(res.msg);
           if (res.status===1) {
               alert('Your account created successfully.')
             history.push('/login');
           }
+          else
+          {
+            alert('This email/phone is already in use.')
+          }  
     }
 
     

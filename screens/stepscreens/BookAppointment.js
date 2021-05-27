@@ -11,7 +11,7 @@ export default BookAppointment = () =>{
     const history = useHistory();
         let jsonData;
         const [selectedStartDate, setSelectedStartDate] = useState(null);
-        const [selectedEndDate, setSelectedEndDate] = useState(null);
+        const [selectedEndDate, setSelectedEndDate] = useState();
 
         React.useEffect(()=>{
             const backAction = () => {
