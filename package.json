@@ -4,6 +4,7 @@
     "start": "expo start",
     "android": "expo start --android",
     "build:android": "expo build:android",
+    "build:ios": "expo build:ios",
     "login": "expo login",
     "logout": "expo logout",
     "ios": "expo start --ios",

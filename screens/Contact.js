@@ -15,10 +15,9 @@ import {
   Textarea,
 } from "native-base";
 import {LinearGradient} from 'expo-linear-gradient';
-import { useFonts } from 'expo-font'; 
-import { useHistory } from "react-router";
-
+import { useHistory } from "react-router-dom";
 export default Contact = () => {
+const history=useHistory();
 
 React.useEffect(()=>{
   const backAction = () => {
@@ -32,13 +31,6 @@ React.useEffect(()=>{
    );
    return () => backHandler.remove();
 });
-
- 
-  const [loaded] = useFonts({
-    OpenSans: require('../assets/fonts/openSans.ttf'),
-    Lato: require('../assets/fonts/lato.ttf'),
-  });
-  const history=useHistory();
 
   const url = `http://13.234.123.221/api/contact/create`;
   const [name, setName] = React.useState(null);

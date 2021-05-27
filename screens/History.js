@@ -37,7 +37,7 @@ const getData = async () =>{
           {
             method: "GET",
             headers: {
-              "x-access-token":token
+              "x-access-token":tokenx
             },
           }
         )
@@ -55,11 +55,10 @@ const getData = async () =>{
         setApplication((application.concat(app.data)) || []);
       };
 
-let dateArray;
-    function dateFormat(d) {
+      function dateFormat(d) {
         const date = new Date(d).toLocaleString();
-         dateArray = date.split(" ");
-        return `${dateArray[2]} ${dateArray[1]} ${dateArray[4]}`
+        let dateArray =date.split(" ");
+        return `${dateArray[3]} ${dateArray[1]} ${dateArray[5]}`
       };
     
         return (
