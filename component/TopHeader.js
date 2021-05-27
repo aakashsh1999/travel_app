@@ -72,7 +72,7 @@ export default TopHeader = (props) => {
 const style =StyleSheet.create({    
     body:{
         flex:1, 
-        marginLeft:77,
+        marginLeft:78,
         paddingTop:10,
         paddingBottom:10,
     },
