@@ -16,7 +16,7 @@ export default FillDetails= () =>{
     const [validation, setValidation] = React.useState(true);
     const [user, setUser] = React.useState('');   
     const [name, setName] = React.useState(null);
-    const [dob, setDob] = React.useState(new Date());
+    const [dob, setDob] = React.useState(null);
     const [type, setType] = React.useState(null);
     const [alias, setAlias] = React.useState(null);
     const [lineOne, setLineOne] = React.useState("");
@@ -58,8 +58,13 @@ export default FillDetails= () =>{
             "pincode": pincode,
             "country": country
         }
-    }
-    const handleSubmitForm = async () => {
+    }    
+const handleSubmitForm = async () => {       
+if(name === "" ||  dob === "" ||  type === "" || alias == "", lineOne === "" || lineTwo === "" || state === "" ||  city=== "" || pincode === "" || country==="")
+{
+     alert(`Fields can't be empty.`);
+}
+else{
     const requestId = await AsyncStorage.getItem("applicationId");
     const url = `http://13.234.123.221/api/service/fill/${requestId}`;
         const result = await (await fetch(url, {
@@ -73,6 +78,7 @@ export default FillDetails= () =>{
         })).json();
         alert('Details saved successfully');
         history.push("/upload");
+    }
     }
     if (!user) {
         <ActivityIndicator color='yellow'></ActivityIndicator>
@@ -107,27 +113,29 @@ export default FillDetails= () =>{
                  <TextInput style={style.input} placeholder='Enter name' value={name} onChangeText={setName}/>
                  <View>
                  <Text style={style.label}>Date of Birth*</Text>
+                 <View style={{width:"100%", borderWidth:1, borderColor:'#e6e6e6', marginBottom:10}}>
                    <DatePicker
                         mode="date"
                         placeholder="Choose date of Birth"
-                        format="YYYY-MM-DD"
-                        minDate="1950-01-01"
-                        maxDate="2021-01-01"
+                        format="DD-MM-YYYY"
+                        minDate="01-01-1950"
+                        maxDate="01-01-2021"
                         confirmBtnText="Confirm"
                         cancelBtnText="Cancel"
-                        value={dob}
+                        date={dob}
                         customStyles={{
                         dateIcon: {
                             display:'none',
                         },
                         dateInput: {
                             width:"100%",
-                            borderWidth:0
+                            borderWidth:0,       
                         }
                         // ... You can check the source to find the other keys.
                         }}
                         onDateChange={(date) =>setDob(date)}
-      />
+                    />
+                    </View>
                 </View>       
            </View>
            <View style={{flexDirection:'row', marginTop:15, justifyContent:'flex-start', paddingLeft:16, paddingRight:16,}}>
