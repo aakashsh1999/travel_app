@@ -94,7 +94,6 @@ else{
             },
             body: JSON.stringify(jsonPostData)
         })).json();
-        console.log(jsonPostData);
             alert('Details saved successfully');
            history.push("/upload");
     }

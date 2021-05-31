@@ -105,7 +105,6 @@ export default UploadDocuments  = () =>{
           ).json();
           
         application = application.data[0].docs;
-        console.log(application);
         updateMyArray(application || []);
         if(docsArray.length === 0)
         {
@@ -124,7 +123,6 @@ export default UploadDocuments  = () =>{
             })
           ).json();
           application = application.data[0].docs;
-        console.log(application);
         updateMyArray(application || []);
     }
 

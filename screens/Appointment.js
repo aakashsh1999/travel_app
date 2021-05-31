@@ -50,9 +50,6 @@ const getData = async () =>{
       ).json();
 setAppointment(appointment || []);
 }
-if(!appointment) {
-return  <ActivityIndicator size="large" color='yellow' style={{alignSelf:'center', margin:20}} />
-}
 return ( 
         <ScrollView style={{backgroundColor:'#fff'}}>
         <View style={{marginTop:20,margin:16}}>
@@ -65,7 +62,7 @@ return (
             <Image source={require('../assets/clipath.png')} />
         </View>
         <Content style={[{padding:16}]}>
-        {!appointment.data ? <ActivityIndicator color='red'/> : appointment.data.map((data)=> 
+        {!appointment.data ? <ActivityIndicator size="large" color='yellow' style={{alignSelf:'center', margin:20}} /> : appointment.data.map((data)=> 
          <Card style={style.card} key={data._id}>
             <Left>
                 <View style={style.labelBox}>

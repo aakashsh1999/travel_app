@@ -1,6 +1,6 @@
 import { Text, Icon, Radio, Body, Card, Left, Button,CardItem, H3, ListItem, List} from 'native-base';
 import React from 'react';
-import { ScrollView, View, Image, StyleSheet, BackHandler } from 'react-native';
+import { ScrollView, View, Image, StyleSheet, BackHandler, ActivityIndicator } from 'react-native';
 import TouristGrid from '../component/TouristCardGrid';
 import {useFonts} from 'expo-font';
 import {useParams} from 'react-router';

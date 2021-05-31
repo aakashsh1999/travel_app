@@ -68,10 +68,6 @@ const getData = async () =>{
         return finaldate;
       };
 
-    if(!application){
-      return  <ActivityIndicator size="large" color="yellow" style={{alignSelf:'center', margin:20}} />
-    }
-
         return (
         <ScrollView style={{backgroundColor:'#fff'}}>
          <View style={{marginTop:20,margin:16}}>
@@ -83,8 +79,8 @@ const getData = async () =>{
             </View>
             <Image source={require('../assets/clipath.png')} />
             </View>
-            {application? <Content style={{padding:16}}>
-            {!application ? <ActivityIndicator color='red'/> : application.map((data)=>
+          <Content style={{padding:16}}>
+            {!application ? <ActivityIndicator size="large" color="yellow" style={{alignSelf:'center', margin:20}} /> : application.map((data)=>
                 <Card style={style.card} key={data._id}>
                 <CardItem header style={{borderBottomColor:'#e6e6e6', borderBottomWidth:1, justifyContent:'space-between',}}>
                 <View>
@@ -132,7 +128,7 @@ const getData = async () =>{
              <Button rounded style={style.laodingButton} onPress={()=>pageClick()}>
                 <Text style={style.buttonText}>Load More</Text>
             </Button> 
-            </Content>: <NoData text='History'/>}
+            </Content>
             </ScrollView>
         )
 }
