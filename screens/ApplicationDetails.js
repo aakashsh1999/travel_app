@@ -49,9 +49,7 @@ React.useEffect(()=>{
         application = application.data[0];
         setapplication(application || []);
       }
-          
-    
-     
+
       function dateFormat(d) {
         const date = new Date(d).toLocaleString();
         let dateArray =date.split(" ");
@@ -168,9 +166,9 @@ React.useEffect(()=>{
             <Text style={{fontSize:12,marginLeft:10}}>Documents Uploaded</Text>
             </View>
                <View style={{marginLeft:30, marginBottom:10, borderColor:'#e6e6e6', borderWidth:1,}}>
-               {!application.docs ? ( application.docs.map((data, index)=><ListItem style={{padding:5,borderColor:'#fff'}} key={index}>
+               {application.docs ? ( application.docs.map((data, index)=><ListItem style={{padding:5,borderColor:'#fff'}} key={index}>
                         <Icon type='Feather' name='square' style={style.iconStyle}/>
-                        <Text style={style.listText}>{data}</Text>
+                        <Text style={style.listText}>{data.name}</Text>
                     </ListItem>))
                     : <ListItem style={{borderColor:'#fff'}}>
                     <Text style={style.listText}>No Documents uploaded</Text>

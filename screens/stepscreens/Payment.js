@@ -1,4 +1,4 @@
-import { View, List, ListItem, Body, Icon, H3, Radio } from 'native-base';
+import { View, ListItem, H3, Radio } from 'native-base';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, BackHandler, Touchable, TouchableOpacity, TouchableOpacityComponent} from 'react-native';
 import ButtonBar from '../../component/ButtonBar';

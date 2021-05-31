@@ -6,18 +6,18 @@ import {useHistory} from 'react-router-dom';
 import Stepper from './Stepper';
 import * as DocumentPicker from 'expo-document-picker';
 import CardHeader from '../../component/CardHeader';
+import {LinearGradient} from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default UploadDocuments  = () =>{
+    const history = useHistory();
+
     let token, requestId, file; 
-    const fileRef = React.useRef("");
     const [filename, setFilename] = React.useState("");
     const [docsArray, updateMyArray] = React.useState([]);
-    const history = useHistory();
     const [services, setService] = React.useState(null);
-    const [fileId, setFileId] = React.useState(null);
+    const [reqDocs, setDocs] = React.useState([]);
 
-    let reqDocslength = "";
     React.useEffect(() => {
         getServices();
     }, []);
@@ -68,12 +68,15 @@ export default UploadDocuments  = () =>{
               })
               const response=await res.json();
                  if(response.status === 1){
-                     updateMyArray(oldArray => [...oldArray, filename]);
-                     if(!fileId && fileId !== 0 )
-                     { 
-                        fileRef.current.clear();
+                     const index = reqDocs.indexOf(filename);
+                     if (index > -1 ){
+                       reqDocs.splice(index, 1);
+                       setDocs(reqDocs);
                      }
-                 }
+                     getDocuments(); 
+                     alert(`${filename} submitted succesfully.`);                    
+                     setFilename("");
+                    }
                  else{
                      alert('File already uploaded');
                  }
@@ -86,28 +89,59 @@ export default UploadDocuments  = () =>{
       }
       //Getting the List of Document
     const getServices = async () => { 
+        requestId = await AsyncStorage.getItem('applicationId');
     const slug =await AsyncStorage.getItem("serviceSlug");
     const service_url = `http://13.234.123.221/api/serviceCategory/${slug}`;
         const service = await (await fetch(service_url, { method: "GET" })).json();
         const serviceData = service.data;
+
+        let application = await (
+            await fetch(`http://13.234.123.221/api/admin/application/${requestId}`, {
+              method: "GET",
+              headers: {
+                "x-access-token": await AsyncStorage.getItem("token"),
+              },
+            })
+          ).json();
+          
+        application = application.data[0].docs;
+        console.log(application);
+        updateMyArray(application || []);
+        if(docsArray.length === 0)
+        {
+            setDocs(serviceData.serviceDetail.reqDocs);
+        }
         setService(serviceData);
     }
-    let reqDocs = services && services.serviceDetail.reqDocs;
-     reqDocslength = services && services.serviceDetail.reqDocs.length;
+
+    const getDocuments = async () =>{
+        let application = await (
+            await fetch(`http://13.234.123.221/api/admin/application/${requestId}`, {
+              method: "GET",
+              headers: {
+                "x-access-token": await AsyncStorage.getItem("token"),
+              },
+            })
+          ).json();
+          application = application.data[0].docs;
+        console.log(application);
+        updateMyArray(application || []);
+    }
+
     
-    const handleSubmitForm = () => {
-        if(docsArray.length === reqDocs.length){
-            history.push("/book");
-        }
-        else if(docsArray.length <= reqDocs.length)
-        {
-          alert('Please upload all required files.');
-        }
+//     const handleSubmitForm = () => {
+//         if(docsArray.length === reqDocs.length){
+//             history.push("/book");
+//         }
+//         else if(docsArray.length <= reqDocs.length)
+//         {
+//           alert('Please upload all required files.');
+//         }
        
-}   
+// }   
 
 
-if(!services){
+if(!services ){
     return <ActivityIndicator color='yellow'></ActivityIndicator>
 }
      return (
@@ -116,20 +150,24 @@ if(!services){
                 <H3 style={style.heading}>Upload Documents</H3>
                 <Stepper active='/upload'/>
                 <View style={{padding:16}}>
+            {docsArray.length !== services.serviceDetail.reqDocs.length ? 
+            <View>
             <Label style={style.label}>Choose a document</Label>
             <Form>
-            <Picker
+           <Picker
              mode="dropdown"
              placeholderStyle={{color:'red'}}
              iosIcon={<Icon name="arrow-down" />}
              style={{ width: "100%", height:40 }}
              selectedValue={filename}
-             onValueChange={(value, index)=>{setFilename(value); setFileId(index)}}
+             onValueChange={(value)=>{setFilename(value)}}
             >
-            <Picker.Item label="Please select a document" disabled value="" key={0}></Picker.Item>
-             {services.serviceDetail && services.serviceDetail.reqDocs.map((ele, index) => <Picker.Item label={ele} value={ele} key={index+1} ref={fileRef}/>)}
+           <Picker.Item label="Please select a document" disabled value="" key={0}></Picker.Item>
+              {reqDocs.map((ele, index) => <Picker.Item label={ele} value={ele} key={index+1}/>)}
             </Picker>
             </Form>
+            </View>
+                : null}
                 <View style={style.uploadContainer}>
                 <Text style={style.label, {textAlign:'center', margin:20, fontFamily:'Lato'}}>Scan and Upload Documents</Text>
                 <View style={style.uploadInput}>
@@ -137,34 +175,46 @@ if(!services){
                 <Text style={{textAlign:'center',marginTop:10, fontSize:16, color:'#9d9494'}}>{'Upload file(s) from your computer'}</Text>
                 </TouchableOpacity>
                 </View> 
-                 <Button rounded style={style.button} onPress={() => handleSubmitForm()}> 
+                 {/* <Button rounded style={style.button} onPress={() => handleSubmitForm()}> 
                     <Text style={{fontWeight:'bold', fontSize:15, color:"#000"}}>UPLOAD</Text>
-                </Button> 
+                </Button>  */}
                 </View>
                 <View style={{marginTop:40, marginBottom:10}}>
                 <Text style={style.label}>Documents Required</Text>
-                {services ?  (services.serviceDetail && services.serviceDetail.reqDocs.map((data, index)=> <ListItem style={{height:52, borderBottomColor:'#fff'}} key={index}>
+                {services.serviceDetail && services.serviceDetail.reqDocs.map((data, index)=> <ListItem style={{height:52, borderBottomColor:'#fff'}} key={index}>
                     <Icon type='Feather' name='square' style={style.iconStyle}/>
                     <Body>
                     <Text style={{fontSize:14,marginLeft:16, color:'#9d9494'}}>{data}</Text>
                     </Body>
-                    </ListItem>
-                 )) : (<Text style={{fontSize:14, fontWeight:'bold', marginTop:10}}>No Data</Text>)
-                         }
+                    </ListItem>)}
                     </View>
                     <View style={{marginTop:10, marginBottom:40}}>
                 <Text style={style.label}>Documents Submitted</Text>
                 {docsArray? (docsArray.map((data, index)=> <ListItem style={{height:52, borderBottomColor:'#fff'}} key={index}>
                     <Icon type='Feather' name='square' style={style.iconStyle}/>
                     <Body>
-                    <Text style={{fontSize:14,marginLeft:16, color:'#9d9494'}}>{data}</Text>
+                    <Text style={{fontSize:14,marginLeft:16, color:'#9d9494'}}>{data.name}</Text>
                     </Body>
                     </ListItem>)): <Text style={{fontSize:14, fontWeight:'bold', marginTop:10}}>Sorry! You don't have any submitted document</Text>} 
                     </View>
             </View>
             </Content>
             <CardHeader/>
-            <ButtonBar/>
+            <View style={{backgroundColor:'#fff', height:70, justifyContent:'space-between', alignItems:'center', paddingLeft:16, paddingRight:16 ,flexDirection:'row'}}>                
+                <TouchableOpacity onPress={() => history.push('/fill')}>
+                <View style={{width:137, justifyContent:'center', height:38, borderWidth:1, backgroundColor:'#fff', borderRadius:50}}>
+                 <Text style={{fontSize:15, fontWeight:'bold', fontFamily:'OpenSans', textAlign:'center'}} >PREV</Text>
+                </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() =>{
+                services.serviceDetail.reqDocs.length ===  docsArray.length ? history.push('/book') :
+                alert('Please fill all required documents!');
+                }}>
+                <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={{width:137, height:38, borderRadius:20, }}>
+                <Text style={{fontSize:15, fontWeight:'bold', fontFamily:'OpenSans', textAlign:'center',marginTop:9}}>NEXT</Text>
+                </LinearGradient>
+                </TouchableOpacity>
+                 </View>
             </>
         )
 }   

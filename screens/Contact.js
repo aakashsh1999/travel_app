@@ -3,27 +3,22 @@ import { ScrollView, Text, StyleSheet, View, Image, TextInput, TouchableOpacity,
 import MapView from 'react-native-maps';
 import {
   H2,
-  Container,
   Content,
   Card,
-  Left,
-  Right,
   Body,
-  Icon,
   ListItem,
-  Button,
   Textarea,
 } from "native-base";
 import {LinearGradient} from 'expo-linear-gradient';
 import { useHistory } from "react-router-dom";
-export default Contact = () => {
 
+export default Contact = () => {
   const url = `http://13.234.123.221/api/contact/create`;
   const [name, setName] = React.useState(null);
   const [email, setEmail] = React.useState(null);
   const [query, setQuery] = React.useState(null);
   
-const history=useHistory();
+const history = useHistory();
 
 React.useEffect(()=>{
   const backAction = () => {
