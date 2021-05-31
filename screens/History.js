@@ -67,7 +67,11 @@ const getData = async () =>{
         }
         return finaldate;
       };
-    
+
+    if(!application){
+      return  <ActivityIndicator size="large" color="yellow" style={{alignSelf:'center', margin:20}} />
+    }
+
         return (
         <ScrollView style={{backgroundColor:'#fff'}}>
          <View style={{marginTop:20,margin:16}}>

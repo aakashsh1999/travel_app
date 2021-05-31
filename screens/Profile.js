@@ -75,7 +75,7 @@ const logout = async () =>{
 }
 
 if(!user && !application){
-    return <ActivityIndicator color="yellow"/>
+  return  <ActivityIndicator size="large" color="yellow" style={{alignSelf:'center', margin:20}} />
 }
         return (
             <Container>

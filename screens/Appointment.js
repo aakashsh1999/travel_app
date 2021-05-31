@@ -1,10 +1,8 @@
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View, BackHandler } from 'react-native';
 import {Body, Button, Card, Content, H2, H3, Icon, Left} from 'native-base';
 import React, {useEffect} from 'react';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {LinearGradient} from 'expo-linear-gradient';
-import NoData from '../component/NoData';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {useFonts} from 'expo-font';
 import {useHistory} from 'react-router-dom';
@@ -53,7 +51,7 @@ const getData = async () =>{
 setAppointment(appointment || []);
 }
 if(!appointment) {
-    return <ActivityIndicator color='red'></ActivityIndicator>
+return  <ActivityIndicator size="large" color='yellow' style={{alignSelf:'center', margin:20}} />
 }
 return ( 
         <ScrollView style={{backgroundColor:'#fff'}}>

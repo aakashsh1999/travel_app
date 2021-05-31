@@ -63,18 +63,18 @@ const getUser = async () => {
 }
 
     const jsonPostData = {
-        "name": name,
+        "name": name ? name : user && user.name,
         "dob": dob,
         "type": type,
         "address":
         {
-            "alias": alias,
-            "addressLineOne": lineOne,
-            "addressLineTwo": lineTwo,
-            "state": state,
-            "city": city,
-            "pincode": pincode,
-            "country": country
+            "alias": alias? alias : user && user.address.alias,
+            "addressLineOne": lineOne ? lineOne : user && user.address.addressLineOne,
+            "addressLineTwo": lineTwo ? lineTwo : user && user.address.addressLineTwo,
+            "state": state ? state : user && user.address.state,
+            "city": city ? city : user && user.address.city,
+            "pincode": pincode ? pincode : user && user.address.pincode,
+            "country": country ? country : user && user.address.country,
         }
     }    
 const handleSubmitForm = async () => {       
@@ -94,12 +94,13 @@ else{
             },
             body: JSON.stringify(jsonPostData)
         })).json();
+        console.log(jsonPostData);
             alert('Details saved successfully');
            history.push("/upload");
     }
     }
     if (!user) {
-        <ActivityIndicator color='yellow'></ActivityIndicator>
+        return  <ActivityIndicator size="large" color="yellow" style={{alignSelf:'center', margin:20}} />
     }
     return (
         <>

@@ -18,8 +18,6 @@ export default MyDocument = () =>{
         getData();
     }, [])
 
-    
-
 React.useEffect(()=>{
     const backAction = () => {
       history.push('/profile');

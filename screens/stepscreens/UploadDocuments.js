@@ -142,7 +142,7 @@ export default UploadDocuments  = () =>{
 
 
 if(!services ){
-    return <ActivityIndicator color='yellow'></ActivityIndicator>
+      return  <ActivityIndicator size="large" color="yellow" style={{alignSelf:'center', margin:20}} />
 }
      return (
              <>
@@ -207,7 +207,7 @@ if(!services ){
                 </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() =>{
-                services.serviceDetail.reqDocs.length ===  docsArray.length ? history.push('/book') :
+                services.serviceDetail.reqDocs.length ==  docsArray.length ? history.push('/book') :
                 alert('Please fill all required documents!');
                 }}>
                 <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={{width:137, height:38, borderRadius:20, }}>

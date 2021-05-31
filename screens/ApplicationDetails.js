@@ -66,7 +66,7 @@ React.useEffect(()=>{
 
       if(!application)
       {
-          return <View></View>
+        return  <ActivityIndicator size="large" color="yellow" style={{alignSelf:'center', margin:20}} />
       }
         return (
             <>

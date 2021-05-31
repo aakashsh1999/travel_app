@@ -12,6 +12,7 @@ export default ApplyNow = () =>{
     const [service, setServices] = React.useState(null);
     const [checked, setChecked] = React.useState(null);
     const history = useHistory();
+    
     const location = useLocation();
   
     React.useEffect(() => {
@@ -63,7 +64,7 @@ export default ApplyNow = () =>{
      }
   if(!service)
   {
-      return <ActivityIndicator color='yellow'></ActivityIndicator>
+    return  <ActivityIndicator size="large" color="yellow" style={{alignSelf:'center', margin:20}} />
   }
     return (
       <>
