@@ -5,7 +5,7 @@ import PhoneInput from "react-native-phone-number-input";
 import Bottombar from '../component/Bottombar';
 import {Link, useHistory} from 'react-router-dom'
 import {LinearGradient} from 'expo-linear-gradient';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export default CreateAccount =  () => {     
     let history= useHistory();
     const url = 'http://13.234.123.221/api/create';
@@ -13,8 +13,14 @@ export default CreateAccount =  () => {
     const [phone, setPhone] = React.useState(null);
     const[email, setEmail] = React.useState(null);
     const [password, setPassword] = React.useState(null);
+    const [isEmail, setIsEmail] = React.useState(false);
 
-    const handleSubmit = async () =>{
+    const handleSubmit = async () =>{       
+       validateEmail(email);
+       if(name=="" || phone=="" || password==""){
+           alert(`Fields can't be empty!`)
+       }
+       else{
         const jsonData= {'name':name, 'email':email, 'phone':parseInt(phone), 'password':password};
         const res = await( await fetch(url, {
             method: 'POST',
@@ -24,19 +30,25 @@ export default CreateAccount =  () => {
             },
             body: JSON.stringify(jsonData)
           })).json();
-          console.log(res.msg);
           if (res.status===1) {
-              alert('Your account created successfully.')
+            alert('Your account created successfully.')
             history.push('/login');
+          } 
+          else{
+              alert('Already have an account.');
           }
-          else
-          {
-            alert('This email/phone is already in use.')
-          }  
     }
+}
 
-    
-
+    const validateEmail = (value) =>{
+        if(value!== undefined)
+        {
+            var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+            if (!pattern.test(value)) {
+                setIsEmail(true);
+            }
+        }
+    }
 React.useEffect(()=>{
     const backAction = () => {
       history.push('/login');
@@ -55,22 +67,22 @@ React.useEffect(()=>{
         <Content style={style.body}>
             <View style={style.loginBody}>
                 <H3 style={style.title}>Create An Account</H3>
-                {email==="" || password==="" || phone==="" || name==="" ?<View style={{width:"100%", backgroundColor:'rgba(229, 24, 26, 0.1)', borderRadius:5, flexDirection:'row', alignItems:'center', height:30,  marginBottom:10}}>
-                  <Text style={{marginLeft:10, color:'#e5181a', fontSize:15, fontFamily:'Lato'}}>Please fill all the details.</Text>
-                </View>
-                : null
-              }
+              <View>
+                  
                 <View>
-                <View>
-                        <Text style={style.label}>Name</Text>
+                     <Text style={style.label}>Name</Text>
                         <TextInput
                         style={style.input}
                         placeholder='Enter your name'
                         onChangeText={setName}
-                        value={name} />
-                        
-                </View>
+                        value={name} 
 
+                        />
+                      {name==="" ? <View style={{width:"100%", backgroundColor:'rgba(229, 24, 26, 0.1)', borderRadius:5, flexDirection:'row', alignItems:'center', height:30,  marginBottom:10}}>
+                        <Text style={{marginLeft:10, color:'#e5181a', fontSize:15, fontFamily:'Lato'}}>Please enter name</Text>
+                      </View>
+                      : null  }      
+                </View>
                 <View>
                     <Text style={style.label}>Mobile Number</Text>
                     <View style={{borderWidth:1, borderColor:"#e6e6e6"}}>
@@ -82,17 +94,28 @@ React.useEffect(()=>{
                         onChangeText={setPhone}
                         value={phone}
                     />
-                    </View>
+             </View>
+             {phone==="" ? <View style={{width:"100%", backgroundColor:'rgba(229, 24, 26, 0.1)', borderRadius:5, flexDirection:'row', alignItems:'center', height:30, marginTop:20}}>
+                            <Text style={{marginLeft:10, color:'#e5181a', fontSize:15, fontFamily:'Lato'}}>Please enter phone number</Text>
+                        </View>
+                        : null  }
                 </View>
-                
                 <View style={{marginTop:20}}>
                     <Text style={style.label}>Enter Email</Text>
                     <TextInput style={style.input} placeholder='Enter your email' onChangeText={setEmail} value={email}/>
                 </View>
+           {isEmail ? <View style={{width:"100%", backgroundColor:'rgba(229, 24, 26, 0.1)', borderRadius:5, flexDirection:'row', alignItems:'center', height:30,  marginBottom:10}}>
+                        <Text style={{marginLeft:10, color:'#e5181a', fontSize:15, fontFamily:'Lato'}}>Please enter a valid email.</Text>
+                      </View>
+                      : null  }
                 <View>
                     <Text style={style.label}>Enter Password</Text>
                     <TextInput style={style.input} placeholder='Enter your password' onChangeText={setPassword}  secureTextEntry={true} value={password}/>
                 </View>
+             {password ==="" ? <View style={{width:"100%", backgroundColor:'rgba(229, 24, 26, 0.1)', borderRadius:5, flexDirection:'row', alignItems:'center', height:30,  marginBottom:10}}>
+                        <Text style={{marginLeft:10, color:'#e5181a', fontSize:15, fontFamily:'Lato'}}>Please enter phone number</Text>
+                      </View>
+                      : null  }
 
                 </View>
                 <TouchableOpacity onPress={handleSubmit}>

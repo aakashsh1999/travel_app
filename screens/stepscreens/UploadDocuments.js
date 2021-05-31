@@ -10,11 +10,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default UploadDocuments  = () =>{
     let token, requestId, file; 
+    const fileRef = React.useRef("");
     const [filename, setFilename] = React.useState("");
     const [docsArray, updateMyArray] = React.useState([]);
     const history = useHistory();
     const [services, setService] = React.useState(null);
+    const [fileId, setFileId] = React.useState(null);
 
+    let reqDocslength = "";
     React.useEffect(() => {
         getServices();
     }, []);
@@ -53,7 +56,6 @@ export default UploadDocuments  = () =>{
           formData.append("name", filename);
           formData.append("file", {uri:file.uri, name:file.name, type:`application/${type[type.length-1]}`});
           }
-          console.log(formData);
     
           if (file.type === "success") {
             const res = await fetch(url, {
@@ -65,9 +67,12 @@ export default UploadDocuments  = () =>{
                 body: formData,
               })
               const response=await res.json();
-              console.log(response);
                  if(response.status === 1){
                      updateMyArray(oldArray => [...oldArray, filename]);
+                     if(!fileId && fileId !== 0 )
+                     { 
+                        fileRef.current.clear();
+                     }
                  }
                  else{
                      alert('File already uploaded');
@@ -88,8 +93,8 @@ export default UploadDocuments  = () =>{
         setService(serviceData);
     }
     let reqDocs = services && services.serviceDetail.reqDocs;
-    console.log(reqDocs)
-    console.log(docsArray.length)
+     reqDocslength = services && services.serviceDetail.reqDocs.length;
+    
     const handleSubmitForm = () => {
         if(docsArray.length === reqDocs.length){
             history.push("/book");
@@ -119,19 +124,19 @@ if(!services){
              iosIcon={<Icon name="arrow-down" />}
              style={{ width: "100%", height:40 }}
              selectedValue={filename}
-             onValueChange={(value)=>setFilename(value)}
+             onValueChange={(value, index)=>{setFilename(value); setFileId(index)}}
             >
-            <Picker.Item label={""} value={""} key={0}></Picker.Item>
-             {services.serviceDetail && services.serviceDetail.reqDocs.map((ele, index) => <Picker.Item label={ele} value={ele} key={index+1} />)}
+            <Picker.Item label="Please select a document" disabled value="" key={0}></Picker.Item>
+             {services.serviceDetail && services.serviceDetail.reqDocs.map((ele, index) => <Picker.Item label={ele} value={ele} key={index+1} ref={fileRef}/>)}
             </Picker>
             </Form>
                 <View style={style.uploadContainer}>
                 <Text style={style.label, {textAlign:'center', margin:20, fontFamily:'Lato'}}>Scan and Upload Documents</Text>
                 <View style={style.uploadInput}>
-                <TouchableOpacity onPress={async () => await selectFile()}>
+                <TouchableOpacity disabled={!filename} onPress={async () => await selectFile()}>
                 <Text style={{textAlign:'center',marginTop:10, fontSize:16, color:'#9d9494'}}>{'Upload file(s) from your computer'}</Text>
                 </TouchableOpacity>
-                </View>
+                </View> 
                  <Button rounded style={style.button} onPress={() => handleSubmitForm()}> 
                     <Text style={{fontWeight:'bold', fontSize:15, color:"#000"}}>UPLOAD</Text>
                 </Button> 
@@ -149,7 +154,7 @@ if(!services){
                     </View>
                     <View style={{marginTop:10, marginBottom:40}}>
                 <Text style={style.label}>Documents Submitted</Text>
-                {docsArray ? (docsArray.map((data, index)=> <ListItem style={{height:52, borderBottomColor:'#fff'}} key={index}>
+                {docsArray? (docsArray.map((data, index)=> <ListItem style={{height:52, borderBottomColor:'#fff'}} key={index}>
                     <Icon type='Feather' name='square' style={style.iconStyle}/>
                     <Body>
                     <Text style={{fontSize:14,marginLeft:16, color:'#9d9494'}}>{data}</Text>

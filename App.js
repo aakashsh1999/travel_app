@@ -1,6 +1,6 @@
 import { AndroidBackButton, NativeRouter, Route } from 'react-router-native';
 import React,{useEffect} from 'react';
-import {BackHandler, Alert} from 'react-native';
+import {BackHandler, Alert, LogBox} from 'react-native';
 import AboutScreen from './screens/AboutScreen';
 import AboutService from './screens/AboutService';
 import ApplicationDetails from './screens/ApplicationDetails';
@@ -24,6 +24,7 @@ import Success from './screens/stepscreens/Success';
 import TopHeader from './component/TopHeader';
 import UploadDocuments from './screens/stepscreens/UploadDocuments';
 import {useFonts} from 'expo-font';
+import _ from 'lodash';
 
 export default function App() {
 
@@ -37,7 +38,7 @@ export default function App() {
       setIsVisible(false);
   }  
   React.useEffect(()=>{
-    setTimeout(Hide_Splash_Screen,5000);
+    setTimeout(Hide_Splash_Screen,3000);
     
     const backAction = () => {
      Alert.alert("Hold on!", "Are you sure you want to exit App?", [

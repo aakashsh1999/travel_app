@@ -1,5 +1,5 @@
 import {H2, Container, Text, Content, Card, CardItem, Left, ListItem, Icon } from 'native-base';
-import {View, Image, StyleSheet, ImageBackground, TextInput, ScrollView, BackHandler, TouchableOpacityComponent, ActivityIndicator} from 'react-native';
+import {View, Image, StyleSheet, ImageBackground,  ScrollView, BackHandler, Alert, ActivityIndicator} from 'react-native';
 import React, {useEffect} from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {useHistory} from 'react-router-dom';
@@ -64,8 +64,14 @@ const getData = async () =>{
     }
 }
 const logout = async () =>{
-    await AsyncStorage.clear();
-    history.push('/login')
+  Alert.alert("Hold on!", "Are you sure you want logout?", [
+    {
+      text: "NO",
+      onPress: () => null,
+      style: "cancel"
+    },
+    { text: "YES", onPress: async () => { await AsyncStorage.clear(); history.push('/login') }}
+  ]);
 }
 
 if(!user && !application){

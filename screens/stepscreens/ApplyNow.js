@@ -4,7 +4,7 @@ import { ActivityIndicator, Modal, ScrollView, StyleSheet, Text, BackHandler, Vi
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useHistory, useLocation} from 'react-router-dom';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import ButtonBar from '../../component/ButtonBar';
+import {LinearGradient} from 'expo-linear-gradient';
 import Stepper from './Stepper';
 
 export default ApplyNow = () =>{
@@ -42,7 +42,7 @@ export default ApplyNow = () =>{
       setServices(serviceData);
     };
      const handleSubmit = async (name,slug) => {
-       setChecked(service.name);
+      setChecked(name);
       await AsyncStorage.setItem("serviceSlug",slug);
       await AsyncStorage.setItem('serviceName',name);
       const jsonPostData={
@@ -60,7 +60,6 @@ export default ApplyNow = () =>{
         body: JSON.stringify(jsonPostData)
        })).json();
       await AsyncStorage.setItem("applicationId", result.data._id);
-      history.push('/fill');
      }
   if(!service)
   {
@@ -84,7 +83,18 @@ export default ApplyNow = () =>{
                         )}
                    </List>
         </ScrollView>  
-        <ButtonBar/>
+        <View style={{backgroundColor:'#fff', height:70, justifyContent:'space-between', alignItems:'center', paddingLeft:16, paddingRight:16 ,flexDirection:'row'}}>                
+                <TouchableOpacity onPress={() => history.push('/')}>
+                <View style={{width:137, justifyContent:'center', height:38, borderWidth:1, backgroundColor:'#fff', borderRadius:50}}>
+                 <Text style={{fontSize:15, fontWeight:'bold', fontFamily:'OpenSans', textAlign:'center'}} >PREV</Text>
+                </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => checked !== null ? history.push('/fill'): alert('Please select a service.')}>
+                <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={{width:137, height:38, borderRadius:20, }}>
+                <Text style={{fontSize:15, fontWeight:'bold', fontFamily:'OpenSans', textAlign:'center',marginTop:9}}>NEXT</Text>
+                </LinearGradient>
+                </TouchableOpacity>
+                 </View>
       </>
     )
 }

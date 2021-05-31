@@ -50,34 +50,21 @@ React.useEffect(()=>{
         setapplication(application || []);
       }
           
-      const generateLink = async (key) => { 
-        const jsonPostData = {
-          'key': key
-        }
-        const url = `http://13.234.123.221/api/users/download`
-        const res = await (await fetch(url, {
-          method: 'PUT',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(jsonPostData)
-        })).json()
-      }
-
+    
+     
       function dateFormat(d) {
         const date = new Date(d).toLocaleString();
         let dateArray =date.split(" ");
-        return `${dateArray[3]} ${dateArray[1]} ${dateArray[5]}`
+        let finaldate;
+        if(dateArray.length==5)
+        {
+        finaldate = `${dateArray[2]} ${dateArray[1]} ${dateArray[4]}`
+        }
+        else{
+          finaldate= `${dateArray[3]} ${dateArray[1]} ${dateArray[5]}`
+        }
+        return finaldate;
       };
-  
-      function dateOfBirth(d){
-      let dateofBirth =  d;
-      dateofBirth = dateofBirth.split('-');
-      let date = dateofBirth[2].split('T');
-      return `${date[0]}-${dateofBirth[1]}-${dateofBirth[0]}`
-      }
-      console.log(application);
 
       if(!application)
       {
@@ -98,7 +85,7 @@ React.useEffect(()=>{
                     <View>
                     <View >
                     <Text style={style.itemHeading}>Date</Text>
-                    <Text style={style.itemText}>{dateFormat(application.serviceCategory.createdAt)}</Text>
+                    <Text style={style.itemText}>{dateFormat(application.createdAt)}</Text>
                     </View>
                     <View> 
                     <Text style={style.itemHeading}>Service Id</Text>
@@ -120,7 +107,7 @@ React.useEffect(()=>{
                     </View>
                     <View>
                     <Text style={style.itemHeading}>Amount(AED)</Text>
-                    <Text style={style.itemText}>350.00</Text>
+                    <Text style={style.itemText}>350 AED</Text>
                     </View>
                     </View>
                     </View>
@@ -200,7 +187,7 @@ React.useEffect(()=>{
                     </View>
                     <View>
                     <Text style={style.infoHeading}>Date of Birth</Text>
-                    <Text style={style.infoText}>{application.dob ? dateOfBirth(application.dob) : ""}</Text>
+                    <Text style={style.infoText}>{application.dob ? application.dob : ""}</Text>
                     </View>
                     <View>
                     <Text style={style.infoHeading}>Address</Text>

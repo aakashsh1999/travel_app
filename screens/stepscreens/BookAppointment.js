@@ -1,17 +1,18 @@
 import React,{useState} from 'react';
-import { ScrollView, StyleSheet, View, Text, BackHandler} from 'react-native';
+import { ScrollView, StyleSheet, View, Text, BackHandler, TouchableOpacity} from 'react-native';
 import {H3} from 'native-base';
  import CalendarPicker from 'react-native-calendar-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import ButtonBar from '../../component/ButtonBar';
 import {useHistory} from 'react-router-dom';
 import Stepper from './Stepper';
+import {LinearGradient} from 'expo-linear-gradient';
 import CardHeader from '../../component/CardHeader';
 export default BookAppointment = () =>{
     const history = useHistory();
         let jsonData;
+        let dates;
         const [selectedStartDate, setSelectedStartDate] = useState(null);
-        const [selectedEndDate, setSelectedEndDate] = useState();
+        const [selectedEndDate, setSelectedEndDate] = useState(null);
 
         React.useEffect(()=>{
             const backAction = () => {
@@ -34,7 +35,7 @@ export default BookAppointment = () =>{
           if (type === 'END_DATE') {
             setSelectedEndDate(date);
           } 
-          let dates = date.toString();
+           dates = date.toString();
           dates = dates.split(" ")
               jsonData = {
                  "day": dates[0],
@@ -52,7 +53,6 @@ export default BookAppointment = () =>{
                   },
                    body: JSON.stringify(jsonData)
                })).json();
-              history.push("/payment");
            } 
 
         };
@@ -87,7 +87,18 @@ export default BookAppointment = () =>{
                  </View>
             </ScrollView>
             <CardHeader/>
-            <ButtonBar/>
+            <View style={{backgroundColor:'#fff', height:70, justifyContent:'space-between', alignItems:'center', paddingLeft:16, paddingRight:16 ,flexDirection:'row'}}>                
+                <TouchableOpacity onPress={() => history.push('/upload')}>
+                <View style={{width:137, justifyContent:'center', height:38, borderWidth:1, backgroundColor:'#fff', borderRadius:50}}>
+                 <Text style={{fontSize:15, fontWeight:'bold', fontFamily:'OpenSans', textAlign:'center'}} >PREV</Text>
+                </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => dates ?  history.push('/payment') : alert('Please select appointment date.')}>
+                <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={{width:137, height:38, borderRadius:20, }}>
+                <Text style={{fontSize:15, fontWeight:'bold', fontFamily:'OpenSans', textAlign:'center',marginTop:9}}>NEXT</Text>
+                </LinearGradient>
+                </TouchableOpacity>
+                 </View>
             </>
         )
 }

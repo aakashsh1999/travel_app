@@ -9,27 +9,26 @@ import ButtonBar from '../../component/ButtonBar';
 import { createNativeWrapper, TouchableOpacity } from 'react-native-gesture-handler';
 import { LinearGradient } from 'expo-linear-gradient';
 import CardHeader from '../../component/CardHeader';
-import { set } from 'react-native-reanimated';
 
 export default FillDetails= () =>{
     const history = useHistory();
     const [validation, setValidation] = React.useState(true);
-    const [user, setUser] = React.useState('');   
+    const [user, setUser] = React.useState(null);   
     const [name, setName] = React.useState(null);
     const [dob, setDob] = React.useState(null);
     const [type, setType] = React.useState(null);
     const [alias, setAlias] = React.useState(null);
-    const [lineOne, setLineOne] = React.useState("");
-    const [lineTwo, setLineTwo] = React.useState("");
+    const [lineOne, setLineOne] = React.useState(null);
+    const [lineTwo, setLineTwo] = React.useState(null);
     const [state, setState] = React.useState(null);
-    const [city, setCity] = React.useState("");
-    const [country, setCountry] = React.useState("");
+    const [city, setCity] = React.useState(null);
+    const [country, setCountry] = React.useState(null);
     const [pincode, setPincode] = React.useState("");
      
     React.useEffect(()=>{
         setTimeout(function(){
-            setValidation(true); 
-      }, 2000);
+             setValidation(true); 
+       }, 2000);
       
         const backAction = () => {
           history.push('/apply');
@@ -43,7 +42,26 @@ export default FillDetails= () =>{
          return () => backHandler.remove();
       });
 
-   
+
+React.useEffect(()=>{
+        getUser();
+}, []);
+
+
+const getUser = async () => {
+    const id= await AsyncStorage.getItem("id")
+    let user = await (
+        await fetch(`http://13.234.123.221/api/users/${id}`, {
+            method: "GET",
+            headers: {
+                "x-access-token": await AsyncStorage.getItem("token"),
+            },
+        })
+    ).json();
+    user = user.data;
+    setUser(user);
+}
+
     const jsonPostData = {
         "name": name,
         "dob": dob,
@@ -76,8 +94,8 @@ else{
             },
             body: JSON.stringify(jsonPostData)
         })).json();
-        alert('Details saved successfully');
-        history.push("/upload");
+            alert('Details saved successfully');
+           history.push("/upload");
     }
     }
     if (!user) {
@@ -110,7 +128,7 @@ else{
             </View>            
             <View style={{marginTop:20, paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>Name*</Text>
-                 <TextInput style={style.input} placeholder='Enter name' value={name} onChangeText={setName}/>
+                 <TextInput style={style.input} placeholder='Enter name' value={name} onChangeText={setName} defaultValue={user && user.name}/>
                  <View>
                  <Text style={style.label}>Date of Birth*</Text>
                  <View style={{width:"100%", borderWidth:1, borderColor:'#e6e6e6', marginBottom:10}}>
@@ -121,7 +139,7 @@ else{
                         minDate="01-01-1950"
                         maxDate="01-01-2021"
                         confirmBtnText="Confirm"
-                        cancelBtnText="Cancel"
+                        cancelBtnText="Cancel"  
                         date={dob}
                         customStyles={{
                         dateIcon: {
@@ -150,39 +168,46 @@ else{
             </View>         
                 <View style={{marginTop:20, paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>Address Line 1*</Text>
-                 <TextInput style={style.input} placeholder='Enter address line 1' value={lineOne} onChangeText={setLineOne} defaultValue={user.address && user.address.addressLineOne}/>
+                 <TextInput style={style.input} placeholder='Enter address line 1' value={lineOne} onChangeText={setLineOne} defaultValue={ user && user.address.addressLineOne}/>
                 </View>
                  <View style={{paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>Address Line 2*</Text>
-                 <TextInput style={style.input} placeholder='Enter address line 2' value={lineTwo}  onChangeText={setLineTwo} />
+                 <TextInput style={style.input} placeholder='Enter address line 2' value={lineTwo}  onChangeText={setLineTwo} defaultValue={ user && user.address.addressLineTwo}/>
                 </View>    
                 
                 <View style={{paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>City*</Text>
-                 <TextInput style={style.input} placeholder='Enter city' value={city} onChangeText={setCity} />
+                 <TextInput style={style.input} placeholder='Enter city' value={city} onChangeText={setCity} defaultValue={ user && user.address.city}/>
                 </View>    
 
                 <View style={{paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>State</Text>
-                 <TextInput style={style.input} placeholder='Enter city' value={state} onChangeText={setState} />
+                 <TextInput style={style.input} placeholder='Enter city' value={state} onChangeText={setState} defaultValue={ user && user.address.state}/>
                 </View>    
 
                 <View style={{paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>PIN Code*</Text>
-                 <TextInput style={style.input} placeholder='Enter pin code' value={pincode} onChangeText={setPincode} />
+                 <TextInput style={style.input} placeholder='Enter pin code' value={pincode} onChangeText={setPincode} defaultValue={(user && user.address.pincode.toString())}/>
                </View>    
 
                <View style={{marginBottom:20, paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>Country*</Text>
-                 <TextInput style={style.input} placeholder='Enter country name' value={country} onChangeText={setCountry} />
+                 <TextInput style={style.input} placeholder='Enter country name' value={country} onChangeText={setCountry} defaultValue={ user && user.address.country}/>
                 </View>    
-                <TouchableOpacity onPress={handleSubmitForm}>
-                <LinearGradient  colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5] } style={{width:137, height:38, borderRadius:50, alignSelf:'center', marginBottom:20}}>
-                    <Text style={{fontWeight:'bold', textAlign:'center', fontSize:14, marginTop:9}}>SAVE</Text></LinearGradient>
-                </TouchableOpacity>
         </ScrollView>
         <CardHeader/>
-        <ButtonBar/>
+        <View style={{backgroundColor:'#fff', height:70, justifyContent:'space-between', alignItems:'center', paddingLeft:16, paddingRight:16 ,flexDirection:'row'}}> 
+        <TouchableOpacity onPress={() => history.push('/apply')}>
+                <View style={{width:137, justifyContent:'center', height:38, borderWidth:1, backgroundColor:'#fff', borderRadius:50}}>
+                 <Text style={{fontSize:15, fontWeight:'bold', fontFamily:'OpenSans', textAlign:'center'}} >PREV</Text>
+                </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleSubmitForm}>
+                <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={{width:137, height:38, borderRadius:20, }}>
+                <Text style={{fontSize:15, fontWeight:'bold', fontFamily:'OpenSans', textAlign:'center',marginTop:9}}>NEXT</Text>
+                </LinearGradient>
+            </TouchableOpacity>
+            </View>
         </>
     );
 }

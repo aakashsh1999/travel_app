@@ -1,11 +1,11 @@
 import { Body, Drawer, Header, Icon, Left } from 'native-base';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-native';
 
 export default TopHeader = (props) => {
     const [showDrawer, setShowDrawer] =React.useState(false);
+    const history = useHistory();
     const drawer = React.useRef(null);
     const openDrawer = () => {
         setShowDrawer(true); 
@@ -14,8 +14,6 @@ export default TopHeader = (props) => {
         setShowDrawer(false);
     };
     const SideBar = ()=>{
-        const history = useHistory();
-
         return(
         <View style={style.container}>
         <View style={style.closeMenu}>

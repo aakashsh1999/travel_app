@@ -37,7 +37,7 @@ const getData = async () =>{
           {
             method: "GET",
             headers: {
-              "x-access-token":tokenx
+              "x-access-token":token
             },
           }
         )
@@ -54,11 +54,18 @@ const getData = async () =>{
         }})).json();
         setApplication((application.concat(app.data)) || []);
       };
-
       function dateFormat(d) {
         const date = new Date(d).toLocaleString();
         let dateArray =date.split(" ");
-        return `${dateArray[3]} ${dateArray[1]} ${dateArray[5]}`
+        let finaldate;
+        if(dateArray.length==5)
+        {
+        finaldate = `${dateArray[2]} ${dateArray[1]} ${dateArray[4]}`
+        }
+        else{
+          finaldate= `${dateArray[3]} ${dateArray[1]} ${dateArray[5]}`
+        }
+        return finaldate;
       };
     
         return (
@@ -91,7 +98,7 @@ const getData = async () =>{
                     <View style={{width:"33%"}}>
         
                     <Text style={style.itemHeading}>Date</Text>
-                    <Text style={style.itemText}>{dateFormat(data.serviceCategory.createdAt)}</Text>
+                    <Text style={style.itemText}>{dateFormat(data.createdAt)}</Text>
                     </View>
                     <View style={{width:"33%", marginLeft:15}} > 
                     <Text style={style.itemHeading}>Service Id</Text>

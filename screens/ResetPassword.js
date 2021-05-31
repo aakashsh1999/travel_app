@@ -20,7 +20,6 @@ export default ResetPassword =  () => {
 
     const handleSubmit = async () =>{
         const email = await AsyncStorage.getItem('email');
-        console.log(email);
         const jsonData= {'otp': parseInt(otp), 'new_password':password, 'confirm_password':confirm, 'email':email};
         const res = await ( await fetch(url, {
             method: "POST",
@@ -30,7 +29,6 @@ export default ResetPassword =  () => {
             },
             body: JSON.stringify(jsonData),
           })).json();
-          console.log(res.msg);
           if(res.status===1)
           { 
            alert('Password changed successfully');

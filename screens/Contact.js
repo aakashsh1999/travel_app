@@ -17,6 +17,12 @@ import {
 import {LinearGradient} from 'expo-linear-gradient';
 import { useHistory } from "react-router-dom";
 export default Contact = () => {
+
+  const url = `http://13.234.123.221/api/contact/create`;
+  const [name, setName] = React.useState(null);
+  const [email, setEmail] = React.useState(null);
+  const [query, setQuery] = React.useState(null);
+  
 const history=useHistory();
 
 React.useEffect(()=>{
@@ -31,11 +37,6 @@ React.useEffect(()=>{
    );
    return () => backHandler.remove();
 });
-
-  const url = `http://13.234.123.221/api/contact/create`;
-  const [name, setName] = React.useState(null);
-  const [email, setEmail] = React.useState(null);
-  const [query, setQuery] = React.useState(null);
 
   const createContact = async () => {
     if(name === null || email === null || query === null )
@@ -52,14 +53,13 @@ React.useEffect(()=>{
         },
         body: JSON.stringify(jsonData),
       })).json();
-        history.push('/');
         alert('Query submitted successfully.')
+        history.push('/');
     }
   };
 
 
   return (
-    <Container>
       <Content>
         <View style={{ marginTop: 20, marginLeft: 16 }}>
           <H2 style={style.heading}>Contact</H2>
@@ -166,7 +166,6 @@ React.useEffect(()=>{
             </View>
           </View>
       </Content>
-    </Container>
   );
 }
 
