@@ -93,7 +93,6 @@ export default UploadDocuments  = () =>{
     const service_url = `http://13.234.123.221/api/serviceCategory/${slug}`;
         const service = await (await fetch(service_url, { method: "GET" })).json();
         const serviceData = service.data;
-
         let application = await (
             await fetch(`http://13.234.123.221/api/admin/application/${requestId}`, {
               method: "GET",

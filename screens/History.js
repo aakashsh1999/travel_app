@@ -43,6 +43,7 @@ const getData = async () =>{
         )
       ).json();
     setApplication(application.data || []);
+    console.log(application);
     }
 
     const pageClick = async () => {
@@ -125,9 +126,9 @@ const getData = async () =>{
                 </View>
                 </Card>
              )}   
-             <Button rounded style={style.laodingButton} onPress={()=>pageClick()}>
+             {application !== application.length ? <Button rounded style={style.laodingButton} onPress={()=>pageClick()}>
                 <Text style={style.buttonText}>Load More</Text>
-            </Button> 
+            </Button>: null }
             </Content>
             </ScrollView>
         )

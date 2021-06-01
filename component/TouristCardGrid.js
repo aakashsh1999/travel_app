@@ -1,10 +1,12 @@
-import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {Card, CardItem, H3,} from 'native-base';
 
 import { FlatGrid } from 'react-native-super-grid';
 import React from 'react';
+import { useHistory } from 'react-router';
 
 export default function TouristGrid() {
+  const history = useHistory();
   const service_url = `http://13.234.123.221/api/serviceCategory`;
   let ser=[];
   const [service, setServices] = React.useState(null);
@@ -28,7 +30,8 @@ export default function TouristGrid() {
   }
   return (
   service.map((data)=> 
-   <Card style={{borderWidth:1, borderColor:'#e6e6e6', marginBottom:20}} key={data._id}>
+  <TouchableOpacity onPress = {()=>history.push(`/aboutservice/${data.slug}`)}  key={data._id} >
+   <Card style={{borderWidth:1, borderColor:'#e6e6e6', marginBottom:20}}>
   <CardItem style={{borderBottomWidth:1, borderColor:'#e6e6e6'}}>
   <View style={{marginTop:10, marginBottom:10}}>
       <H3 style={{fontFamily:'Lato', fontWeight:'bold'}}>{data.serviceDetail.hours} Hours</H3>
@@ -65,7 +68,8 @@ export default function TouristGrid() {
       </View>      
    </View>
    </CardItem>
-</Card>)
+</Card>
+</TouchableOpacity>)
   );
 }
 

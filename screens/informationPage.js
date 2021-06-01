@@ -2,7 +2,8 @@ import { Content, Text, View, H2, Card, CardItem, Body, ListItem, Textarea } fro
 import React from 'react';
 import {StyleSheet, Image, BackHandler, TextInput, TouchableOpacity, ScrollView} from 'react-native';
 import {useHistory} from 'react-router-native';
-import MapView, {Marker} from 'react-native-maps';
+// import MapView, {Marker} from 'react-native-maps';
+import { WebView } from 'react-native-webview';
 import {LinearGradient} from 'expo-linear-gradient';
 
 export default InformationPage = () =>{
@@ -66,9 +67,9 @@ return <ScrollView>
               <Image source={require("../assets/location.png")} />
               <View style={{ marginLeft: 20, width: "70%" }}>
                 <Text style={style.infoText}>
-                  Marina Crown, King Salman Bin
+                Kalari Documents Clearing Services
                 </Text>
-                <Text style={style.infoText}>Abdulaziz Al Saud St</Text>
+                <Text style={style.infoText}>Dragon Mart 1,Shop No DHOFF16</Text>
                 <Text style={style.infoText}>Dubai, United Arab Emirates</Text>
               </View>
             </ListItem>
@@ -93,20 +94,11 @@ return <ScrollView>
           </Card>
           </View>
           <View style={{width:"100%", marginTop:10, marginBottom:50, padding:16}}>
-            <MapView 
-            style={{width:"100%" ,height:274}}
-             initialRegion={{
-              latitude: 25.0898792,
-              longitude: 55.1460438,
-              latitudeDelta: 0.008,
-              longitudeDelta: 0.0002,
-            }}
-            > 
-          <Marker
-            coordinate= {{latitude: 25.0898792, longitude: 55.1460438}}
-            title={'Marina Crown'}
-          />       
-            </MapView>
+            <WebView
+          style={{ height: 300, width: "100%" }}
+         source={{html: `<iframe width="100%" height="100%" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3610.8211987464706!2d55.410161214484!3d25.175514538758975!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f61ce99959ff3%3A0x9f391776b31195c4!2sKALARI%20DCS!5e0!3m2!1sen!2sin!4v1619901723581!5m2!1sen!2sin"></iframe>`
+        }}
+         />
            </View>
           <View style={{backgroundColor:'#000'}}>
           <View style={{ marginTop: 20, marginLeft: 16 }}>
@@ -124,9 +116,9 @@ return <ScrollView>
             <Image source={require("../assets/clipath.png")} />
           </View>
           <View style={{padding:16}}>
-                <Text style={style.infoText2}>Marina Crown, King Salman Bin </Text>
-                <Text style={style.infoText2}>Abdulaziz Al Saud St</Text>
-                <Text style={style.infoText2}>Dubai, United Arab Emirates</Text>
+                <Text style={style.infoText2}>Kalari Documents Clearing Services</Text>
+                <Text style={style.infoText2}>Dragon Mart 1,Shop No DHOFF16</Text>
+                <Text style={style.infoText2}>Dubai, United Arab Emirates </Text>
               </View>
             <View style={{ padding:16 }}>
                 <Text style={style.infoText2}>care@askepro.ae</Text>

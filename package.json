@@ -58,6 +58,7 @@
     "react-native-super-grid": "^4.1.1",
     "react-native-vector-icons": "^7.1.0",
     "react-native-web": "~0.13.12",
+    "react-native-webview": "^11.6.2",
     "react-router-dom": "^5.2.0",
     "react-router-native": "^5.2.0"
   },
