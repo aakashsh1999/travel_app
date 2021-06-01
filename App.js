@@ -7,7 +7,6 @@ import ApplicationDetails from './screens/ApplicationDetails';
 import ApplyNow from './screens/stepscreens/ApplyNow';
 import Appointment from './screens/Appointment';
 import BookAppointment from './screens/stepscreens/BookAppointment';
-import Contact from './screens/Contact';
 import CreateAccount from './screens/CreateAccount';
 import FillDetails from './screens/stepscreens/FillDetails';
 import ForgetAccount from './screens/ForgetAccount';
