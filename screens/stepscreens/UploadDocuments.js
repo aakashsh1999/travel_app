@@ -68,12 +68,13 @@ export default UploadDocuments  = () =>{
               })
               const response=await res.json();
                  if(response.status === 1){
-                     const index = reqDocs.indexOf(filename);
-                     if (index > -1 ){
-                       reqDocs.splice(index, 1);
-                       setDocs(reqDocs);
-                     }
-                     getDocuments(); 
+                    //  const index = reqDocs.indexOf(filename);
+                    //  if (index > -1 ){
+                    //    reqDocs.splice(index, 1);
+                    //    setDocs(reqDocs);
+                    //  }
+                    //  getDocuments(); 
+                    updateMyArray(oldArray => [...oldArray, fileName]);
                      alert(`${filename} submitted succesfully.`);                    
                      setFilename("");
                     }
@@ -89,27 +90,12 @@ export default UploadDocuments  = () =>{
       }
       //Getting the List of Document
     const getServices = async () => { 
+      await getDocuments();
         requestId = await AsyncStorage.getItem('applicationId');
     const slug =await AsyncStorage.getItem("serviceSlug");
     const service_url = `http://13.234.123.221/api/serviceCategory/${slug}`;
         const service = await (await fetch(service_url, { method: "GET" })).json();
         const serviceData = service.data;
-
-        let application = await (
-            await fetch(`http://13.234.123.221/api/admin/application/${requestId}`, {
-              method: "GET",
-              headers: {
-                "x-access-token": await AsyncStorage.getItem("token"),
-              },
-            })
-          ).json();
-          
-        application = application.data[0].docs;
-        updateMyArray(application || []);
-        if(docsArray.length === 0)
-        {
-            setDocs(serviceData.serviceDetail.reqDocs);
-        }
         setService(serviceData);
     }
 
@@ -161,7 +147,7 @@ if(!services ){
              onValueChange={(value)=>{setFilename(value)}}
             >
            <Picker.Item label="Please select a document" disabled value="" key={0}></Picker.Item>
-              {reqDocs.map((ele, index) => <Picker.Item label={ele} value={ele} key={index+1}/>)}
+              {services.serviceDetail && services.serviceDetail.reqDocs.map((ele, index) => <Picker.Item label={ele} value={ele} key={index+1}/>)}
             </Picker>
             </Form>
             </View>
@@ -205,7 +191,7 @@ if(!services ){
                 </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() =>{
-                services.serviceDetail.reqDocs.length ==  docsArray.length ? history.push('/book') :
+                services.serviceDetail.reqDocs.length === docsArray.length ? history.push('/book') :
                 alert('Please fill all required documents!');
                 }}>
                 <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={{width:137, height:38, borderRadius:20, }}>
