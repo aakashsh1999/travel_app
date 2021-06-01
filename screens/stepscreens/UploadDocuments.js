@@ -102,7 +102,6 @@ export default UploadDocuments  = () =>{
             })
           ).json();
           application = application.data[0].docs;
-            console.log(application);
           updateMyArray(application || []);
     }
 

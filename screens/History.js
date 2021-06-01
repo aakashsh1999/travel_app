@@ -43,7 +43,6 @@ const getData = async () =>{
         )
       ).json();
     setApplication(application.data || []);
-    console.log(application);
     }
 
     const pageClick = async () => {
