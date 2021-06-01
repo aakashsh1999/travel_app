@@ -20,7 +20,9 @@
       "versionCode": 1,
       "permissions": [
         "READ_EXTERNAL_STORAGE",
-        "READ_INTERNAL_STORAGE"
+        "READ_INTERNAL_STORAGE",
+        "WRITE_INTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
       ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",

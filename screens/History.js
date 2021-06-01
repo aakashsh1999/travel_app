@@ -126,11 +126,11 @@ const getData = async () =>{
                 </View>
                 </Card>
              )}   
-             {application !== application.length ? <Button rounded style={style.laodingButton} onPress={()=>pageClick()}>
+             {application.length >= 5  ? <Button rounded style={style.laodingButton} onPress={()=>pageClick()}>
                 <Text style={style.buttonText}>Load More</Text>
-            </Button>: null }
+            </Button>: <Text>There is no  History</Text> }
             </Content>
-            </ScrollView>
+            </ScrollView> 
         )
 }
 

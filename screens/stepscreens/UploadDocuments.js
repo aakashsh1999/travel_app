@@ -1,7 +1,7 @@
 import React from 'react';
-import {Icon, Body, Button, List,H3, ListItem,Content, Form, Picker, Item, Label} from 'native-base'; 
+import {Icon, Body, Button, List,H3, ListItem,Content, Form, Picker, Item, Label, Right} from 'native-base'; 
 import { ScrollView, Text, View, StyleSheet, TextInput, BackHandler, TouchableOpacity, ActivityIndicator } from 'react-native';
-import ButtonBar from '../../component/ButtonBar';
+import * as FileSystem from 'expo-file-system'; 
 import {useHistory} from 'react-router-dom';
 import Stepper from './Stepper';
 import * as DocumentPicker from 'expo-document-picker';
@@ -68,15 +68,8 @@ export default UploadDocuments  = () =>{
               })
               const response=await res.json();
                  if(response.status === 1){
-                    //  const index = reqDocs.indexOf(filename);
-                    //  if (index > -1 ){
-                    //    reqDocs.splice(index, 1);
-                    //    setDocs(reqDocs);
-                    //  }
-                    //  getDocuments(); 
-                    updateMyArray(oldArray => [...oldArray, fileName]);
                      alert(`${filename} submitted succesfully.`);                    
-                     setFilename("");
+                     updateMyArray(oldArray => [...oldArray, filename]);  
                     }
                  else{
                      alert('File already uploaded');
@@ -90,43 +83,55 @@ export default UploadDocuments  = () =>{
       }
       //Getting the List of Document
     const getServices = async () => { 
-      await getDocuments();
         requestId = await AsyncStorage.getItem('applicationId');
     const slug =await AsyncStorage.getItem("serviceSlug");
     const service_url = `http://13.234.123.221/api/serviceCategory/${slug}`;
         const service = await (await fetch(service_url, { method: "GET" })).json();
         const serviceData = service.data;
         setService(serviceData);
+        await getDocuments();
     }
 
-    const getDocuments = async () =>{
-        let application = await (
-            await fetch(`http://13.234.123.221/api/admin/application/${requestId}`, {
-              method: "GET",
-              headers: {
-                "x-access-token": await AsyncStorage.getItem("token"),
-              },
+     const getDocuments = async () =>{
+         let application = await (
+             await fetch(`http://13.234.123.221/api/admin/application/${requestId}`, {
+               method: "GET",
+               headers: {
+                 "x-access-token": await AsyncStorage.getItem("token"),
+               },
             })
           ).json();
           application = application.data[0].docs;
-        updateMyArray(application || []);
+            console.log(application);
+          updateMyArray(application || []);
     }
 
-//     const handleSubmitForm = () => {
-//         if(docsArray.length === reqDocs.length){
-//             history.push("/book");
-//         }
-//         else if(docsArray.length <= reqDocs.length)
-//         {
-//           alert('Please upload all required files.');
-//         }
-       
-// }   
+    
+  // const generateLink = async (key, name) => {
+  //   const jsonPostData = {
+  //     'key': key
+  //   }
+  //   const url = `http://13.234.123.221/api/download`
+  //   const resu = await (await fetch(url, {
+  //     method: 'PUT',
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(jsonPostData)
+  //   })).json();
+  //   console.log(resu.data);
+  // const downloadData = await FileSystem.downloadAsync(
+  // resu.data,
+  // FileSystem.documentDirectory + name
+  // )
+  //   console.log(downloadData);
+  // }
 
 
-if(!services ){
+if(!services){
       return  <ActivityIndicator size="large" color="yellow" style={{alignSelf:'center', margin:20}} />
-}
+} 
      return (
              <>
             <Content>
@@ -176,8 +181,13 @@ if(!services ){
                 {docsArray? (docsArray.map((data, index)=> <ListItem style={{height:52, borderBottomColor:'#fff'}} key={index}>
                     <Icon type='Feather' name='square' style={style.iconStyle}/>
                     <Body>
-                    <Text style={{fontSize:14,marginLeft:16, color:'#9d9494'}}>{data.name}</Text>
+                    <Text style={{fontSize:14,marginLeft:16, color:'#9d9494'}}>{data.name || data}</Text>
                     </Body>
+                    {/* {data.name ? <Right>
+                      <Button onPress={()=>generateLink(data.key, data.name)}>
+                        <Text>Download</Text>
+                      </Button>
+                    </Right> :null} */}
                     </ListItem>)): <Text style={{fontSize:14, fontWeight:'bold', marginTop:10}}>Sorry! You don't have any submitted document</Text>} 
                     </View>
             </View>
