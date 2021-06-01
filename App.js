@@ -1,5 +1,5 @@
-import { AndroidBackButton, NativeRouter, Route } from 'react-router-native';
-import React,{useEffect} from 'react';
+import {NativeRouter, Route } from 'react-router-native';
+import React from 'react';
 import {BackHandler, Alert, LogBox} from 'react-native';
 import AboutScreen from './screens/AboutScreen';
 import AboutService from './screens/AboutService';
@@ -25,6 +25,7 @@ import TopHeader from './component/TopHeader';
 import UploadDocuments from './screens/stepscreens/UploadDocuments';
 import {useFonts} from 'expo-font';
 import _ from 'lodash';
+import informationPage from './screens/informationPage';
 
 export default function App() {
 
@@ -75,7 +76,7 @@ export default function App() {
       <Route exact path="/history" component={History}/>
       <Route exact path="/apply" component={ApplyNow}/>
       <Route exact path="/about" component={AboutScreen}/>
-      <Route exact path="/contact" component={Contact}/>
+      <Route exact path="/info" component={informationPage}/>
       <Route exact path="/application/:applicationId" component={ApplicationDetails}/>
       <Route exact path="/create" component={CreateAccount}/>
       <Route exact path="/forget" component={ForgetAccount}/>

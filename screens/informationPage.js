@@ -1,37 +1,30 @@
-import React from "react";
-import { ScrollView, Text, StyleSheet, View, Image, TextInput, TouchableOpacity, BackHandler } from "react-native";
+import { Content, Text, View, H2, Card, CardItem, Body, ListItem, Textarea } from 'native-base';
+import React from 'react';
+import {StyleSheet, Image, BackHandler, TextInput, TouchableOpacity, ScrollView} from 'react-native';
+import {useHistory} from 'react-router-native';
 import MapView from 'react-native-maps';
-import {
-  H2,
-  Content,
-  Card,
-  Body,
-  ListItem,
-  Textarea,
-} from "native-base";
 import {LinearGradient} from 'expo-linear-gradient';
-import { useHistory } from "react-router-dom";
 
-export default Contact = () => {
+export default InformationPage = () =>{
   const url = `http://13.234.123.221/api/contact/create`;
   const [name, setName] = React.useState(null);
   const [email, setEmail] = React.useState(null);
   const [query, setQuery] = React.useState(null);
-  
-const history = useHistory();
+  const history = useHistory();
 
+    
 React.useEffect(()=>{
-  const backAction = () => {
-    history.push('/');
-     return true;
-   };
-
-   const backHandler = BackHandler.addEventListener(
-     "hardwareBackPress",
-     backAction
-   );
-   return () => backHandler.remove();
-});
+    const backAction = () => {
+      history.push('/');
+       return true;
+     };
+  
+     const backHandler = BackHandler.addEventListener(
+       "hardwareBackPress",
+       backAction
+     );
+     return () => backHandler.remove();
+  });
 
   const createContact = async () => {
     if(name === null || email === null || query === null )
@@ -53,15 +46,12 @@ React.useEffect(()=>{
     }
   };
 
-
-  return (
-      <Content>
-        <View style={{ marginTop: 20, marginLeft: 16 }}>
-          <H2 style={style.heading}>Contact</H2>
-          <Image source={require("../assets/clipath.png")} />
+return <ScrollView> 
+    <View style={{ marginTop: 20, marginLeft: 16 }}>
+        <H2 style={style.heading}>Contact</H2>
+        <Image source={require("../assets/clipath.png")} />
         </View>
-        <ScrollView style={{ padding: 16 }}>
-          <View style={{ marginBottom: 30 }}>
+        <View style={{ marginBottom: 30, padding:16 }}>
             <Text style={{ fontSize: 16, color: "#9d9494", lineHeight: 22, fontFamily:'OpenSans' }}>
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry’s standard dummy text
@@ -70,6 +60,7 @@ React.useEffect(()=>{
               survived not only five ce
             </Text>
           </View>
+          <View style={{padding:16}}>
           <Card style={style.card}>
             <ListItem style={{ padding: 20 }}>
               <Image source={require("../assets/location.png")} />
@@ -100,7 +91,8 @@ React.useEffect(()=>{
               </View>
             </ListItem>
           </Card>
-          <View style={{width:"100%", marginTop:40, marginBottom:50}}>
+          </View>
+          <View style={{width:"100%", marginTop:10, marginBottom:50, padding:16}}>
             <MapView style={{width:"100%" ,height:274}}
              initialRegion={{
               latitude: 25.0898792,
@@ -115,8 +107,7 @@ React.useEffect(()=>{
           />       
             </MapView>
            </View>
-        </ScrollView>
-        <View style={{backgroundColor:'#000'}}>
+          <View style={{backgroundColor:'#000'}}>
           <View style={{ marginTop: 20, marginLeft: 16 }}>
             <H2
               style={{
@@ -141,72 +132,71 @@ React.useEffect(()=>{
               </View>
               <View style={{ padding:16}}>
                 <Text style={style.infoText2}>+97180073232</Text>
-              </View>
-            <View style={{padding:16}}>
-            <Card style={style.card}>
-                <Body style={{padding:24}}>
-                <TextInput style={style.input} placeholder='Enter your name' value={name} onChangeText={setName}/>
+             </View>       
+             <View style={{padding:16}}>
+             <Card style={style.card}>
+            <Body style={{padding:24}}>
+             <TextInput style={style.input} placeholder='Enter your name' value={name} onChangeText={setName}/>
                 <TextInput style={style.input} placeholder='Enter email address' value={email} onChangeText={setEmail} />
                 <Textarea style={{width:280, paddingLeft:20, paddingTop:20, borderColor:"#e6e6e6"}} rowSpan={7} bordered placeholder="Describe your query"  placeholderTextColor="#9d9494" value={query} onChangeText={setQuery}/>
                     <View style={{width:"70%", marginRight:65, marginTop:10}}>
-                    <Text style={{color:'#9d9494'}}>By Clicking on 'Submit' you will agree to T & C of Askepro</Text>
-                    </View>
-                </Body>
-                <TouchableOpacity onPress={()=>createContact()}>
+                    <Text style={{color:'#9d9494', fontSize:14}}>By Clicking on 'Submit' you will agree to T & C of Askepro</Text>
+                 </View>
+                 </Body>
+                 <TouchableOpacity onPress={()=>createContact()}>
                 <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.loginButton}>  
                 <Text style={{fontSize:15, fontWeight:'bold', fontFamily:'Lato'}}>SUBMIT</Text>
                 </LinearGradient>
                 </TouchableOpacity>
-            </Card>
-            </View>
+              </Card>
+              </View>         
           </View>
-      </Content>
-  );
+    </ScrollView>
 }
-
 
 const style = StyleSheet.create({
-  heading: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 7,
-    fontFamily:'Lato'
+    heading: {
+      fontSize: 18,
+      fontWeight: "bold",
+      marginBottom: 7,
+      fontFamily:'Lato'
+    },
+    infoText: {
+      color: "#000",
+      fontSize: 16,
+      marginTop: 4,
+    },
+    card: {
+      borderWidth: 1,
+      borderColor: "#e6e6e6",
+      marginBottom: 30,
+    },
+    infoText2:{
+      color: "#fff",
+      fontSize: 15,
+      marginTop: 4,
+    },
+    input:{
+      width:280,
+      height:45,
+      borderColor:'#e9e9e9',
+      borderWidth:1,
+      color:"#000",
+      paddingLeft:20,
+      marginBottom:10
   },
-  infoText: {
-    color: "#000",
-    fontSize: 16,
-    marginTop: 4,
-  },
-  card: {
-    borderWidth: 1,
-    borderColor: "#e6e6e6",
-    marginBottom: 30,
-  },
-  infoText2:{
-    color: "#fff",
-    fontSize: 15,
-    marginTop: 4,
-  },
-  input:{
-    width:280,
-    height:45,
-    borderColor:'#e9e9e9',
-    borderWidth:1,
-    color:"#000",
-    paddingLeft:20,
-    marginBottom:10
-},
-
-loginButton:{
-  width:137, 
-  height:38,
-  flexDirection:'row',
-  alignSelf:'center',
-  justifyContent:'center',
-  borderRadius:50,
-  alignItems:'center',
-  marginTop:20, 
-  fontFamily:'Lato',
-  marginBottom:50
-}
-});
+  
+  loginButton:{
+    width:137, 
+    height:38,
+    flexDirection:'row',
+    alignSelf:'center',
+    justifyContent:'center',
+    borderRadius:50,
+    alignItems:'center',
+    marginTop:20, 
+    fontFamily:'Lato',
+    marginBottom:50
+  }
+  });
+  

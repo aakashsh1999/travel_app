@@ -34,7 +34,7 @@ export default TopHeader = (props) => {
         </TouchableOpacity>
         </View>
         <View >     
-        <TouchableOpacity onPress={()=>{setShowDrawer(false) ; history.push('/contact')}}>
+        <TouchableOpacity onPress={()=>{setShowDrawer(false) ; history.push('/info')}}>
         <Text style={style.menuItem}>Contact</Text>  
         </TouchableOpacity>
         </View>

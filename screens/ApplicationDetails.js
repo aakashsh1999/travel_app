@@ -166,7 +166,7 @@ React.useEffect(()=>{
             <Text style={{fontSize:12,marginLeft:10}}>Documents Uploaded</Text>
             </View>
                <View style={{marginLeft:30, marginBottom:10, borderColor:'#e6e6e6', borderWidth:1,}}>
-               {application.docs ? ( application.docs.map((data, index)=><ListItem style={{padding:5,borderColor:'#fff'}} key={index}>
+               {application.docs   ? ( application.docs.map((data, index)=><ListItem style={{padding:5,borderColor:'#fff'}} key={index}>
                         <Icon type='Feather' name='square' style={style.iconStyle}/>
                         <Text style={style.listText}>{data.name}</Text>
                     </ListItem>))
