@@ -74,7 +74,6 @@ export default UploadDocuments  = () =>{
                        setDocs(reqDocs);
                      }
                      getDocuments(); 
-                     alert(`${filename} submitted succesfully.`);                    
                      setFilename("");
                     }
                  else{

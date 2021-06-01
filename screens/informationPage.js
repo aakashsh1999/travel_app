@@ -2,7 +2,7 @@ import { Content, Text, View, H2, Card, CardItem, Body, ListItem, Textarea } fro
 import React from 'react';
 import {StyleSheet, Image, BackHandler, TextInput, TouchableOpacity, ScrollView} from 'react-native';
 import {useHistory} from 'react-router-native';
-import MapView from 'react-native-maps';
+import MapView, {Marker} from 'react-native-maps';
 import {LinearGradient} from 'expo-linear-gradient';
 
 export default InformationPage = () =>{
@@ -93,7 +93,8 @@ return <ScrollView>
           </Card>
           </View>
           <View style={{width:"100%", marginTop:10, marginBottom:50, padding:16}}>
-            <MapView style={{width:"100%" ,height:274}}
+            <MapView 
+            style={{width:"100%" ,height:274}}
              initialRegion={{
               latitude: 25.0898792,
               longitude: 55.1460438,
@@ -101,7 +102,7 @@ return <ScrollView>
               longitudeDelta: 0.0002,
             }}
             > 
-          <MapView.Marker
+          <Marker
             coordinate= {{latitude: 25.0898792, longitude: 55.1460438}}
             title={'Marina Crown'}
           />       
