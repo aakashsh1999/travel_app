@@ -68,7 +68,6 @@ export default UploadDocuments  = () =>{
               })
               const response=await res.json();
                  if(response.status === 1){
-                     alert(`${filename} submitted succesfully.`);                    
                      updateMyArray(oldArray => [...oldArray, filename]);  
                     }
                  else{

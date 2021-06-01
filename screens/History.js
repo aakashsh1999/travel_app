@@ -54,6 +54,7 @@ const getData = async () =>{
         }})).json();
         setApplication((application.concat(app.data)) || []);
       };
+      
       function dateFormat(d) {
         const date = new Date(d).toLocaleString();
         let dateArray =date.split(" ");
@@ -82,7 +83,7 @@ const getData = async () =>{
           <Content style={{padding:16}}>
             {!application ? <ActivityIndicator size="large" color="yellow" style={{alignSelf:'center', margin:20}} /> : application.map((data)=>
                 <Card style={style.card} key={data._id}>
-                <CardItem header style={{borderBottomColor:'#e6e6e6', borderBottomWidth:1, justifyContent:'space-between',}}>
+                <CardItem header style={{borderBottomColor:'#e6e6e6', borderBottomWidth:1, justifyContent:'space-between'}}>
                 <View>
                     <Text style={{fontSize:12, color:'#9d9494'}}>Service name</Text>
                     <Text style={style.itemText}>{data.serviceCategory && data.serviceCategory.name}</Text>
@@ -125,9 +126,9 @@ const getData = async () =>{
                 </View>
                 </Card>
              )}   
-             {application.length >= 5  ? <Button rounded style={style.laodingButton} onPress={()=>pageClick()}>
+             {application.length >= 5 ? <Button rounded style={style.laodingButton} onPress={()=>pageClick()}>
                 <Text style={style.buttonText}>Load More</Text>
-            </Button>: <Text>There is no  History</Text> }
+            </Button> : <View style={{alignSelf:'center'}}><Text style={style.heading}>There is no history.</Text></View>}
             </Content>
             </ScrollView> 
         )
