@@ -88,7 +88,7 @@ export default UploadDocuments  = () =>{
       }
       //Getting the List of Document
     const getServices = async () => { 
-        requestId = await AsyncStorage.getItem('applicationId');
+    requestId = await AsyncStorage.getItem('applicationId');
     const slug =await AsyncStorage.getItem("serviceSlug");
     const service_url = `http://13.234.123.221/api/serviceCategory/${slug}`;
         const service = await (await fetch(service_url, { method: "GET" })).json();
