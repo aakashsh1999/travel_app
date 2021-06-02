@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, BackHandler } from 'react-native';
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, BackHandler } from 'react-native';
 import {Button, Card, CardItem, Content, Icon, Right} from 'native-base'
 import React, {useEffect} from 'react';
 
@@ -8,7 +8,8 @@ import {useHistory} from 'react-router-dom';
 
 export default History = () =>{
     let history= useHistory();
-    let p=1;
+    const [page, setPage] =React.useState(2)
+    const [isbuttonVisible, setIsVisible] =React.useState(false);
     const [application, setApplication] = React.useState([]);
     useEffect(() => {
         getData();
@@ -46,14 +47,14 @@ const getData = async () =>{
     }
 
     const pageClick = async () => {
+      setPage(page+1)
         const id =await AsyncStorage.getItem('id');
-        p+=1;
-        const app = await (await fetch(`http://13.234.123.221/api/service/application/${id}?page=${p}`, { method: "GET",
+        const app = await (await fetch(`http://13.234.123.221/api/service/application/${id}?page=${page}`, { method: "GET",
         headers: {
           "x-access-token": await AsyncStorage.getItem("token"),
         }})).json();
         setApplication((application.concat(app.data)) || []);
-      };
+      };  
       
       function dateFormat(d) {
         const date = new Date(d).toLocaleString();
@@ -68,8 +69,8 @@ const getData = async () =>{
         }
         return finaldate;
       };
-
-        return (
+  
+    return (
         <ScrollView style={{backgroundColor:'#fff'}}>
          <View style={{marginTop:20,margin:16}}>
             <View style={style.title}>
@@ -81,7 +82,7 @@ const getData = async () =>{
             <Image source={require('../assets/clipath.png')} />
             </View>
           <Content style={{padding:16}}>
-            {!application ? <ActivityIndicator size="large" color="yellow" style={{alignSelf:'center', margin:20}} /> : application.map((data)=>
+            {application && application.map((data)=>
                 <Card style={style.card} key={data._id}>
                 <CardItem header style={{borderBottomColor:'#e6e6e6', borderBottomWidth:1, justifyContent:'space-between'}}>
                 <View>
@@ -128,7 +129,7 @@ const getData = async () =>{
              )}   
              {application.length >= 5 ? <Button rounded style={style.laodingButton} onPress={()=>pageClick()}>
                 <Text style={style.buttonText}>Load More</Text>
-            </Button> : <View style={{alignSelf:'center'}}><Text style={style.heading}>There is no history.</Text></View>}
+            </Button> : <ActivityIndicator size="large" color="yellow" style={{alignSelf:'center', margin:20}} />}
             </Content>
             </ScrollView> 
         )
