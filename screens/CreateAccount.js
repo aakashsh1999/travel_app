@@ -35,7 +35,7 @@ export default CreateAccount =  () => {
             history.push('/login');
           } 
           else{
-              alert('Already have an account.');
+              alert('This account already exists. Please use forget password to reset the credentials.');
           }
     }
 }

@@ -13,12 +13,12 @@ export default ForgetAccount =  () =>{
         Lato: require('../assets/fonts/lato.ttf'),
       });
 
-    const url =  'http://13.234.123.221/api/check';
+    const url = 'http://13.234.123.221/api/check';
     const history= useHistory();
     const [email, setEmail] = React.useState('');
 
-    const jsonPostData = {
-        'email': email,
+    const jsonPostData = {  
+        'email': email.toLowerCase(),
       }
 
 const handleSubmit = async () =>{

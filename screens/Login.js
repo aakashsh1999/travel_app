@@ -18,7 +18,7 @@ export default Login =  () =>{
   const handleSubmitForm = async () => {
       
         const jsonPostData = {
-        'email': email,
+        'email': email.toLowerCase(),
         'password': password
       } 
 

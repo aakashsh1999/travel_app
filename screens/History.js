@@ -1,9 +1,7 @@
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, BackHandler } from 'react-native';
 import {Button, Card, CardItem, Content, Icon, Right} from 'native-base'
 import React, {useEffect} from 'react';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import NoData from '../component/NoData';
 import {useHistory} from 'react-router-dom';
 
 export default History = () =>{
@@ -21,7 +19,7 @@ React.useEffect(()=>{
       history.push('/profile');
        return true;
      };
-  
+     
      const backHandler = BackHandler.addEventListener(
        "hardwareBackPress",
        backAction
@@ -43,11 +41,11 @@ const getData = async () =>{
           }
         )
       ).json();
-    setApplication(application.data || []);
+     setApplication(application.data || []);
     }
 
     const pageClick = async () => {
-      setPage(page+1)
+        setPage(page+1)
         const id =await AsyncStorage.getItem('id');
         const app = await (await fetch(`http://13.234.123.221/api/service/application/${id}?page=${page}`, { method: "GET",
         headers: {
@@ -127,9 +125,10 @@ const getData = async () =>{
                 </View>
                 </Card>
              )}   
-             {application.length >= 5 ? <Button rounded style={style.laodingButton} onPress={()=>pageClick()}>
+             {application.length >= 5 && <Button rounded style={style.laodingButton} onPress={()=>pageClick()}>
                 <Text style={style.buttonText}>Load More</Text>
-            </Button> : <ActivityIndicator size="large" color="yellow" style={{alignSelf:'center', margin:20}} />}
+            </Button>}
+            {!application && <Text style={{fontSize:15}}>You don't have a History.</Text>}
             </Content>
             </ScrollView> 
         )
