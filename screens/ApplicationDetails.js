@@ -21,7 +21,6 @@ export default ApplicationDetails = () => {
       React.useEffect(() => {
         getapplication();
     }, []);
-console.log(application)
     
 
 React.useEffect(()=>{
@@ -165,13 +164,13 @@ React.useEffect(()=>{
             <Radio selected={true} selectedColor="#c7a006"/>
             <Text style={{fontSize:12,marginLeft:10}}>Documents Uploaded</Text>
             </View>
-               <View style={{marginLeft:30, marginBottom:10, borderColor:'#e6e6e6', borderWidth:1,}}>
-               {application.docs   ? ( application.docs.map((data, index)=><ListItem style={{padding:5,borderColor:'#fff'}} key={index}>
+               <View style={{ marginLeft:30, marginBottom:10, borderColor:'#e6e6e6', borderWidth:1,}}>
+               {application.docs.length !==0 ? application.docs.map((data, index)=><ListItem style={{padding:5,borderColor:'#fff'}} key={index}>
                         <Icon type='Feather' name='square' style={style.iconStyle}/>
                         <Text style={style.listText}>{data.name}</Text>
-                    </ListItem>))
+                    </ListItem>)
                     : <ListItem style={{borderColor:'#fff'}}>
-                    <Text style={style.listText}>No Documents uploaded</Text>
+                  <Text style={{fontSize:14, color:'#9d9494', marginLeft:10}}>No documents uploaded.</Text>
                     </ListItem>}
                  </View>
             <View style={style.stepIndicator}>

@@ -308,7 +308,7 @@ export default UploadDocuments = () => {
           onPress={() => {
             services.serviceDetail.reqDocs.length === docsArray.length
               ? history.push("/book")
-              : alert("Please fill all required documents!");
+              : alert("Please upload all required documents!");
           }}
         >
           <LinearGradient
