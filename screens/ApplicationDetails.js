@@ -150,7 +150,7 @@ React.useEffect(()=>{
             <View style={{width:200, marginRight:20}}>
             <LinearGradient  
                 style={{width:90, height:19, justifyContent:'center', marginTop:2, borderRadius:50}}
-                    colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={0,2.57}>
+                    colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={[0,2.57]}>
                     <Text style={{textAlign:'center', fontSize:12, fontFamily:'Lato', padding:5, textTransform:'uppercase', fontWeight:"500"}}>Upcoming</Text>
                 </LinearGradient>
                 <Text style={{fontSize:14, fontWeight:'500', marginBottom:10, marginTop:14}}>{application.appointment.title}</Text>
