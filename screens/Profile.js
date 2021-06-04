@@ -64,7 +64,7 @@ const getData = async () =>{
     }
 }
 const logout = async () =>{
-  Alert.alert("Hold on!", "Are you sure you want logout?", [
+  Alert.alert("Hold on!", "Are you sure you want to logout?", [
     {
       text: "NO",
       onPress: () => null,

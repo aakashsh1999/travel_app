@@ -36,8 +36,8 @@ const handleSubmit = async () =>{
     await AsyncStorage.setItem('email', data.email);
      history.push('/reset');
     }
-    else{
-        alert('Please enter a valid Email');
+    else{ 
+        alert(data.msg);
     }
     
 }

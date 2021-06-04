@@ -34,6 +34,9 @@ export default ResetPassword =  () => {
            alert('Password changed successfully');
               history.push('/login');
           }
+          else{
+            alert(res.msg);
+          }
     }
     
     React.useEffect(()=>{

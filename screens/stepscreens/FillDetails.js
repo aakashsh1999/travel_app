@@ -13,10 +13,10 @@ export default FillDetails= () =>{
     const scroll = React.createRef();
     const history = useHistory();
     const [validation, setValidation] = React.useState(true);
-    const [user, setUser] = React.useState(null);   
-    const [name, setName] = React.useState(null);
-    const [dob, setDob] = React.useState(null);
-    const [type, setType] = React.useState(null);
+    const [user, setUser] = React.useState("");   
+    const [name, setName] = React.useState("");
+    const [dob, setDob] = React.useState("");
+    const [type, setType] = React.useState("");
     const [alias, setAlias] = React.useState("");
     const [lineOne, setLineOne] = React.useState("");
     const [lineTwo, setLineTwo] = React.useState("");
@@ -44,6 +44,7 @@ React.useEffect(()=>{
 }, []);
 
 const invalidData = () => name === "" ||  dob === "" ||  type === "" || alias == "" || lineOne === "" || lineTwo === "" || state === "" ||  city=== "" || pincode === "" || country==="";
+
 const getUser = async () => {
     const id= await AsyncStorage.getItem("id")
     let user = await (
@@ -56,6 +57,14 @@ const getUser = async () => {
     ).json();
     user = user.data;
     setUser(user);
+    setName(user.name);
+    setAlias(user.address.alias);
+    setLineOne(user.address.addressLineOne);
+    setLineTwo(user.address.addressLineTwo);
+    setCity(user.address.city)
+    setState(user.address.state)    
+    setPincode(user.address.pincode)
+    setCountry(user.address.country);
 }
 
     const jsonPostData = {
@@ -64,7 +73,7 @@ const getUser = async () => {
         "type": type,
         "address":
         {
-            "alias": alias ? alias : user?.address?.alias,
+            "alias": alias ? alias : user && user.address?.alias,
             "addressLineOne": lineOne ? lineOne : user && user.address?.addressLineOne,
             "addressLineTwo": lineTwo ? lineTwo : user && user.address?.addressLineTwo,
             "state": state ? state : user && user.address?.state,
@@ -164,31 +173,31 @@ else{
             </View>         
                 <View style={{marginTop:20, paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>Address Line 1*</Text>
-                 <TextInput style={style.input} placeholder='Enter address line 1' value={lineOne} onChangeText={setLineOne} defaultValue={ user && user.address?.addressLineOne}/>
+                 <TextInput style={style.input} placeholder='Enter address line 1'  onChangeText={setLineOne} defaultValue={user.address && user.address.addressLineOne}/>
                 </View>
                  <View style={{paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>Address Line 2*</Text>
-                 <TextInput style={style.input} placeholder='Enter address line 2' value={lineTwo}  onChangeText={setLineTwo} defaultValue={ user && user.address?.addressLineTwo}/>
+                 <TextInput style={style.input} placeholder='Enter address line 2'   onChangeText={setLineTwo} defaultValue={user.address && user.address.addressLineTwo}/>
                 </View>    
                 
                 <View style={{paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>City*</Text>
-                 <TextInput style={style.input} placeholder='Enter city' value={city} onChangeText={setCity} defaultValue={ user && user.address?.city}/>
+                 <TextInput style={style.input} placeholder='Enter city'  onChangeText={setCity} defaultValue={user.address &&  user.address.city}/>
                 </View>    
 
                 <View style={{paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>State</Text>
-                 <TextInput style={style.input} placeholder='Enter city' value={state} onChangeText={setState} defaultValue={ user && user.address?.state}/>
+                 <TextInput style={style.input} placeholder='Enter city'  onChangeText={setState} defaultValue={user.address && user.address.state}/>
                 </View>    
 
                 <View style={{paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>PIN Code*</Text>
-                 <TextInput style={style.input} placeholder='Enter pin code' value={pincode} onChangeText={setPincode} defaultValue={(user && user.address?.pincode.toString())}/>
+                 <TextInput style={style.input} placeholder='Enter pin code'  onChangeText={setPincode} defaultValue={(user.address && user.address.pincode.toString())}/>
                </View>    
 
                <View style={{marginBottom:20, paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>Country*</Text>
-                 <TextInput style={style.input} placeholder='Enter country name' value={country} onChangeText={setCountry} defaultValue={ user && user.address?.country}/>
+                 <TextInput style={style.input} placeholder='Enter country name' onChangeText={setCountry} defaultValue={user.address && user.address.country}/>
                 </View>    
         </ScrollView>
         <CardHeader/>

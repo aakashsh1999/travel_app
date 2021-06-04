@@ -82,7 +82,7 @@ export default Login =  () =>{
                 </TouchableOpacity>
                 <TouchableOpacity  onPress={()=>handleSubmitForm()}>
                 <LinearGradient   
-                    colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={[0,2.57]}
+                    colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={0,2.57}
                     style={style.loginButton}>
                 <Text style={{fontSize:15, fontWeight:'bold'}}>LOGIN</Text>
                 </LinearGradient>

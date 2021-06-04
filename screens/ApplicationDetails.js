@@ -21,7 +21,7 @@ export default ApplicationDetails = () => {
       React.useEffect(() => {
         getapplication();
     }, []);
-
+console.log(application)
     
 
 React.useEffect(()=>{
@@ -105,7 +105,7 @@ React.useEffect(()=>{
                     </View>
                     <View>
                     <Text style={style.itemHeading}>Amount(AED)</Text>
-                    <Text style={style.itemText}>180 AED</Text>
+                    <Text style={style.itemText}>{application.transaction && application.transaction.amount || "0"}</Text>
                     </View>
                     </View>
                     </View>
