@@ -24,14 +24,14 @@ useEffect(()=> {
 }, [])
     return (  
       <>
-        <LinearGradient style={{height:56, width:"100%", flexDirection:'row', justifyContent:'space-evenly', paddingRight:20, paddingLeft:20}}   colors={['#000000', '#545454', '#000000']} start={[1, 0]} end={0,0.98}>
+      <LinearGradient style={{height:56, width:"100%", flexDirection:'row', justifyContent:'space-evenly', paddingRight:20, paddingLeft:20}}   colors={['#000000', '#545454', '#000000']} start={[1, 0]} end={[0,0.98]}> 
           <TouchableOpacity onPress={()=>history.push('/')}  style={style.icon}>
               <Icon type='Feather' name="home" style={{fontSize:20 ,color:"#fff"}}/>
               <Text style={style.iconText}>Home</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>isLogin? history.push('/apply') : history.push('/login')}>
             <LinearGradient  
-                    colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={0,2.29}
+                    colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={[0,2.29]}
                     style={style.applynow}>
               <Text style={style.applynowText}>Apply</Text>
               <Text style={[style.applynowText, {marginBottom:10}]}>Now</Text>
@@ -41,7 +41,7 @@ useEffect(()=> {
               <Icon type='Feather' name="user" style={{fontSize:20, color:"#fff"}}/>
               <Text style={style.iconText}>Profile</Text>
             </TouchableOpacity>
-        </LinearGradient>
+          </LinearGradient>
         </>
     );
   }

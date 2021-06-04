@@ -68,7 +68,7 @@ React.useEffect(()=>{
                 </View>
                     </View>
                     <TouchableOpacity onPress={handleSubmit}>
-                    <LinearGradient colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={0,2.57} style={style.loginButton}>                    
+                    <LinearGradient colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={[0,2.57]} style={style.loginButton}>                    
                     <Text style={{fontSize:15, fontWeight:'bold'}}>SUBMIT</Text>
                     </LinearGradient>
                     </TouchableOpacity>
