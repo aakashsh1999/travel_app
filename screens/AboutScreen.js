@@ -114,7 +114,8 @@ const style= StyleSheet.create({
         position: 'absolute',
         top:-22,
         left:20,
-            },
+          },
+          
     card:{
         position:'relative',
         borderWidth:1,

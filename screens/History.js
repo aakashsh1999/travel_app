@@ -112,15 +112,15 @@ const getData = async () =>{
                 <View style={{ flexDirection:'row', padding:15}}>                
                     <View style={{width:"33%"}}>
                     <Text style={style.itemHeading}>Transaction ID</Text>
-                    <Text style={style.itemText}>XMBC3457XNT0</Text>
+                    <Text style={style.itemText}>{data.transaction && data.transaction._id}</Text>
                     </View>
                     <View  style={{width:"33%", marginLeft:15}}>
                     <Text style={style.itemHeading}>Mode</Text>
-                    <Text style={style.itemText}>Debit Card</Text>
+                    <Text style={style.itemText}>{data.transaction && data.transaction.ptype}</Text>
                     </View>
                     <View>
                     <Text style={style.itemHeading}>Amount(AED)</Text>
-                    <Text style={{color:'#000', fontSize:14, marginTop:5}}>350.00</Text>
+                    <Text style={{color:'#000', fontSize:14, marginTop:5}}>{data.transaction && data.transaction.amount || "0.00"} AED</Text>
                     </View>
                 </View>
                 </Card>

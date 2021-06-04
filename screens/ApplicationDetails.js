@@ -91,13 +91,13 @@ React.useEffect(()=>{
                     </View>
                     <View>
                     <Text style={style.itemHeading}>Mode</Text>
-                    <Text style={style.itemText}>Debit Card</Text>
+                    <Text style={style.itemText}>{application.transaction && application.transaction.ptype}</Text>
                     </View>
                     </View>
                     <View style={{width:"50%"}}>
                     <View>
                     <Text style={style.itemHeading}>Transaction ID</Text>
-                    <Text style={style.itemText}>XMBC3457XNT0</Text>
+                    <Text style={style.itemText}>{application.transaction || "----"}</Text>
                     </View>
                     <View> 
                     <Text style={style.itemHeading}>Service Name</Text>
@@ -105,7 +105,7 @@ React.useEffect(()=>{
                     </View>
                     <View>
                     <Text style={style.itemHeading}>Amount(AED)</Text>
-                    <Text style={style.itemText}>350 AED</Text>
+                    <Text style={style.itemText}>180 AED</Text>
                     </View>
                     </View>
                     </View>

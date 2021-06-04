@@ -52,7 +52,7 @@ export default Login =  () =>{
         history.push('/');
       }
       else{
-        alert('Invalid username and password. Try again!')
+        alert('Invalid email or password. Try again!')
       }
  }
     return(
