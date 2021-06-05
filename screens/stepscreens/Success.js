@@ -1,12 +1,63 @@
 import { Text, H3, Button} from 'native-base';
 import React from 'react';
-import { ScrollView, Image, View, StyleSheet} from 'react-native';
+import { ScrollView, Image, View, StyleSheet, BackHandler} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useHistory } from 'react-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useFonts} from 'expo-font';
 
 export default Success = () =>{
     const history= useHistory();
+    
+  const [loaded] = useFonts({
+    Lato: require('../../assets/fonts/lato.ttf'),
+  });
+
+  
+React.useEffect(()=>{
+    const backAction = () => {
+      history.push('/');
+       return true;
+     };
+     
+     const backHandler = BackHandler.addEventListener(
+       "hardwareBackPress",
+       backAction
+     );
+     return () => backHandler.remove();
+  });
+
+  //Getting user Payment Status
+    const [data, setData]=React.useState(null);
+    React.useEffect(() => {
+        getServices();
+      }, []);
+      const getServices = async () => {
+        const requestId= await AsyncStorage.getItem("applicationId");
+        const service_url = `http://13.234.123.221/api/service/${requestId}`;
+        const service = await (await fetch(service_url, { method: "GET" })).json();
+        setData(service);
+    };
+
+    //Formatting of Date
+      function dateFormat(d) {
+        const date = new Date(d).toLocaleString();
+        let dateArray =date.split(" ");
+        let finaldate;
+        if(dateArray.length==5)
+        {
+        finaldate = `${dateArray[2]} ${dateArray[1]} ${dateArray[4]}`
+        }
+        else{
+          finaldate= `${dateArray[3]} ${dateArray[1]} ${dateArray[5]}`
+        }
+        return finaldate;
+      };
+  
+      if(!data){
+          return(<View></View>)
+      }
         return (
             <>
             <ScrollView style={{padding:16, backgroundColor:'#fff'}}>
@@ -15,43 +66,42 @@ export default Success = () =>{
                     <Text style={{textAlign:'center', fontSize:16, color:'#9d9494'}}>Your payment was successful and we have also reserved the slot for your appointment.
                     You can keep track of your application from your “History”.</Text>
                 </View>
-                <H3 style={{marginTop:20, fontWeight:'bold', fontSize:19}}>Company Formation Services</H3>
+                <H3 style={{marginTop:20, fontWeight:'bold', fontSize:19, marginBottom:20}}>{data.serviceCategory.name}</H3>
                 <View style={ style.listContainer}>   
-                    <View>
+                    <View style={{width:"60%"}}>
                     <Text style={style.itemHeading}>Date</Text>
-                    <Text style={style.itemText}>22/01/2021</Text>
+                    <Text style={style.itemText}>{dateFormat(data.transaction.createdAt)}</Text>
                     </View>
-                    <View style={{marginLeft:120}}> 
+                    <View style={{width:"40%"}}> 
                     <Text style={style.itemHeading}>Service Id</Text>
-                    <Text style={style.itemText}>BXCJCR34</Text>
+                    <Text style={style.itemText}>{data.serviceCategory.scode}</Text>
                     </View>
                 </View>
                 <View style={style.listContainer}>                
-                    <View>
+                    <View style={{width:"60%"}}> 
                     <Text style={style.itemHeading}>Mode</Text>
-                    <Text style={style.itemText}>Debit Card</Text>
+                    <Text style={style.itemText}>{data.transaction.ptype}</Text>
                     </View>
-                    <View style={{marginLeft:130}}>
+                    <View style={{width:"40%"}}>
                     <Text style={style.itemHeading}>Amount(AED)</Text>
-                    <Text>350.00</Text>
+                    <Text style={{marginTop:7}}>{data.transaction.amount}</Text>
                     </View>
                 </View>
                 <View style={style.listContainer}>
-                <View>
+                <View style={{width:"60%"}}>
                     <Text style={style.itemHeading}>Transaction ID</Text>
-                    <Text style={style.itemText}>XMBC3457XNT0</Text>
+                    <Text style={style.itemText}>{data.transaction._id}</Text>
                     </View>
-                <View style={{marginLeft:90}}>
+                <View style={{width:"40%"}}>
                     <Text style={style.itemHeading}>Status</Text>
-                    <View style={{borderRadius:24, backgroundColor:'#4ca0dd', marginTop:5, paddingLeft:10, paddingRight:10}}>
-                    <Text style={{fontSize:14, color:'blue', opacity:1.0}}>In-Progress</Text>
+                    <View style={{width:100, borderRadius:24, backgroundColor:'rgba(12,190,12, 0.2)', marginTop:7, paddingLeft:10, paddingRight:10}}>
+                    <Text style={{fontSize:14, color:'rgb(12,190,12)', opacity:1.0}}>{data.transaction.status}</Text>
                     </View>
                     </View>
                 </View>
                 <Button rounded style={style.laodingButton}>
                     <Text style={style.buttonText}>Download Reciept</Text>
                 </Button>
-                
                 <TouchableOpacity onPress={()=>history.push('/')}>
                 <LinearGradient colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={[0,2.52]} style={{
                         width:190, 
@@ -60,11 +110,12 @@ export default Success = () =>{
                         justifyContent:'center',
                         borderRadius:50,
                         alignItems:'center',
-                        alignSelf:'center'
+                        alignSelf:'center',
+                        marginBottom:40 
                             }}>
                     <Text style={style.buttonText}>Go To Home</Text>
                 </LinearGradient>
-                </TouchableOpacity>
+             </TouchableOpacity>
             </ScrollView>
             </>
         )
@@ -86,7 +137,7 @@ const style = StyleSheet.create({
         fontSize:12, color:'#9d9494', marginTop:10
     },
     itemText:{
-        color:'#000', fontSize:14, marginTop:5,
+        color:'#000', fontSize:14, marginTop:7,
         fontWeight:'500'
     },
     card:{
@@ -105,5 +156,5 @@ const style = StyleSheet.create({
         fontSize:15,
         textTransform:'uppercase'
     },
-    listContainer:{justifyContent:'flex-start', flexDirection:'row'}
+    listContainer:{justifyContent:'flex-start', flexDirection:'row',marginBottom:15}
 });

@@ -1,5 +1,5 @@
 import { Container, Content, Icon, List, H3, ListItem, Body, Radio, Left, View, Picker, Form, Button} from 'native-base';
-import React from 'react';
+import React,{useRef} from 'react';
 import DatePicker from 'react-native-datepicker';
 import {TouchableOpacity, ActivityIndicator, ScrollView, StyleSheet, Text, TextInput, BackHandler} from 'react-native';
 import {useHistory, useLocation} from 'react-router';
@@ -10,7 +10,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import CardHeader from '../../component/CardHeader';
 
 export default FillDetails= () =>{
-    const scroll = React.createRef();
+    const scroll = useRef();
+    
     const history = useHistory();
     const [validation, setValidation] = React.useState(true);
     const [user, setUser] = React.useState("");   
@@ -86,8 +87,8 @@ const handleSubmitForm = async () => {
 setSubmitted(true);
 if(invalidData())
 {
+    scroll.current.scrollTo({y:0, animated:true})
     setValidation(true);    
-    scroll.current?.scrollTo({y:0, animated:true})
 }
 else{
     const requestId = await AsyncStorage.getItem("applicationId");
@@ -117,7 +118,7 @@ else{
             <View style={{padding:16}}>
             <View style={{width:"100%", backgroundColor:'rgba(229, 24, 26, 0.1)', borderRadius:5, flexDirection:'row', alignItems:'center',padding:8, marginBottom:10}}>
                 <Icon type='Feather' name='x' onPress={()=>setValidation(false)}/>
-                  <Text style={{marginLeft:10, color:'#e5181a', fontSize:15, fontFamily:'Lato'}}>Please fill all the mandatory fields in order to proceed and complete the application request.</Text>
+                  <Text style={{marginLeft:10, marginRight:5, color:'#e5181a', fontSize:15, fontFamily:'Lato'}}>Please fill all the mandatory fields in order to proceed and complete the application request.</Text>
                 </View>
             </View>
             }

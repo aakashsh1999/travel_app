@@ -4,21 +4,22 @@ import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import {useFonts} from 'expo-font';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export default CardHeader = () =>{
   const [loaded] = useFonts({
     OpenSans: require('../assets/fonts/openSans.ttf'),
     Lato: require('../assets/fonts/lato.ttf'),
   }); 
-  const service_url = `http://13.234.123.221/api/serviceCategory`;
-  const [service, setServices] = React.useState(null);
 
+  const [service, setServices] = React.useState(null);
   React.useEffect(() => {
     getServices();
   }, []);
 
 
   const getServices = async () => {
-    const serviceName = await AsyncStorage.getItem("serviceName");
+    const slug = await AsyncStorage.getItem("serviceSlug");
+    const service_url = `http://13.234.123.221/api/serviceCategory/${slug}`;
     const services = await (await fetch(service_url, { method: "GET" })).json();
     const serviceData = services.data;
     setServices(serviceData);
@@ -34,7 +35,7 @@ return (
         {showCard ? 
             <Card>
             <CardItem style={{justifyContent:'space-between', borderBottomColor:'#e6e6e6', borderBottomWidth:1}}>
-              <H3 style={{fontSize:16, fontFamily:'Lato', fontWeight:'bold', color:'#000'}}>{service[0].name}</H3>
+              <H3 style={{fontSize:16, fontFamily:'Lato', fontWeight:'bold', color:'#000'}}>{service && service.name}</H3>
               <TouchableOpacity onPress={()=>setShowCard(false)}>
               <Icon type='Feather' name='x'/>
               </TouchableOpacity>
@@ -44,26 +45,26 @@ return (
                           <View style={{width:120 }}>
                           <Text style={ style.itemHeading}>Processing Time:</Text>
                           </View>
-                          <Text style={style.itemText}>{service[0].serviceDetail.processT} Hours</Text>
+                          <Text style={style.itemText}>{service.serviceDetail.processT} Hours</Text>
                           </View>
                           <View style={{flexDirection:'row', alignItems:'baseline', width:"100%", marginBottom:20} } >
                             <View style={{width:120}}>
                           <Text style={style.itemHeading}>Stay Period:</Text>
                           </View>
-                          <Text style={style.itemText}>{service[0].serviceDetail.stay} days</Text>
+                          <Text style={style.itemText}>{service.serviceDetail.stay} days</Text>
                           </View>
                           <View style={{flexDirection:'row', alignItems:'baseline', width:"100%", marginBottom:20} } >
                           <View style={{width:120}}>
                           <Text style={style.itemHeading}>Validity:</Text>
                           </View>
-                          <Text style={style.itemText}>{service[0].serviceDetail.validity} days</Text>
+                          <Text style={style.itemText}>{service.serviceDetail.validity} days</Text>
                           </View>
                 
                           <View style={{flexDirection:'row', alignItems:'baseline', width:"100%", marginBottom:20} } >
                           <View style={{width:120}}>
                           <Text style={style.itemHeading}>Entry:</Text>
                           </View>
-                          <Text style={style.itemText}>{service[0].serviceDetail.entry}</Text>
+                          <Text style={style.itemText}>{service.serviceDetail.entry}</Text>
                           </View>
                         </CardItem>
           </Card> 
@@ -76,7 +77,7 @@ return (
               <Icon type='Feather' name='info'  style={{color:'#ffff', fontSize:18, marginLeft:14, fontWeight:'500', fontFamily:'Lato'}}/>
               </TouchableOpacity>
               </Left>
-                <Text style={{color:'#fff',fontSize:20, fontFamily:'Lato', textAlignVertical:'center'}}>{service[0].serviceDetail.price} AED</Text>
+                <Text style={{color:'#fff',fontSize:20, fontFamily:'Lato', textAlignVertical:'center'}}>{parseInt(service.serviceDetail.price)} AED</Text>
               </ListItem>
               </LinearGradient>
               <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5] }
