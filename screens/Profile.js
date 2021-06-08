@@ -13,6 +13,8 @@ export default Profile = () =>{
     const [user, setUser] = React.useState([]);
     const [Id, setId] =React.useState(null);
     const [application, setApplication] = React.useState([]);
+    const [address, setAddress] = React.useState("");
+
   
     useEffect(() => {
         getData();
@@ -44,6 +46,7 @@ const getData = async () =>{
         })
       ).json();
     setUser(user.data);
+    setAddress(user.data.address);
 
     let application = await (
       await fetch(
@@ -74,7 +77,7 @@ const logout = async () =>{
   ]);
 }
 
-if(!user && !application){
+if(!user && !application && !address){
   return  <ActivityIndicator size="large" color="yellow" style={{alignSelf:'center', margin:20}} />
 }
         return (
@@ -122,9 +125,9 @@ if(!user && !application){
                     </View>
                     <View>
                     <Text style={style.infoHeading}>Address</Text>
-                    <Text style={style.infoText}>{user.address && user.address.addressLineOne}</Text>
-                    <Text style={style.infoText}>{user.address && user.address.addressLineTwo} {user.address && user.address.city}</Text>
-                    <Text style={style.infoText}>{user.address && user.address.state} {user.address && user.address.country}</Text>
+                    <Text style={style.infoText}>{address.addressLineOne}</Text>
+                    <Text style={style.infoText}>{address.addressLineTwo} {address.city}</Text>
+                    <Text style={style.infoText}>{address.state} {address.country}</Text>
                     </View>
             </Content>
             </Card>

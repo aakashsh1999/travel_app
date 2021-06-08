@@ -5,7 +5,6 @@ import {TouchableOpacity, ActivityIndicator, ScrollView, StyleSheet, Text, TextI
 import {useHistory, useLocation} from 'react-router';
 import Stepper from './Stepper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import ButtonBar from '../../component/ButtonBar';
 import { LinearGradient } from 'expo-linear-gradient';
 import CardHeader from '../../component/CardHeader';
 

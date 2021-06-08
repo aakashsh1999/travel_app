@@ -13,7 +13,6 @@ import ForgetAccount from './screens/ForgetAccount';
 import History from "./screens/History";
 import Homescreen from "./screens/Homescreen";
 import Login from './screens/Login';
-import MyDocument from './screens/MyDocument';
 import Payment from './screens/stepscreens/Payment'
 import Profile from './screens/Profile';
 import ResetPassword from './screens/ResetPassword';
@@ -27,7 +26,6 @@ import _ from 'lodash';
 import informationPage from './screens/informationPage';
 
 export default function App() {
-
   const [loaded] = useFonts({
     OpenSans: require('./assets/fonts/openSans.ttf'),
     Lato: require('./assets/fonts/lato.ttf'),
