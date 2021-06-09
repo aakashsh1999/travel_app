@@ -125,9 +125,9 @@ if(!user && !application && !address){
                     </View>
                     <View>
                     <Text style={style.infoHeading}>Address</Text>
-                    <Text style={style.infoText}>{address.addressLineOne}</Text>
-                    <Text style={style.infoText}>{address.addressLineTwo} {address.city}</Text>
-                    <Text style={style.infoText}>{address.state} {address.country}</Text>
+                    <Text style={style.infoText}>{address ? address.addressLineOne : ""}</Text>
+                    <Text style={style.infoText}>{address ? address.addressLineTwo :  ""} {address ? address.city : ""}</Text>
+                    <Text style={style.infoText}>{address ? address.state : ""} {address ? address.country : ""}</Text>
                     </View>
             </Content>
             </Card>
