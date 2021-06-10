@@ -15,9 +15,8 @@ export default ApplicationDetails = () => {
       }); 
       const service_url = `http://13.234.123.221/api/serviceCategory`;
     const history = useHistory();
-    let { applicationId } = useParams();
+        let { applicationId } = useParams();
       const [application, setapplication] = React.useState(null);
-      const [service, setServices] = React.useState(null);
       React.useEffect(() => {
         getapplication();
     }, []);
@@ -38,17 +37,16 @@ React.useEffect(()=>{
 
       const getapplication = async () => {
         let application = await (
-          await fetch(`http://13.234.123.221/api/admin/application/${applicationId}`, {
+          await fetch(`http://13.234.123.221/api/service/${applicationId}`, {
             method: "GET",
             headers: {
               "x-access-token": await AsyncStorage.getItem("token"),
             },
           })
         ).json();
-        application = application.data[0];
-        setapplication(application || []);
+        setapplication(application);
+     
       }
-
       function dateFormat(d) {
         const date = new Date(d).toLocaleString();
         let dateArray =date.split(" ");
@@ -96,7 +94,7 @@ React.useEffect(()=>{
                     <View style={{width:"50%"}}>
                     <View>
                     <Text style={style.itemHeading}>Transaction ID</Text>
-                    <Text style={style.itemText}>{application.transaction || "----"}</Text>
+                    <Text style={style.itemText}>{application.transaction && application.transaction._id || "----"}</Text>
                     </View>
                     <View> 
                     <Text style={style.itemHeading}>Service Name</Text>
