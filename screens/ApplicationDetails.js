@@ -64,7 +64,6 @@ export default ApplicationDetails = () => {
         },
       })
     ).json();
-    console.log(application.serviceCategory.serviceDetail)
     setapplication(application);
     setServiceCard(application.serviceCategory.serviceDetail);
   };
