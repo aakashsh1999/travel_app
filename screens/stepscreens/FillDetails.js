@@ -27,8 +27,8 @@ export default FillDetails= () =>{
     const [submitted,setSubmitted]= React.useState(false);
 
     React.useEffect(()=>{
-             const backAction = () => {
-          history.push('/apply');
+         const backAction = () => {
+          history.push('/type');
            return true;
          };
       
@@ -202,7 +202,7 @@ else{
         </ScrollView>
         <CardHeader/>
         <View style={{backgroundColor:'#fff', height:70, justifyContent:'space-between', alignItems:'center', paddingLeft:16, paddingRight:16 ,flexDirection:'row'}}> 
-        <TouchableOpacity onPress={() => history.push('/apply')}>
+        <TouchableOpacity onPress={() => history.push('/type')}>
                 <View style={{width:137, justifyContent:'center', height:38, borderWidth:1, backgroundColor:'#fff', borderRadius:50}}>
                  <Text style={{fontSize:15, fontWeight:'bold', fontFamily:'OpenSans', textAlign:'center'}} >PREV</Text>
                 </View>

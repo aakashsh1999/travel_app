@@ -24,6 +24,7 @@ import UploadDocuments from './screens/stepscreens/UploadDocuments';
 import {useFonts} from 'expo-font';
 import _ from 'lodash';
 import informationPage from './screens/informationPage';
+import ChooseType from './screens/stepscreens/ChooseType';
 
 export default function App() {
   const [loaded] = useFonts({
@@ -36,7 +37,7 @@ export default function App() {
       setIsVisible(false);
   }  
   React.useEffect(()=>{
-    setTimeout(Hide_Splash_Screen,3000);
+    setTimeout(Hide_Splash_Screen,2000);
     
     const backAction = () => {
      Alert.alert("Hold on!", "Are you sure you want to exit App?", [
@@ -62,8 +63,7 @@ export default function App() {
   return <SplashScreen/>
   }
   return (
-    <NativeRouter>
-      
+    <NativeRouter>  
       <TopHeader>
       <Route exact path="/" component={Homescreen}/>
       <Route exact path="/login" component={Login}/>
@@ -85,6 +85,7 @@ export default function App() {
       <Route exact path="/payment" component={Payment}/>
       <Route exact path='/stepper' component={Stepper}/>
       <Route exact path='/success' component={Success}/>
+      <Route exact path='/type' component={ChooseType}/>
     </TopHeader>
     </NativeRouter>
   );

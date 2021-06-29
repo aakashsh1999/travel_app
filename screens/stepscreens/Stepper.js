@@ -4,10 +4,11 @@ import {useLocation} from 'react-router-dom';
 import {LinearGradient} from 'expo-linear-gradient';
 
 export default StepScreen = ({active}) => {
+   
   const location = useLocation();
   const [result, setResult] = useState(null);
-  const arr = ["/apply", "/fill", "/upload", "/book", "/payment",];
-  const titleArr = ["1", "Fill Details", "Upload Documents", "Book an appointment", "Payment"];
+  const arr = ["/apply", "/type", "/fill", "/upload", "/book", "/payment",];
+  const titleArr = ["1", "Choose Type", "Fill Details", "Upload Documents", "Book an appointment", "Payment"];
   React.useEffect(() => {
       let final = [];
       for (let i = 0; i < arr.length; i++) {
@@ -26,47 +27,64 @@ export default StepScreen = ({active}) => {
   return (
     <View style={{width:"100%", flexDirection:'row', justifyContent:'space-between', padding:20}}>
         <>
-          {(active==='/apply' || active==='/fill' || active==='/upload' || active==='/book' || active==='/payment') ?  <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
+          {(active==='/apply' || active ==='/type' || active==='/fill' || active==='/upload' || active==='/book' || active==='/payment') ?  
+            <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
                <Text style={style.stepperTextActive}>1</Text>
             </LinearGradient>
                :<View style={style.stepperCircle}>
                <Text style={style.stepperText}>1</Text>
-              </View>
+              </View>   
               }
-            {(active==='/fill' || active==='/upload' || active==='/book' || active==='/payment')  ? <View style={style.activeLine}></View> : <View style={style.line}></View>}
+            {(active==='/type' || active==='/fill' || active==='/upload' || active==='/book' || active==='/payment')  ? <View style={style.activeLine}></View> : <View style={style.line}></View>}
 
-           {(active==='/fill' || active==='/upload' || active==='/book' || active==='/payment') ? 
+            {(active ==='/type' || active==='/fill' || active==='/upload' || active==='/book' || active==='/payment') ?  
             <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
                <Text style={style.stepperTextActive}>2</Text>
             </LinearGradient>
-            :<View style={style.stepperCircle}>
+               :<View style={style.stepperCircle}>
                <Text style={style.stepperText}>2</Text>
-            </View>}
-            {(active==='/upload' || active==='/book' || active==='/payment') ?<View style={style.activeLine}></View>:<View style={style.line}></View>}
+              </View>   
+              }
+            {(active==='/fill' || active==='/upload' || active==='/book' || active==='/payment')  ? <View style={style.activeLine}></View> : <View style={style.line}></View>}
 
-            {(active==='/upload' || active==='/book' || active==='/payment') ? 
+            {(active==='/fill' || active==='/upload' || active==='/book' || active==='/payment') ?  
             <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
                <Text style={style.stepperTextActive}>3</Text>
             </LinearGradient>
-            :<View style={style.stepperCircle}>
+               :<View style={style.stepperCircle}>
                <Text style={style.stepperText}>3</Text>
-            </View>}
-            {(active==='/book' || active==='/payment') ?<View style={style.activeLine}></View>:<View style={style.line}></View>}
+              </View>   
+              }
+            {(active==='/upload' || active==='/book' || active==='/payment')  ? <View style={style.activeLine}></View> : <View style={style.line}></View>}
 
-            {(active==='/book' || active==='/payment') ? <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
+            {(active==='/upload' || active==='/book' || active==='/payment') ?  
+            <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
                <Text style={style.stepperTextActive}>4</Text>
             </LinearGradient>
-            : <View style={style.stepperCircle}>
+               :<View style={style.stepperCircle}>
                <Text style={style.stepperText}>4</Text>
-            </View>}
-            {(active==='/payment') ?<View style={style.activeLine}></View>:<View style={style.line}></View>}
+              </View>   
+              }
+            {(active==='/book' || active==='/payment')  ? <View style={style.activeLine}></View> : <View style={style.line}></View>}
 
-            { (active==='/payment') ?  <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
+            {(active==='/book' || active==='/payment') ?  
+            <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
                <Text style={style.stepperTextActive}>5</Text>
             </LinearGradient>
-            :<View style={style.stepperCircle}>
+               :<View style={style.stepperCircle}>
                <Text style={style.stepperText}>5</Text>
-            </View>}
+              </View>   
+              }
+            {(active==='/payment')  ? <View style={style.activeLine}></View> : <View style={style.line}></View>}
+
+            {(active==='/payment') ?  
+            <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
+               <Text style={style.stepperTextActive}>6</Text>
+            </LinearGradient>
+               :<View style={style.stepperCircle}>
+               <Text style={style.stepperText}>6</Text>
+              </View>   
+              }
             </>
        </View>
         );

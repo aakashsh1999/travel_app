@@ -50,13 +50,13 @@ export default Homescreen = () =>{
             </Text>
             </View>
             <ServiceGrid/>
-           <View style={{marginTop:20, marginLeft:16}}>
+           {/* <View style={{marginTop:20, marginLeft:16}}>
                 <H2 style={style.ourServices}>Tourist Services</H2>
                 <Image source={require('../assets/clipath.png')} />
             </View>
             <View style={{padding:15}}>
             <TouristGrid/>            
-            </View>
+            </View> */}
             </ScrollView>
             <Bottombar/>
             </>

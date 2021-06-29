@@ -19,9 +19,11 @@ export default CardHeader = () =>{
 
   const getServices = async () => {
     const slug = await AsyncStorage.getItem("serviceSlug");
-    const service_url = `http://13.234.123.221/api/serviceCategory/${slug}`;
+    const subCatId= await AsyncStorage.getItem("subCatId");
+    const service_url = `http://13.234.123.221/api/serviceCategory/subCat/${slug}/${subCatId}`
     const services = await (await fetch(service_url, { method: "GET" })).json();
     const serviceData = services.data;
+    console.log(serviceData)
     setServices(serviceData);
   };
 
@@ -35,7 +37,7 @@ return (
         {showCard ? 
             <Card>
             <CardItem style={{justifyContent:'space-between', borderBottomColor:'#e6e6e6', borderBottomWidth:1}}>
-              <H3 style={{fontSize:16, fontFamily:'Lato', fontWeight:'bold', color:'#000'}}>{service && service.name}</H3>
+              <H3 style={{fontSize:16, fontFamily:'Lato', fontWeight:'bold', color:'#000'}}>{service?.name}</H3>
               <TouchableOpacity onPress={()=>setShowCard(false)}>
               <Icon type='Feather' name='x'/>
               </TouchableOpacity>
@@ -45,26 +47,26 @@ return (
                           <View style={{width:120 }}>
                           <Text style={ style.itemHeading}>Processing Time:</Text>
                           </View>
-                          <Text style={style.itemText}>{service.serviceDetail.processT} Hours</Text>
+                          <Text style={style.itemText}>{service?.processT} Hours</Text>
                           </View>
                           <View style={{flexDirection:'row', alignItems:'baseline', width:"100%", marginBottom:20} } >
                             <View style={{width:120}}>
                           <Text style={style.itemHeading}>Stay Period:</Text>
                           </View>
-                          <Text style={style.itemText}>{service.serviceDetail.stay} days</Text>
+                          <Text style={style.itemText}>{service?.stayPeriod} days</Text>
                           </View>
                           <View style={{flexDirection:'row', alignItems:'baseline', width:"100%", marginBottom:20} } >
                           <View style={{width:120}}>
                           <Text style={style.itemHeading}>Validity:</Text>
                           </View>
-                          <Text style={style.itemText}>{service.serviceDetail.validity} days</Text>
+                          <Text style={style.itemText}>{service?.validity} days</Text>
                           </View>
                 
                           <View style={{flexDirection:'row', alignItems:'baseline', width:"100%", marginBottom:20} } >
                           <View style={{width:120}}>
                           <Text style={style.itemHeading}>Entry:</Text>
                           </View>
-                          <Text style={style.itemText}>{service.serviceDetail.entry}</Text>
+                          <Text style={style.itemText}>{service?.entry}</Text>
                           </View>
                         </CardItem>
           </Card> 
@@ -77,7 +79,7 @@ return (
               <Icon type='Feather' name='info'  style={{color:'#ffff', fontSize:18, marginLeft:14, fontWeight:'500', fontFamily:'Lato'}}/>
               </TouchableOpacity>
               </Left>
-                <Text style={{color:'#fff',fontSize:20, fontFamily:'Lato', textAlignVertical:'center'}}>{parseInt(service.serviceDetail.price)} AED</Text>
+                <Text style={{color:'#fff',fontSize:20, fontFamily:'Lato', textAlignVertical:'center'}}>{parseInt(service?.price)} AED</Text>
               </ListItem>
               </LinearGradient>
               <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5] }

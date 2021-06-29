@@ -108,6 +108,7 @@ export default UploadDocuments = () => {
     const service_url = `http://13.234.123.221/api/serviceCategory/${slug}`;
     const service = await (await fetch(service_url, { method: "GET" })).json();
     const serviceData = service.data;
+    console.log(serviceData);
     setService(serviceData);
     await getDocuments();
   };
@@ -138,12 +139,10 @@ export default UploadDocuments = () => {
   //     },
   //     body: JSON.stringify(jsonPostData)
   //   })).json();
-  //   console.log(resu.data);
   // const downloadData = await FileSystem.downloadAsync(
   // resu.data,
   // FileSystem.documentDirectory + name
   // )
-  //   console.log(downloadData);
   // }
 
   if (!services) {

@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, ActivityIndicator, Touchable, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Image, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
 import {useFonts} from 'expo-font';
 import { useHistory } from 'react-router-dom';
+
 
 export default function ServiceGrid() {
   const history = useHistory();
@@ -25,7 +26,7 @@ export default function ServiceGrid() {
       name: e.name,
       tv_type: e.tv_type,
       slug: e.slug,
-      image: e.serviceDetail.image
+      image: e.image
     }));
     setServices(serviceData);
   };
@@ -43,7 +44,7 @@ export default function ServiceGrid() {
       renderItem={({ item }) => (
         <TouchableOpacity onPress={()=>history.push(`/aboutservice/${item.slug}`)}>
         <View style={[styles.itemContainer, { backgroundColor: '#fff' }]}>
-            <Image style={{width:30, height:30,alignSelf:'center', margin:10}} source={{uri: 'data:image/png;base64,'+item.image}}/>
+         {item.image ? <Image style={{width:30, height:30,alignSelf:'center', margin:10}} source={{uri: 'data:image/png;base64,'+item.image}}/>: <View></View>}
           <Text style={styles.itemName}>{item.name}</Text>
         </View>
         </TouchableOpacity>
