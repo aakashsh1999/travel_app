@@ -51,11 +51,9 @@ export default TopHeader = (props) => {
     return (
         <Drawer ref={drawer} content={<SideBar />} onClose={()=>closeDrawer()}  open={showDrawer}>
         <Header style={style.header}>
-          <Left>
               <TouchableOpacity onPress={()=>openDrawer()}>
               <Icon type="Feather" name='align-left' style={{color:'black'}} />
               </TouchableOpacity>
-          </Left>
           <Body style={style.body}>
           <Image
                 source={require('../assets/headerIcon.png')}
@@ -70,11 +68,13 @@ export default TopHeader = (props) => {
 const style =StyleSheet.create({    
     body:{
         flex:1, 
-        marginLeft:78,
-        paddingTop:10,
-        paddingBottom:10,
+        paddingRight:32,
+        justifyContent:'center',
+        alignItems:'center'
     },
     header:{
+        alignItems:'center',
+
         backgroundColor:"white",
         borderColor:"#fff"
     },
