@@ -99,9 +99,9 @@ React.useEffect(()=>{
                     </View>
                     </View>
                 </View>
-                <Button rounded style={style.laodingButton}>
+                {/* <Button rounded style={style.laodingButton}>
                     <Text style={style.buttonText}>Download Reciept</Text>
-                </Button>
+                </Button> */}
                 <TouchableOpacity onPress={()=>history.push('/')}>
                 <LinearGradient colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={[0,2.52]} style={{
                         width:190, 
@@ -111,6 +111,7 @@ React.useEffect(()=>{
                         borderRadius:50,
                         alignItems:'center',
                         alignSelf:'center',
+                        marginTop:40,
                         marginBottom:40 
                             }}>
                     <Text style={style.buttonText}>Go To Home</Text>

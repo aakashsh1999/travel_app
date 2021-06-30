@@ -27,6 +27,7 @@ import { useParams } from "react-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { useHistory } from "react-router-dom";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { subtract } from "lodash-es";
 
 export default ApplicationDetails = () => {
   const [loaded] = useFonts({
@@ -65,7 +66,10 @@ export default ApplicationDetails = () => {
       })
     ).json();
     setapplication(application);
-    setServiceCard(application.serviceCategory.serviceDetail);
+    let id=await AsyncStorage.getItem("subCatId");
+
+    let sub=application.serviceCategory.serviceDetail.find(ele=>ele._id===id )
+    setServiceCard([sub]);
   };
   
   function dateFormat(d) {
@@ -434,9 +438,6 @@ export default ApplicationDetails = () => {
                     </H3>
                     <H3 style={{ fontSize:14, fontFamily: "Lato", fontWeight: "500", marginBottom:10, marginTop:10 }}>
                       {data.hours} Hours
-                    </H3>
-                    <H3 style={{ fontSize: 14, fontFamily: "OpenSans" }}>
-                      Transit Visa + Insurance (Covid)
                     </H3>
                   </View>
                 </CardItem>

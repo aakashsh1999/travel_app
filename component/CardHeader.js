@@ -23,7 +23,6 @@ export default CardHeader = () =>{
     const service_url = `http://13.234.123.221/api/serviceCategory/subCat/${slug}/${subCatId}`
     const services = await (await fetch(service_url, { method: "GET" })).json();
     const serviceData = services.data;
-    console.log(serviceData)
     setServices(serviceData);
   };
 

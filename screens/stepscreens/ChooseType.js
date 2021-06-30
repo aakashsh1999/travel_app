@@ -40,16 +40,15 @@ export default ChooseType = () =>{
         _id: e._id,
         name: e.name,
       }));
-      console.log(serviceData)
       setServices(serviceData);
     };
   
-    const handleSubmit = async (subCatId) => {
+    const handleSubmit = async (subCatId,name) => {
       setChecked(subCatId);
     requestId = await AsyncStorage.getItem("applicationId");
     await AsyncStorage.setItem("subCatId",subCatId);
       const jsonPostData={
-        "subCat": subCatId
+        "subCat": name
       }
      
       const url = `http://13.234.123.221/api/service/type/${requestId}`;
@@ -75,7 +74,7 @@ export default ChooseType = () =>{
             <H3 style={style.heading}>Choose Type</H3>
             <Stepper active='/type'/>
                     <List style={{marginTop:10,borderColor:"#f4f4f4", borderWidth:1, paddingLeft:16, paddingRight:16, marginBottom:30}}>
-                  {service && service.map((data) => <TouchableOpacity  onPress={()=>handleSubmit(data._id)} key={data._id}>
+                  {service && service.map((data) => <TouchableOpacity  onPress={()=>handleSubmit(data._id,data.name)} key={data._id}>
                         <ListItem style={{height:62, borderColor:"#fff", borderBottomColor:'#f4f4f4', borderBottomWidth:1}}>
                         <Radio selectedColor="#c7a006" color='#000' selected={checked === data._id} />
                         <Body>
