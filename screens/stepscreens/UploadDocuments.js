@@ -112,7 +112,6 @@ export default UploadDocuments = () => {
     setService(serviceData);
     await getSubServices();
     await getDocuments();
-    console.log(serviceDetail);
   };
 
   const getDocuments = async () => {
