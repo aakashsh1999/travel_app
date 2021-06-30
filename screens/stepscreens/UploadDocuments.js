@@ -38,10 +38,11 @@ export default UploadDocuments = () => {
   const [filename, setFilename] = React.useState("");
   const [docsArray, updateMyArray] = React.useState([]);
   const [services, setService] = React.useState(null);
+  const [serviceDetail, setServiceDetail] = React.useState(null);
   const [reqDocs, setDocs] = React.useState([]);
 
   React.useEffect(() => {
-    getServices();
+    getSubServices(); 
   }, []);
 
   React.useEffect(() => {
@@ -109,7 +110,9 @@ export default UploadDocuments = () => {
     const service = await (await fetch(service_url, { method: "GET" })).json();
     const serviceData = service.data;
     setService(serviceData);
+    await getSubServices();
     await getDocuments();
+    console.log(serviceDetail);
   };
 
   const getDocuments = async () => {
@@ -124,6 +127,16 @@ export default UploadDocuments = () => {
     application = application.data[0].docs;
     updateMyArray(application || []);
   };
+
+  const getSubServices = async () => {
+    const slug = await AsyncStorage.getItem("serviceSlug");
+    const subCatId= await AsyncStorage.getItem("subCatId");
+    const service_url = `http://13.234.123.221/api/serviceCategory/subCat/${slug}/${subCatId}`
+    const services = await (await fetch(service_url, { method: "GET" })).json();
+    const serviceData = services.data;
+    setServiceDetail(serviceData);
+  };
+
 
   // const generateLink = async (key, name) => {
   //   const jsonPostData = {
@@ -144,7 +157,7 @@ export default UploadDocuments = () => {
   // )
   // }
 
-  if (!services) {
+  if (!serviceDetail) {
     return (
       <ActivityIndicator
         size="large"
@@ -159,7 +172,7 @@ export default UploadDocuments = () => {
         <H3 style={style.heading}>Upload Documents</H3>
         <Stepper active="/upload" />
         <View style={{ padding: 16 }}>
-          {docsArray.length !== services.serviceDetail.reqDocs.length ? (
+          {docsArray.length !== serviceDetail&&serviceDetail.reqDocs.length ? (
             <View>
               <Label style={style.label}>Choose a document</Label>
               <Form>
@@ -179,8 +192,8 @@ export default UploadDocuments = () => {
                     value=""
                     key={0}
                   ></Picker.Item>
-                  {services.serviceDetail &&
-                    services.serviceDetail.reqDocs.map((ele, index) => (
+                  {serviceDetail &&
+                    serviceDetail.reqDocs.map((ele, index) => (
                       <Picker.Item label={ele} value={ele} key={index + 1} />
                     ))}
                 </Picker>
@@ -219,8 +232,8 @@ export default UploadDocuments = () => {
           </View>
           <View style={{ marginTop: 40, marginBottom: 10 }}>
             <Text style={style.label}>Documents Required</Text>
-            {services.serviceDetail &&
-              services.serviceDetail.reqDocs.map((data, index) => (
+            {serviceDetail &&
+              serviceDetail.reqDocs.map((data, index) => (
                 <ListItem
                   style={{ height: 52, borderBottomColor: "#fff" }}
                   key={index}
@@ -304,7 +317,7 @@ export default UploadDocuments = () => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            services.serviceDetail.reqDocs.length === docsArray.length
+          serviceDetail&&serviceDetail.reqDocs.length === docsArray.length
               ? history.push("/book")
               : alert("Please upload all required documents!");
           }}
