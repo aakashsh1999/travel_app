@@ -62,17 +62,16 @@ return (
             <Image source={require('../assets/clipath.png')} />
         </View>
         <Content style={[{padding:16}]}>
-        {!appointment.data ? <ActivityIndicator size="large" color='yellow' style={{alignSelf:'center', margin:20}} /> : appointment.data.map((data)=> 
+        {!appointment.data ? 
+        <ActivityIndicator size="large" color='yellow' style={{alignSelf:'center', margin:20}} /> : appointment.data.map((data)=> 
          <Card style={style.card} key={data._id}>
-            <Left>
                 <View style={style.labelBox}>
                     <H3 style={style.labelheading}>{data.appt_date}</H3>
                     <Text>{data.appt_month} {data.appt_year}</Text>
                 </View>
-            </Left>
-            <View style={{width:240, marginRight:10}}>
+            <View style={{maxWidth:"80%",flexGrow:1, marginLeft:10, marginRight:5}}>
                 <LinearGradient  
-                style={{width:90, height:19, justifyContent:'center', marginTop:2, borderRadius:50}}
+                style={{ width:90, height:19, justifyContent:'center', marginTop:2, borderRadius:9}}
                     colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={[0,2.57]}>
                     <Text style={{textAlign:'center', fontSize:12, fontFamily:'Lato', padding:5, textTransform:'uppercase', fontWeight:"500"}}>Upcoming</Text>
                 </LinearGradient>
@@ -112,9 +111,11 @@ const style = StyleSheet.create({
         fontFamily:'Lato'
     }, 
     card:{
+        display:"flex",
         borderWidth:1, 
         borderColor:'#e6e6e6',
-        padding:10, flexDirection:'row',
+        padding:10, 
+        flexDirection:'row',
         marginBottom:20
     }, 
     InactiveHeading:{
