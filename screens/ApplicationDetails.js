@@ -16,6 +16,7 @@ import {
   ScrollView,
   View,
   Image,
+  Platform,
   StyleSheet,
   BackHandler,
   ActivityIndicator,
@@ -65,19 +66,19 @@ export default ApplicationDetails = () => {
       })
     ).json();
     setapplication(application);
-    setServiceCard(application.serviceCategory.serviceDetail);
+    const serviceDetail = application.serviceCategory.serviceDetail;
+    let sub=serviceDetail.find(ele=>ele.name==application.serviceDetail )
+    setServiceCard([sub]);
   };
   
   function dateFormat(d) {
-    const date = new Date(d).toLocaleString();
-    let dateArray = date.split(" ");
-    let finaldate;
-    if (dateArray.length == 5) {
-      finaldate = `${dateArray[2]} ${dateArray[1]} ${dateArray[4]}`;
-    } else {
-      finaldate = `${dateArray[3]} ${dateArray[1]} ${dateArray[5]}`;
-    }
-    return finaldate;
+    const month_names_short= ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    let da= new Date(d);
+    const ye = da.getFullYear();
+    const mo = month_names_short[da.getMonth()-1];
+    const day = da.getDay();
+
+    return `${day} ${mo}, ${ye}`;
   }
 
   if (!application) {
@@ -416,7 +417,7 @@ export default ApplicationDetails = () => {
               {application && application.serviceCategory.name}
             </Text>
            
-         {serviceCard && serviceCard.map((data, index) => 
+         {serviceCard && Array.isArray(serviceCard) && serviceCard.map((data, index) => 
               <Card
                 style={{
                   borderWidth: 1,
@@ -434,9 +435,6 @@ export default ApplicationDetails = () => {
                     </H3>
                     <H3 style={{ fontSize:14, fontFamily: "Lato", fontWeight: "500", marginBottom:10, marginTop:10 }}>
                       {data.hours} Hours
-                    </H3>
-                    <H3 style={{ fontSize: 14, fontFamily: "OpenSans" }}>
-                      Transit Visa + Insurance (Covid)
                     </H3>
                   </View>
                 </CardItem>

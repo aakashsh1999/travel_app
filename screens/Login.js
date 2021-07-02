@@ -82,8 +82,9 @@ export default Login =  () =>{
                 </TouchableOpacity>
                 <TouchableOpacity  onPress={()=>handleSubmitForm()}>
                 <LinearGradient   
-                    colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={0,2.57}
-                    style={style.loginButton}>
+                    colors={['#c7a006', '#ffff00', '#c7a006']} start={[1, 0]} end={[0,2.57]}
+                     style={style.loginButton}
+                    >
                 <Text style={{fontSize:15, fontWeight:'bold'}}>LOGIN</Text>
                 </LinearGradient>
                 </TouchableOpacity>
@@ -100,11 +101,11 @@ export default Login =  () =>{
 }
 
 const style = StyleSheet.create({
-    body: {backgroundColor:"#000", height:"100%",   
+    body: {backgroundColor:"#000000", height:"100%",   
     paddingLeft:16, paddingRight:16
     },
     loginBody:{
-        width:"100%", height:525, backgroundColor:'#fff', paddingLeft:12, paddingRight:12, marginTop:48
+        width:"100%", height:525, backgroundColor:'#ffffff', paddingLeft:12, paddingRight:12, marginTop:48
     },
     title:{
         fontSize:26,
@@ -125,7 +126,7 @@ const style = StyleSheet.create({
         height:40,
         borderColor:'#e9e9e9',
         borderWidth:1,
-        color:"#000",
+        color:"#000000",
         paddingLeft:15,
         marginBottom:18
     },

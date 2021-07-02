@@ -55,18 +55,15 @@ const getData = async () =>{
       };  
       
       function dateFormat(d) {
-        const date = new Date(d).toLocaleString();
-        let dateArray =date.split(" ");
-        let finaldate;
-        if(dateArray.length==5)
-        {
-        finaldate = `${dateArray[2]} ${dateArray[1]} ${dateArray[4]}`
-        }
-        else{
-          finaldate= `${dateArray[3]} ${dateArray[1]} ${dateArray[5]}`
-        }
-        return finaldate;
-      };
+        const month_names_short= ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        let da= new Date(d);
+        const ye = da.getFullYear();
+        const mo = month_names_short[da.getMonth()-1];
+        const day = da.getDay();
+
+        return `${day} ${mo}, ${ye}`;
+      }
+    
   
     return (
         <ScrollView style={{backgroundColor:'#fff'}}>

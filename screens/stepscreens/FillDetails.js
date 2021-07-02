@@ -122,13 +122,17 @@ else{
             </View>
             }
             <View style={{flexDirection:'row', marginTop:25, paddingLeft:16, paddingRight:16}}>
-                <View style={{flexDirection:'row', alignItems:'center'}}>
-                <Radio onPress={() => setType('self')} selected={type === 'self'} selectedColor="#c7a006" color='#000' />
+                <View>
+                <TouchableOpacity onPress={() => setType('self')} style={{flexDirection:'row', alignItems:'center'}}>
+                <Radio selected={type === 'self'} selectedColor="#c7a006" color='#000000' />
                 <Text style={{fontSize:14,marginLeft:10, fontFamily:'OpenSans'}}>Self</Text>
+                </TouchableOpacity>
                 </View>
-                <View style={{flexDirection:'row', alignItems:'center', marginLeft:40}}>
-                <Radio selectedColor="#c7a006" color='#000' onPress={() => setType('other')} selected={type === 'other'} />
+                <View>
+                <TouchableOpacity onPress={()=> setType('other')} style={{flexDirection:'row', alignItems:'center', marginLeft:40}}>
+                <Radio selectedColor="#c7a006" selected={type === 'other'} color="#000000"/>
                 <Text style={{fontSize:14,marginLeft:10, fontFamily:'OpenSans'}}>Other</Text>
+                </TouchableOpacity>
                 </View>
             </View>            
             <View style={{marginTop:20, paddingLeft:16, paddingRight:16,}}>
@@ -162,13 +166,17 @@ else{
                     </View>
            </View>
            <View style={{flexDirection:'row', marginTop:15, justifyContent:'flex-start', paddingLeft:16, paddingRight:16,}}>
-                <View style={{flexDirection:'row', alignItems:'center'}}>
-                <Radio selectedColor="#c7a006" color='#000' onPress={() => setAlias('Home')} selected={alias === 'Home'} />
+                <View>
+                <TouchableOpacity onPress={() => setAlias('Home')} style={{flexDirection:'row', alignItems:'center'}}>
+                <Radio selectedColor="#c7a006" color='#000000' onPress={() => setAlias('Home')} selected={alias === 'Home'} />
                 <Text style={{fontSize:14,marginLeft:10, fontFamily:'OpenSans'}}>Home</Text>
+                </TouchableOpacity>
                 </View>
-                <View style={{flexDirection:'row', alignItems:'center', marginLeft:40}}>
-                <Radio selectedColor="#c7a006" color='#000' onPress={() => setAlias('Office')} selected={alias === 'Office'} />
+                <View>
+                <TouchableOpacity onPress={() => setAlias('Office')} style={{flexDirection:'row', alignItems:'center', marginLeft:40}}>
+                <Radio selectedColor="#c7a006" color='#000000' selected={alias === 'Office'} />
                 <Text style={{fontSize:14,marginLeft:10, fontFamily:'OpenSans'}}>Office</Text>
+                </TouchableOpacity>
                 </View>
             </View>         
                 <View style={{marginTop:20, paddingLeft:16, paddingRight:16,}}>
