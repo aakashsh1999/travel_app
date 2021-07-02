@@ -38,7 +38,6 @@ const AboutService = () => {
       key: e._id,
     }));
     setOptions(serviceOptions);
-    console.log(serviceData)
     setService(serviceData);
   };
 

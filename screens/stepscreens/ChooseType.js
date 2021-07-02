@@ -13,7 +13,6 @@ export default ChooseType = () =>{
   const history = useHistory();
   let requestId;
   
-
   React.useEffect(()=>{
       const backAction = () => {
         history.push('/apply');
@@ -40,7 +39,6 @@ export default ChooseType = () =>{
         _id: e._id,
         name: e.name,
       }));
-      console.log(serviceData)
       setServices(serviceData);
     };
   
