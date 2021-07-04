@@ -117,7 +117,6 @@ export default UploadDocuments = () => {
 
   const getDocuments = async () => {
     requestId = await AsyncStorage.getItem("applicationId");
-    console.log(`http://13.234.123.221/api/admin/application/${requestId}`);
     let application = await (
       await fetch(`http://13.234.123.221/api/admin/application/${requestId}`, {
         method: "GET",
@@ -168,7 +167,6 @@ export default UploadDocuments = () => {
       />
     );
   }
-  console.log(docsArray);
   return (
     <>
       <Content>
