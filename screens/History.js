@@ -7,7 +7,6 @@ import {useHistory} from 'react-router-dom';
 export default History = () =>{
     let history= useHistory();
     const [page, setPage] =React.useState(2)
-    const [isbuttonVisible, setIsVisible] =React.useState(false);
     const [application, setApplication] = React.useState([]);
     useEffect(() => {
         getData();
@@ -59,9 +58,8 @@ const getData = async () =>{
         let da= new Date(d);
         const ye = da.getFullYear();
         const mo = month_names_short[da.getMonth()-1];
-        const day = da.getDay();
-
-        return `${day} ${mo}, ${ye}`;
+        const day = da.getDate();
+        return `${day} ${mo} ${ye}`;
       }
     
   
@@ -70,9 +68,9 @@ const getData = async () =>{
          <View style={{marginTop:20,margin:16}}>
             <View style={style.title}>
             <TouchableOpacity onPress={()=>history.push('/profile')}>
-            <Icon type='FontAwesome' name="arrow-circle-o-left" style={{fontSize:16, marginBottom:7,}}/>
+            <Icon type='FontAwesome' name="arrow-circle-o-left" style={{fontSize:24, marginBottom:7,}}/>
             </TouchableOpacity>
-            <Text style={style.heading}>History</Text>
+            <Text style={style.heading}>History ({application.length})</Text>
             </View>
             <Image source={require('../assets/clipath.png')} />
             </View>

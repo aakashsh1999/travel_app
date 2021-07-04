@@ -67,7 +67,7 @@ export default ApplicationDetails = () => {
     ).json();
     setapplication(application);
     const serviceDetail = application.serviceCategory.serviceDetail;
-    let sub=serviceDetail.find(ele=>ele.name==application.serviceDetail )
+    let sub = serviceDetail.find(ele=>ele.name==application.serviceDetail )
     setServiceCard([sub]);
   };
   
@@ -76,7 +76,7 @@ export default ApplicationDetails = () => {
     let da= new Date(d);
     const ye = da.getFullYear();
     const mo = month_names_short[da.getMonth()-1];
-    const day = da.getDay();
+    const day = da.getDate();
 
     return `${day} ${mo}, ${ye}`;
   }
@@ -105,7 +105,7 @@ export default ApplicationDetails = () => {
             <Icon
               type="FontAwesome"
               name="arrow-circle-o-left"
-              style={{ fontSize: 16, marginBottom: 7 }}
+              style={{ fontSize: 24, marginBottom: 7 }}
               onPress={() => history.push("/history")}
             />
             <Text style={style.heading}>Application Details</Text>
@@ -144,8 +144,7 @@ export default ApplicationDetails = () => {
               <View>
                 <Text style={style.itemHeading}>Transaction ID</Text>
                 <Text style={style.itemText}>
-                  {(application.transaction && application.transaction._id) ||
-                    "----"}
+                  {(application.transaction && application.transaction._id)}
                 </Text>
               </View>
               <View>
@@ -431,10 +430,11 @@ export default ApplicationDetails = () => {
                 >
                   <View style={{ marginTop: 10, marginBottom: 10 }}>
                   <H3 style={{ fontFamily: "Lato", fontWeight: "bold" }}>
-                    {data.name}
+                    {data?.name}
                     </H3>
-                    <H3 style={{ fontSize:14, fontFamily: "Lato", fontWeight: "500", marginBottom:10, marginTop:10 }}>
-                      {data.hours} Hours
+                    </View>
+                    {/* <H3 style={{ fontSize:14, fontFamily: "Lato", fontWeight: "500", marginBottom:10, marginTop:10 }}>
+                      {data?.hours} Hours
                     </H3>
                   </View>
                 </CardItem>
@@ -449,21 +449,21 @@ export default ApplicationDetails = () => {
                     <View style={{ backgroundColor: "#fff" }}>
                       <Text style={style.gridHeading}>Processing Time</Text>
                       <Text style={style.text}>
-                        Upto {data.processT} Days
+                        Upto {data?.processT} Days
                       </Text>
                     </View>
 
                     <View style={{ backgroundColor: "#fff" }}>
                       <Text style={style.gridHeading}>Stay Period</Text>
                       <Text style={style.text}>
-                        {data.stayPeriod} Days
+                        {data?.stayPeriod} Days
                       </Text>
                     </View>
 
                     <View style={{ backgroundColor: "#fff" }}>
                       <Text style={style.gridHeading}>Validity</Text>
                       <Text style={style.text}>
-                         {data.validity} Days
+                         {data?.validity} Days
                       </Text>
                     </View>
                   </View>
@@ -473,7 +473,7 @@ export default ApplicationDetails = () => {
                     <View style={{ backgroundColor: "#fff" }}>
                       <Text style={style.gridHeading}>Entry</Text>
                       <Text style={style.text}>
-                        {data.entry}
+                        {data?.entry}
                       </Text>
                     </View>
                     <View
@@ -489,10 +489,10 @@ export default ApplicationDetails = () => {
                           fontFamily: "OpenSans",
                         }}
                       >
-                        {data.price} AED
+                        {data?.price} AED
                       </Text>
                     </View>
-                  </View>
+                  </View> */}
                 </CardItem>
               </Card>)
            }

@@ -55,7 +55,7 @@ return (
         <View style={{marginTop:20,margin:16}}>
             <View style={style.title}>
             <TouchableOpacity onPress={()=>history.push('/profile')}>
-            <Icon type='FontAwesome' name="arrow-circle-o-left" style={{fontSize:16, marginBottom:7,}}/>
+            <Icon type='FontAwesome' name="arrow-circle-o-left" style={{fontSize:24, marginBottom:7,}}/>
             </TouchableOpacity>
             <Text style={style.heading}>Appointments ({appointment.count})</Text>
             </View>
