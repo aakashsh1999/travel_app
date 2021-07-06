@@ -429,7 +429,7 @@ export default ApplicationDetails = () => {
                   style={{ borderBottomWidth: 1, borderColor: "#e6e6e6" }}
                 >
                   <View style={{ marginTop: 10, marginBottom: 10 }}>
-                  <H3 style={{ fontFamily: "Lato", fontWeight: "bold" }}>
+                  <H3 style={{ fontFamily: "Lato",  fontSize:16}}>
                     {data?.name}
                     </H3>
                     </View>

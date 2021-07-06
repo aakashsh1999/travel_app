@@ -36,12 +36,12 @@ return (
         {showCard ? 
             <Card>
             <CardItem style={{justifyContent:'space-between', borderBottomColor:'#e6e6e6', borderBottomWidth:1}}>
-              <H3 style={{fontSize:16, fontFamily:'Lato', fontWeight:'bold', color:'#000'}}>{service?.name}</H3>
+              <H3 style={{fontSize:16, fontFamily:'Lato', fontWeight:'bold', color:'#000', width:'95%'}}>{service?.name}</H3>
               <TouchableOpacity onPress={()=>setShowCard(false)}>
               <Icon type='Feather' name='x'/>
               </TouchableOpacity>
             </CardItem>
-                  <CardItem style={{flexDirection:'column'}}>  
+                  {/* <CardItem style={{flexDirection:'column'}}>  
                           <View style={{flexDirection:'row', alignItems:'baseline', width:"100%",  marginBottom:20} }>
                           <View style={{width:120 }}>
                           <Text style={ style.itemHeading}>Processing Time:</Text>
@@ -67,7 +67,7 @@ return (
                           </View>
                           <Text style={style.itemText}>{service?.entry}</Text>
                           </View>
-                        </CardItem>
+                        </CardItem> */}
           </Card> 
         : null }
           <LinearGradient colors={['#000000', '#545454', '#000000']} start={[1, 0]} end={[0,1.5]}>

@@ -9,17 +9,17 @@ import { LinearGradient } from 'expo-linear-gradient';
 import CardHeader from '../../component/CardHeader';
 
 export default FillDetails= () =>{
-    const scroll = useRef();
-    
+
+    const scroll = useRef();   
     const history = useHistory();
+    const [application, setApplication] =React.useState(null);
     const [validation, setValidation] = React.useState(true);
     const [user, setUser] = React.useState("");   
     const [name, setName] = React.useState("");
     const [dob, setDob] = React.useState("");
-    const [type, setType] = React.useState("");
     const [alias, setAlias] = React.useState("");
-    const [lineOne, setLineOne] = React.useState("");
-    const [lineTwo, setLineTwo] = React.useState("");
+    const [email, setEmail] = React.useState("");
+    const [phone, setPhone] = React.useState("");
     const [state, setState] = React.useState("");
     const [city, setCity] = React.useState("");
     const [country, setCountry] = React.useState("");
@@ -43,10 +43,11 @@ React.useEffect(()=>{
         getUser();
 }, []);
 
-const invalidData = () => name === "" ||  dob === "" ||  type === "" || alias == "" || lineOne === "" || lineTwo === "" || state === "" ||  city=== "" || pincode === "" || country==="";
+const invalidData = () => name === "" ||  dob === "" ||  alias == "" || email === "" || phone === "" || state === "" ||  city=== "" || pincode === "" || country==="";
 
 const getUser = async () => {
     const id= await AsyncStorage.getItem("id")
+    const applicationId = await AsyncStorage.getItem("applicationId");
     let user = await (
         await fetch(`http://13.234.123.221/api/users/${id}`, {
             method: "GET",
@@ -55,31 +56,43 @@ const getUser = async () => {
             },
         })
     ).json();
+    let application = await (
+        await fetch(`http://13.234.123.221/api/service/${applicationId}`, {
+          method: "GET",
+          headers: {
+            "x-access-token": await AsyncStorage.getItem("token"),
+          },
+        })
+      ).json();
+      setApplication(application);
     user = user.data;
     setUser(user);
     setName(user.name);
-    setAlias(user.address.alias);
-    setLineOne(user.address.addressLineOne);
-    setLineTwo(user.address.addressLineTwo);
+    setDob(application.dob);
+    setAlias(application?.otherAddress?.alias);
+    setEmail(user.email);
+    setPhone(user.phone);
     setCity(user.address.city)
     setState(user.address.state)    
     setPincode(user.address.pincode)
     setCountry(user.address.country);
 }
 
+
     const jsonPostData = {
-        "name": name ? name : user && user?.name,
-        "dob": dob,
-        "type": type,
+        "name": application?.name ? application.name : name,
+        "dob": application?.dob ? application.dob : dob,
+        "email":application?.email ? application.email : email,
+        "mobile": application?.mobile ? application.mobile : phone, 
         "address":
         {
-            "alias": alias ? alias : user && user.address?.alias,
-            "addressLineOne": lineOne ? lineOne : user && user.address?.addressLineOne,
-            "addressLineTwo": lineTwo ? lineTwo : user && user.address?.addressLineTwo,
-            "state": state ? state : user && user.address?.state,
-            "city": city ? city : user && user.address?.city,
-            "pincode": pincode ? pincode : user && user.address?.pincode,
-            "country": country ? country : user && user.address?.country,
+            "alias": alias,
+            // "addressLineOne": lineOne ? lineOne : user && user.address?.addressLineOne,
+            // "addressLineTwo": lineTwo ? lineTwo : user && user.address?.addressLineTwo,
+            "state": application?.otherAddress?.state ? application.otherAddress.state : state,
+            "city": application?.otherAddress?.city ? application.otherAddress.city : city,
+            "pincode": application?.otherAddress?.pincode ? application.otherAddress.pincode : pincode,
+            "country": application?.otherAddress?.country ? application.otherAddress.country : country,
         }
     }    
 const handleSubmitForm = async () => {       
@@ -121,7 +134,7 @@ else{
                 </View>
             </View>
             }
-            <View style={{flexDirection:'row', marginTop:25, paddingLeft:16, paddingRight:16}}>
+            {/* <View style={{flexDirection:'row', marginTop:25, paddingLeft:16, paddingRight:16}}>
                 <View>
                 <TouchableOpacity onPress={() => setType('self')} style={{flexDirection:'row', alignItems:'center'}}>
                 <Radio selected={type === 'self'} selectedColor="#c7a006" color='#000000' />
@@ -134,10 +147,10 @@ else{
                 <Text style={{fontSize:14,marginLeft:10, fontFamily:'OpenSans'}}>Other</Text>
                 </TouchableOpacity>
                 </View>
-            </View>            
+            </View>             */}
             <View style={{marginTop:20, paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>Name*</Text>
-                 <TextInput style={style.input} placeholder='Enter name' value={name} onChangeText={setName} defaultValue={user && user.name}/>
+                 <TextInput style={style.input} placeholder='Enter name' onChangeText={setName} defaultValue={application.name ? application.name : user.name}/>
                  <View>
                  <Text style={style.label}>Date of Birth*</Text>
                    <DatePicker
@@ -149,7 +162,7 @@ else{
                         maxDate="01-01-2021"
                         confirmBtnText="Confirm"
                         cancelBtnText="Cancel"  
-                        date={dob}
+                        date={application?.dob ? application.dob : dob}
                         customStyles={{
                         dateIcon: {
                             display:'none',
@@ -162,13 +175,14 @@ else{
                         // ... You can check the source to find the other keys.
                         }}
                         onDateChange={(date) =>setDob(date)}
+                        defaultValue={application?.dob}
                     />
                     </View>
            </View>
            <View style={{flexDirection:'row', marginTop:15, justifyContent:'flex-start', paddingLeft:16, paddingRight:16,}}>
                 <View>
                 <TouchableOpacity onPress={() => setAlias('Home')} style={{flexDirection:'row', alignItems:'center'}}>
-                <Radio selectedColor="#c7a006" color='#000000' onPress={() => setAlias('Home')} selected={alias === 'Home'} />
+                <Radio selectedColor="#c7a006" color='#000000' selected={alias === 'Home'} />
                 <Text style={{fontSize:14,marginLeft:10, fontFamily:'OpenSans'}}>Home</Text>
                 </TouchableOpacity>
                 </View>
@@ -180,32 +194,32 @@ else{
                 </View>
             </View>         
                 <View style={{marginTop:20, paddingLeft:16, paddingRight:16,}}>
-                 <Text style={style.label}>Address Line 1*</Text>
-                 <TextInput style={style.input} placeholder='Enter address line 1'  onChangeText={setLineOne} defaultValue={user.address && user.address.addressLineOne}/>
+                 <Text style={style.label}>Email*</Text>
+                 <TextInput style={style.input} placeholder='Enter email'  onChangeText={setEmail} defaultValue={application.email ? application.email : user.email}/>
                 </View>
                  <View style={{paddingLeft:16, paddingRight:16,}}>
-                 <Text style={style.label}>Address Line 2*</Text>
-                 <TextInput style={style.input} placeholder='Enter address line 2'   onChangeText={setLineTwo} defaultValue={user.address && user.address.addressLineTwo}/>
+                 <Text style={style.label}>Mobile Number*</Text>
+                 <TextInput style={style.input} placeholder='Enter mobile number' onChangeText={setPhone} defaultValue={`${application.mobile ? application.mobile : user.phone}`}/>
                 </View>    
                 
                 <View style={{paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>City*</Text>
-                 <TextInput style={style.input} placeholder='Enter city'  onChangeText={setCity} defaultValue={user.address &&  user.address.city}/>
+                 <TextInput style={style.input} placeholder='Enter city'  onChangeText={setCity} defaultValue={application?.otherAddress?.city ? application.otherAddress.city : user.address.city}/>
                 </View>    
 
                 <View style={{paddingLeft:16, paddingRight:16,}}>
-                 <Text style={style.label}>State</Text>
-                 <TextInput style={style.input} placeholder='Enter city'  onChangeText={setState} defaultValue={user.address && user.address.state}/>
+                 <Text style={style.label}>State*</Text>
+                 <TextInput style={style.input} placeholder='Enter city'  onChangeText={setState} defaultValue={application?.otherAddress?.state ? application.otherAddress.state : user.address.state}/>
                 </View>    
 
                 <View style={{paddingLeft:16, paddingRight:16,}}>
-                 <Text style={style.label}>PIN Code*</Text>
-                 <TextInput style={style.input} placeholder='Enter pin code'  onChangeText={setPincode} defaultValue={(user.address && user.address.pincode.toString())}/>
+                 <Text style={style.label}>P. O. Box*</Text>
+                 <TextInput style={style.input} placeholder='Enter P.O. box'  onChangeText={setPincode} defaultValue={(application?.otherAddress?.pincode ? application.otherAddress.pincode : user.address.pincode).toString()}/>
                </View>    
 
                <View style={{marginBottom:20, paddingLeft:16, paddingRight:16,}}>
                  <Text style={style.label}>Country*</Text>
-                 <TextInput style={style.input} placeholder='Enter country name' onChangeText={setCountry} defaultValue={user.address && user.address.country}/>
+                 <TextInput style={style.input} placeholder='Enter country name' onChangeText={setCountry} defaultValue={application?.otherAddress?.country ? application.otherAddress.country : user.address.country}/>
                 </View>    
         </ScrollView>
         <CardHeader/>

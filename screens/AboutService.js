@@ -134,10 +134,10 @@ const AboutService = () => {
                   color: "#000",
                 }}
               >
-                {service.name}
+                {serviceType.name}
               </H3>
             </CardItem>
-            <CardItem style={{ flexDirection: "column" }}>
+            {/* <CardItem style={{ flexDirection: "column" }}>
               <View
                 style={{
                   flexDirection: "row",
@@ -198,10 +198,9 @@ const AboutService = () => {
                 {serviceType?.entry} days
                 </Text>
               </View>
-            </CardItem>
+            </CardItem> */}
             <CardItem
               style={{
-                marginTop: 10,
                 paddingTop: 15,
                 paddingBottom: 15,
                 borderTopWidth: 1,
