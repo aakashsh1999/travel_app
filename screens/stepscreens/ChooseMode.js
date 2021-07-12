@@ -36,6 +36,7 @@ const ChooseMode = () => {
 
     return (
         <>
+        <View>
         <H3 style={style.heading}>Choose Service Mode</H3>
             <Stepper active='/mode'/>
                     <List style={{marginTop:10,borderColor:"#f4f4f4", borderWidth:1, paddingLeft:16, paddingRight:16, marginBottom:30}}>
@@ -56,6 +57,10 @@ const ChooseMode = () => {
                         </ListItem>
                         </TouchableOpacity>
                    </List>  
+                   </View>
+                   <View style={{position:'absolute', bottom:70, width:'100%'}}>
+                   <CardHeader/>
+                   </View>
                 <View style={{width:'100%',backgroundColor:'#fff', height:70, justifyContent:'space-between', alignItems:'center', paddingLeft:16, paddingRight:16 ,flexDirection:'row', position:'absolute', bottom:0}}>                
                 <TouchableOpacity onPress={() => history.push('/fill')}>
                 <View style={{width:137, justifyContent:'center', height:38, borderWidth:1, backgroundColor:'#fff', borderRadius:50}}>
