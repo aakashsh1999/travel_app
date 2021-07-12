@@ -69,7 +69,7 @@ const getUser = async () => {
     setUser(user);
     setName(user.name);
     setDob(application.dob);
-    setAlias(application?.otherAddress?.alias);
+    application?.otherAddress?.alias?setAlias(application?.otherAddress?.alias):setAlias("");
     setEmail(user.email);
     setPhone(user.phone);
     setCity(user.address.city)
@@ -115,7 +115,7 @@ else{
             body: JSON.stringify(jsonPostData)
         })).json();
             alert('Details saved successfully');
-           history.push("/upload");
+           history.push("/mode");
     }
     }
     if (!user) {

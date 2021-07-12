@@ -313,12 +313,14 @@ export default ApplicationDetails = () => {
             )}
           </View>
 
-          <View style={style.stepIndicator}>
+      {application.docs.length !== 0 ?<View>
+      <View style={style.stepIndicator}>
             <Radio selected={true} selectedColor="#c7a006" />
             <Text style={{ fontSize: 12, marginLeft: 10 }}>
               Documents Uploaded
             </Text>
           </View>
+
           <View
             style={{
               marginLeft: 30,
@@ -346,7 +348,8 @@ export default ApplicationDetails = () => {
                 </Text>
               </ListItem>
             )}
-          </View>
+          </View> 
+          </View> : <View></View>}
           <View style={style.stepIndicator}>
             <Radio selected={true} selectedColor="#c7a006" />
             <Text style={{ fontSize: 12, marginLeft: 10 }}>

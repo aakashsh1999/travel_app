@@ -16,7 +16,7 @@ export default BookAppointment = () =>{
 
         React.useEffect(()=>{
             const backAction = () => {
-              history.push('/upload');
+              history.push('/mode');
                return true;
              };
           
@@ -88,7 +88,7 @@ export default BookAppointment = () =>{
             </ScrollView>
             <CardHeader/>
             <View style={{backgroundColor:'#fff', height:70, justifyContent:'space-between', alignItems:'center', paddingLeft:16, paddingRight:16 ,flexDirection:'row'}}>                
-                <TouchableOpacity onPress={() => history.push('/upload')}>
+                <TouchableOpacity onPress={() => history.push('/mode')}>
                 <View style={{width:137, justifyContent:'center', height:38, borderWidth:1, backgroundColor:'#fff', borderRadius:50}}>
                  <Text style={{fontSize:15, fontWeight:'bold', fontFamily:'OpenSans', textAlign:'center'}} >PREV</Text>
                 </View>

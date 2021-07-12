@@ -48,7 +48,7 @@ export default UploadDocuments = () => {
 
   React.useEffect(() => {
     const backAction = () => {
-      history.push("/fill");
+      history.push("/mode");
       return true;
     };
 
@@ -293,7 +293,7 @@ export default UploadDocuments = () => {
           flexDirection: "row",
         }}
       >
-        <TouchableOpacity onPress={() => history.push("/fill")}>
+        <TouchableOpacity onPress={() => history.push("/mode")}>
           <View
             style={{
               width: 137,
@@ -319,7 +319,7 @@ export default UploadDocuments = () => {
         <TouchableOpacity
           onPress={() => {
           serviceDetail&&serviceDetail.reqDocs.length === docsArray.length
-              ? history.push("/book")
+              ? history.push("/payment")
               : alert("Please upload all required documents!");
           }}
         >

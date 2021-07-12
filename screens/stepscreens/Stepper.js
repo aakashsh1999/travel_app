@@ -3,31 +3,11 @@ import {StyleSheet, Text, View} from  'react-native';
 import {useLocation} from 'react-router-dom';
 import {LinearGradient} from 'expo-linear-gradient';
 
-export default StepScreen = ({active}) => {
-   
-  const location = useLocation();
-  const [result, setResult] = useState(null);
-  const arr = ["/apply", "/type", "/fill", "/upload", "/book", "/payment",];
-  const titleArr = ["1", "Choose Type", "Fill Details", "Upload Documents", "Book an appointment", "Payment"];
-  React.useEffect(() => {
-      let final = [];
-      for (let i = 0; i < arr.length; i++) {
-          if (arr[i] === location.pathname) {
-              final.push({ title: titleArr[i], status: true });
-              
-          }
-          else {
-              final.push({ title: titleArr[i], status: false });
-          }
-      }
-      setResult(final);
-  },[]);
-  if(!result){
-  return (<View></View>);}
+export default StepScreen = ({active}) => {   
   return (
     <View style={{width:"100%", flexDirection:'row', justifyContent:'space-between', padding:20}}>
         <>
-          {(active==='/apply' || active ==='/type' || active==='/fill' || active==='/upload' || active==='/book' || active==='/payment') ?  
+          {(active==='/apply' || active ==='/type' || active==='/fill' || active === '/mode' || active==='/upload' || active==='/book' || active==='/payment') ?  
             <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
                <Text style={style.stepperTextActive}>1</Text>
             </LinearGradient>
@@ -35,9 +15,10 @@ export default StepScreen = ({active}) => {
                <Text style={style.stepperText}>1</Text>
               </View>   
               }
-            {(active==='/type' || active==='/fill' || active==='/upload' || active==='/book' || active==='/payment')  ? <View style={style.activeLine}></View> : <View style={style.line}></View>}
-
-            {(active ==='/type' || active==='/fill' || active==='/upload' || active==='/book' || active==='/payment') ?  
+            {(active==='/type' || active==='/fill' || active === '/mode' || active==='/upload' || active==='/book' || active==='/payment')  ? <View style={style.activeLine}></View> : <View style={style.line}></View>}
+            
+            
+          {(active ==='/type' || active==='/fill' || active === '/mode' || active==='/upload' || active==='/book' || active==='/payment') ?  
             <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
                <Text style={style.stepperTextActive}>2</Text>
             </LinearGradient>
@@ -45,9 +26,9 @@ export default StepScreen = ({active}) => {
                <Text style={style.stepperText}>2</Text>
               </View>   
               }
-            {(active==='/fill' || active==='/upload' || active==='/book' || active==='/payment')  ? <View style={style.activeLine}></View> : <View style={style.line}></View>}
-
-            {(active==='/fill' || active==='/upload' || active==='/book' || active==='/payment') ?  
+            {(active==='/fill' || active === '/mode' || active==='/upload' || active==='/book' || active==='/payment')  ? <View style={style.activeLine}></View> : <View style={style.line}></View>}
+            
+          {(active==='/fill' || active === '/mode' || active==='/upload' || active==='/book' || active==='/payment') ?  
             <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
                <Text style={style.stepperTextActive}>3</Text>
             </LinearGradient>
@@ -55,9 +36,10 @@ export default StepScreen = ({active}) => {
                <Text style={style.stepperText}>3</Text>
               </View>   
               }
-            {(active==='/upload' || active==='/book' || active==='/payment')  ? <View style={style.activeLine}></View> : <View style={style.line}></View>}
-
-            {(active==='/upload' || active==='/book' || active==='/payment') ?  
+            {(active === '/mode' || active==='/upload' || active==='/book' || active==='/payment')  ? <View style={style.activeLine}></View> : <View style={style.line}></View>}
+            
+            
+          {(active === '/mode' || active==='/upload' || active==='/book' || active==='/payment') ?  
             <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
                <Text style={style.stepperTextActive}>4</Text>
             </LinearGradient>
@@ -65,9 +47,21 @@ export default StepScreen = ({active}) => {
                <Text style={style.stepperText}>4</Text>
               </View>   
               }
-            {(active==='/book' || active==='/payment')  ? <View style={style.activeLine}></View> : <View style={style.line}></View>}
-
-            {(active==='/book' || active==='/payment') ?  
+            {/* {(active==='/upload' || active==='/book' || active==='/payment')  ? <View style={style.activeLine}></View> : <View style={style.line}></View>}
+            
+            
+          {(active==='/upload' || active==='/book' || active==='/payment') ?  
+            <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
+               <Text style={style.stepperTextActive}>5</Text>
+            </LinearGradient>
+               :<View style={style.stepperCircle}>
+               <Text style={style.stepperText}>5</Text>
+              </View>   
+              } */}
+            {(active==='/book' || active==='/upload' || active==='/payment')  ? <View style={style.activeLine}></View> : <View style={style.line}></View>}
+              
+            
+          {(active==='/book' || active==='/upload'  || active==='/payment') ?  
             <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
                <Text style={style.stepperTextActive}>5</Text>
             </LinearGradient>
@@ -76,8 +70,8 @@ export default StepScreen = ({active}) => {
               </View>   
               }
             {(active==='/payment')  ? <View style={style.activeLine}></View> : <View style={style.line}></View>}
-
-            {(active==='/payment') ?  
+            
+          {(active==='/payment') ?  
             <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={style.stepperCircle}>
                <Text style={style.stepperTextActive}>6</Text>
             </LinearGradient>
@@ -114,12 +108,12 @@ const style=StyleSheet.create({
       color:"#000"
     }, 
     line:{
-      width:40, height:1, backgroundColor:'#e6e6e6',
+      width:20, height:1, backgroundColor:'#e6e6e6',
       position:'relative',
       top:14,
     },
     activeLine:{
-      width:40, height:2, backgroundColor:'#000000',
+      width:20, height:2, backgroundColor:'#000000',
       position:'relative',
       top:14,
     }

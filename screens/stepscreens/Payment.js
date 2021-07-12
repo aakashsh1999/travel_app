@@ -13,18 +13,18 @@ const [adFees, setFees] = React.useState(0);
 const [showCard, setShowCard] = React.useState(null);
 const [service, setServices] = React.useState(null);
 
-React.useEffect(()=>{
- const backAction = () => {
- history.push('/apply');
-  return true;
-};
+// React.useEffect(()=>{
+//  const backAction = () => {
+//  history.push('/apply');
+//   return true;
+// };
 
-const backHandler = BackHandler.addEventListener(
-  "hardwareBackPress",
-  backAction
-);
-return () => backHandler.remove();
-});
+// const backHandler = BackHandler.addEventListener(
+//   "hardwareBackPress",
+//   backAction
+// );
+// return () => backHandler.remove();
+// });
 
 
 //Getting the Fees Data

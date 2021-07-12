@@ -25,6 +25,7 @@ import {useFonts} from 'expo-font';
 import _ from 'lodash';
 import informationPage from './screens/informationPage';
 import ChooseType from './screens/stepscreens/ChooseType';
+import ChooseMode from './screens/stepscreens/ChooseMode';
 
 export default function App() {
   const [loaded] = useFonts({
@@ -79,6 +80,7 @@ export default function App() {
       <Route exact path="/forget" component={ForgetAccount}/>
       <Route exact path="/reset" component={ResetPassword}/>
       <Route exact path="/fill" component={FillDetails}/>
+      <Route exact path="/mode" component={ChooseMode}/>
       <Route exact path="/aboutservice/:slug" component={AboutService}/>
       <Route exact path="/upload" component={UploadDocuments}/>
       <Route exact path="/book" component={BookAppointment}/>
