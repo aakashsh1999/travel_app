@@ -6,7 +6,6 @@ import Stepper from './Stepper';
 import { LinearGradient } from 'expo-linear-gradient';
 import {useHistory} from 'react-router-dom';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { result } from 'lodash';
 export default Payment = () =>{
 
 const history = useHistory();
@@ -74,11 +73,17 @@ const getServices = async () => {
          },
          body: JSON.stringify(jsonData)
        })).json();
-       if (result.status === 1)
+       if (result.status === 1){
        setPaymentUrl(result.url)
-        
+       console.log(result.refrence);
+       await AsyncStorage.setItem("reference",result.refrence)
+    
+       }
    }
 }
+//Function 
+
+
 if(!service)
 {
 return null

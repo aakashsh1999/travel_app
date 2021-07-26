@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
-import { Container, Left, Body, Right, Button, Icon, Card, CardItem, Title, Content, H1, H2, H3, Grid } from 'native-base';
-import {Image, Text, ScrollView, StyleSheet, View, SafeAreaView, ActivityIndicator, LogBox, SafeAreaViewBase} from 'react-native';
+import { Card, H1, H2,} from 'native-base';
+import {Image, Text, ScrollView, StyleSheet, View, LogBox} from 'react-native';
 import ServiceGrid from '../component/Grid';
 import TouristGrid from '../component/TouristCardGrid';
 import Bottombar from '../component/Bottombar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Video, AVPlaybackStatus } from 'expo-av';
 import { useHistory } from 'react-router';
-import { LinearGradient } from 'expo-linear-gradient';
 import {useFonts} from 'expo-font'; 
 
 export default Homescreen = () =>{
@@ -17,6 +17,7 @@ export default Homescreen = () =>{
 
     const history = useHistory();
     const [isLogin, setIsLogin] =React.useState(false);
+    const video = React.useRef(null);
     const checkLogin = async ()=>{
        if(await AsyncStorage.getItem('token'))
        {
@@ -27,17 +28,28 @@ export default Homescreen = () =>{
     checkLogin();
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 }, [])
+
     return (
          <>
          <ScrollView style={{backgroundColor:'#fff'}}>
             <Card>
-                <Image style={{width:"100%", position: 'relative'}}
+                {/* <Image style={{width:"100%", position: 'relative'}}
                 source={require('../assets/homeBg.png')}
-                />
+                /> */}
+                <Video  
+                    style={{width:'100%', height:300, opacity:0.5}}
+                    ref={video} 
+                    source={require('../assets/demo.mp4')}
+                    resizeMode='cover'
+                    status={'Play'}
+                    isMuted
+                    shouldPlay={true}
+                    isLooping 
+                     /> 
                 <View style={{ position: 'absolute', bottom: 24,  left: 15}}>
                  <H1 style={style.heading}>Leading Immigration</H1>
                  <H1 style={style.heading}>Consultants in Dubai</H1>
-                 <Text style={{fontSize:14, color:"#000",fontFamily:'Lato', marginTop:5}}>Our business is to make your business easier in the UAE.</Text>
+                 <Text style={{fontSize:14, color:"#ffffff",fontFamily:'Lato', marginTop:5}}>Our business is to make your business easier in the UAE.</Text>
                  </View>
             </Card>
             <View style={{marginTop:20, marginLeft:16, backgroundColor:"#fff"}}>
@@ -66,7 +78,8 @@ const style = StyleSheet.create({
         heading:{
             fontSize:34,
             fontWeight: 'bold',
-            fontFamily:'Lato'   
+            fontFamily:'Lato',
+            color:'#ffffff'
         },
         ourServices:{
             fontSize:24,
