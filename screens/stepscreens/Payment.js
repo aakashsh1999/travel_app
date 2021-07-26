@@ -6,6 +6,7 @@ import Stepper from './Stepper';
 import { LinearGradient } from 'expo-linear-gradient';
 import {useHistory} from 'react-router-dom';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { conformsTo } from 'lodash';
 export default Payment = () =>{
 
 const history = useHistory();
@@ -15,6 +16,7 @@ const [showCard, setShowCard] = React.useState(null);
 const [service, setServices] = React.useState(null);
 const [payment,showPayment] = React.useState(true);
 const [paymentUrl, setPaymentUrl] = React.useState(null);
+let transactionID;
 // React.useEffect(()=>{
 //  const backAction = () => {
 //  history.push('/apply');
@@ -74,14 +76,25 @@ const getServices = async () => {
          body: JSON.stringify(jsonData)
        })).json();
        if (result.status === 1){
+         console.log(result);
        setPaymentUrl(result.url)
-       console.log(result.refrence);
-       await AsyncStorage.setItem("reference",result.refrence)
-    
+       await AsyncStorage.setItem("reference", result.refrence)
+       await AsyncStorage.setItem("tId",result.tId)
        }
    }
 }
 //Function 
+async function checkStatus(){
+  setPaymentUrl(false)
+  const transactionID = await AsyncStorage.getItem('tId')
+  const reference = await AsyncStorage.getItem('reference');
+  console.log(transactionID + reference);
+  const url = `${process.env.url}/verify/${reference}/${transactionID}`;
+    const result = await (await fetch(url,{
+      method:'GET',
+    })).json()
+  console.log(result)
+}
 
 
 if(!service)
@@ -90,7 +103,7 @@ return null
 }
 if(paymentUrl){
   return <SafeAreaView style={{ flex: 1 }}>
-  <TouchableOpacity onPress={()=>setPaymentUrl(false)} style={{marginTop:20, marginRight:20, alignSelf:'flex-end'}}>
+  <TouchableOpacity onPress={()=>checkStatus()} style={{marginTop:20, marginRight:20, alignSelf:'flex-end'}}>
     <Icon type='Feather' name='x' style={{fontSize:30}}/>
   </TouchableOpacity>
   <WebView style={{ flex: 1 }} source={{ uri : paymentUrl }} />
