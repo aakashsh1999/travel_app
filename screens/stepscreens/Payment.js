@@ -1,10 +1,12 @@
 import { View, ListItem, H3, Radio, Form, Picker, Icon,Card, CardItem, Left } from 'native-base';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, BackHandler, TouchableOpacity,} from 'react-native';
+import { ScrollView, StyleSheet, Text, BackHandler, TouchableOpacity, SafeAreaView} from 'react-native';
+import { WebView } from 'react-native-webview';
 import Stepper from './Stepper';
 import { LinearGradient } from 'expo-linear-gradient';
 import {useHistory} from 'react-router-dom';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { result } from 'lodash';
 export default Payment = () =>{
 
 const history = useHistory();
@@ -12,7 +14,8 @@ const [paymethod, choosePaymethod] = React.useState(null);
 const [adFees, setFees] = React.useState(0);
 const [showCard, setShowCard] = React.useState(null);
 const [service, setServices] = React.useState(null);
-
+const [payment,showPayment] = React.useState(true);
+const [paymentUrl, setPaymentUrl] = React.useState(null);
 // React.useEffect(()=>{
 //  const backAction = () => {
 //  history.push('/apply');
@@ -72,13 +75,24 @@ const getServices = async () => {
          body: JSON.stringify(jsonData)
        })).json();
        if (result.status === 1)
-      history.push("/success")  
+       setPaymentUrl(result.url)
+        
    }
 }
 if(!service)
 {
 return null
 }
+if(paymentUrl){
+  return <SafeAreaView style={{ flex: 1 }}>
+  <TouchableOpacity onPress={()=>setPaymentUrl(false)} style={{marginTop:20, marginRight:20, alignSelf:'flex-end'}}>
+    <Icon type='Feather' name='x' style={{fontSize:30}}/>
+  </TouchableOpacity>
+  <WebView style={{ flex: 1 }} source={{ uri : paymentUrl }} />
+</SafeAreaView>
+}
+
+
 return (
         <>
         <ScrollView style={{backgroundColor:'#fff'}}>
@@ -150,7 +164,7 @@ return (
         {showCard ? 
             <Card>
             <CardItem style={{justifyContent:'space-between', borderBottomColor:'#e6e6e6', borderBottomWidth:1}}>
-              <H3 style={{fontSize:16, fontFamily:'Lato', fontWeight:'bold', color:'#000'}}>{service && service.name}</H3>
+              <H3 style={{fontSize:16, fontFamily:'Lato', fontWeight:'bold', color:'#000', width:'90%'}}>{service && service.name}</H3>
               <TouchableOpacity onPress={()=>setShowCard(false)}>
               <Icon type='Feather' name='x'/>
               </TouchableOpacity>
