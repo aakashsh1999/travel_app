@@ -10,10 +10,7 @@ import { useHistory } from 'react-router';
 import {useFonts} from 'expo-font'; 
 
 export default Homescreen = () =>{
-    const [loaded] = useFonts({
-        OpenSans: require('../assets/fonts/openSans.ttf'),
-        Lato: require('../assets/fonts/lato.ttf'),
-      });
+
 
     const history = useHistory();
     const [isLogin, setIsLogin] =React.useState(false);

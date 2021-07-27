@@ -16,7 +16,7 @@ const [showCard, setShowCard] = React.useState(null);
 const [service, setServices] = React.useState(null);
 const [payment,showPayment] = React.useState(true);
 const [paymentUrl, setPaymentUrl] = React.useState(null);
-let transactionID;
+let reference;
 // React.useEffect(()=>{
 //  const backAction = () => {
 //  history.push('/apply');
@@ -78,22 +78,26 @@ const getServices = async () => {
        if (result.status === 1){
          console.log(result);
        setPaymentUrl(result.url)
-       await AsyncStorage.setItem("reference", result.refrence)
-       await AsyncStorage.setItem("tId",result.tId)
+       await AsyncStorage.setItem("reference", result.reference)
        }
    }
 }
 //Function 
 async function checkStatus(){
+  reference = await AsyncStorage.getItem('reference'); 
+  const url = `http://13.234.123.221/api/payment/verify/${reference}`;
+  const result = await fetch(url,{
+    method:'GET',
+  })
   setPaymentUrl(false)
-  const transactionID = await AsyncStorage.getItem('tId')
-  const reference = await AsyncStorage.getItem('reference');
-  console.log(transactionID + reference);
-  const url = `${process.env.url}/verify/${reference}/${transactionID}`;
-    const result = await (await fetch(url,{
-      method:'GET',
-    })).json()
-  console.log(result)
+    const data = await result.json();
+    const state = data.data._embedded.payment[0].state;
+    if(state =='STARTED'){
+        history.push('/payment');
+    }else if(state ==='FAILED'){
+      alert("There has been issue with your payment, please craete a new Application");
+      history.push("/apply");
+    }
 }
 
 
@@ -103,7 +107,7 @@ return null
 }
 if(paymentUrl){
   return <SafeAreaView style={{ flex: 1 }}>
-  <TouchableOpacity onPress={()=>checkStatus()} style={{marginTop:20, marginRight:20, alignSelf:'flex-end'}}>
+  <TouchableOpacity onPress={async ()=>await checkStatus()} style={{marginTop:20, marginRight:20, alignSelf:'flex-end'}}>
     <Icon type='Feather' name='x' style={{fontSize:30}}/>
   </TouchableOpacity>
   <WebView style={{ flex: 1 }} source={{ uri : paymentUrl }} />
