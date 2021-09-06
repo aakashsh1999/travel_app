@@ -34,7 +34,7 @@ export default Homescreen = () =>{
                 source={require('../assets/homeBg.png')}
                 /> */}
                 <Video  
-                    style={{width:'100%', height:300, opacity:0.5}}
+                    style={{width:'100%', height:300, opacity:0.6}}
                     ref={video} 
                     source={require('../assets/demo.mp4')}
                     resizeMode='cover'
@@ -46,7 +46,7 @@ export default Homescreen = () =>{
                 <View style={{ position: 'absolute', bottom: 24,  left: 15}}>
                  <H1 style={style.heading}>Leading Immigration</H1>
                  <H1 style={style.heading}>Consultants in Dubai</H1>
-                 <Text style={{fontSize:14, color:"#ffffff",fontFamily:'Lato', marginTop:5}}>Our business is to make your business easier in the UAE.</Text>
+                 <Text style={{fontSize:16, color:"#ffffff",fontFamily:'Lato', marginTop:5}}>Our business is to make your business easier in the UAE.</Text>
                  </View>
             </Card>
             <View style={{marginTop:20, marginLeft:16, backgroundColor:"#fff"}}>

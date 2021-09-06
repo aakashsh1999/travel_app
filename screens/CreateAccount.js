@@ -8,7 +8,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 export default CreateAccount =  () => {     
     let history= useHistory();
-    const url = 'http://13.234.123.221/api/create';
+    const url = 'http://13.234.123.221:8000/create';
     const [name, setName] = React.useState(null);
     const [phone, setPhone] = React.useState(null);
     const[email, setEmail] = React.useState(null);

@@ -38,7 +38,7 @@ const getData = async () =>{
     setId(id);
     const token = await AsyncStorage.getItem('token');
       let user = await (    
-        await fetch(`http://13.234.123.221/api/users/${id}`, {
+        await fetch(`http://13.234.123.221:8000/users/${id}`, {
           method: "GET",
           headers: {
             "x-access-token": token
@@ -50,7 +50,7 @@ const getData = async () =>{
 
     let application = await (
       await fetch(
-        `http://13.234.123.221/api/service/application/${id}`,
+        `http://13.234.123.221:8000/service/application/${id}`,
         {
           method: "GET",
           headers: {

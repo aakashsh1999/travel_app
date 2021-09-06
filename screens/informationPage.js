@@ -24,7 +24,7 @@ import { WebView } from "react-native-webview";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default InformationPage = () => {
-  const url = `http://13.234.123.221/api/contact/create`;
+  const url = `http://13.234.123.221:8000/contact/create`;
   const [name, setName] = React.useState(null);
   const [email, setEmail] = React.useState(null);
   const [query, setQuery] = React.useState(null);

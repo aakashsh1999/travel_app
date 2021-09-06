@@ -63,7 +63,7 @@ export default UploadDocuments = () => {
     try {
       token = await AsyncStorage.getItem("token");
       requestId = await AsyncStorage.getItem("applicationId");
-      const url = `http://13.234.123.221/api/service/upload/${requestId}`;
+      const url = `http://13.234.123.221:8000/service/upload/${requestId}`;
 
       file = await DocumentPicker.getDocumentAsync({
         copyToCacheDirectory: true,
@@ -107,7 +107,7 @@ export default UploadDocuments = () => {
   const getServices = async () => {
   
     const slug = await AsyncStorage.getItem("serviceSlug");
-    const service_url = `http://13.234.123.221/api/serviceCategory/${slug}`;
+    const service_url = `http://13.234.123.221:8000/serviceCategory/${slug}`;
     const service = await (await fetch(service_url, { method: "GET" })).json();
     const serviceData = service.data;
     setService(serviceData);
@@ -118,7 +118,7 @@ export default UploadDocuments = () => {
   const getDocuments = async () => {
     requestId = await AsyncStorage.getItem("applicationId");
     let application = await (
-      await fetch(`http://13.234.123.221/api/admin/application/${requestId}`, {
+      await fetch(`http://13.234.123.221:8000/admin/application/${requestId}`, {
         method: "GET",
         headers: {
           "x-access-token": await AsyncStorage.getItem("token"),
@@ -132,7 +132,7 @@ export default UploadDocuments = () => {
   const getSubServices = async () => {
     const slug = await AsyncStorage.getItem("serviceSlug");
     const subCatId= await AsyncStorage.getItem("subCatId");
-    const service_url = `http://13.234.123.221/api/serviceCategory/subCat/${slug}/${subCatId}`
+    const service_url = `http://13.234.123.221:8000/serviceCategory/subCat/${slug}/${subCatId}`
     const services = await (await fetch(service_url, { method: "GET" })).json();
     const serviceData = services.data;
     setServiceDetail(serviceData);
@@ -143,7 +143,7 @@ export default UploadDocuments = () => {
   //   const jsonPostData = {
   //     'key': key
   //   }
-  //   const url = `http://13.234.123.221/api/download`
+  //   const url = `http://13.234.123.221:8000/download`
   //   const resu = await (await fetch(url, {
   //     method: 'PUT',
   //     headers: {

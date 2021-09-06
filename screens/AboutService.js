@@ -11,43 +11,133 @@ import {
   CardItem,
   View,
 } from "native-base";
-import { Image, ScrollView, StyleSheet, Text, BackHandler } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, BackHandler, TouchableOpacity } from "react-native";
+import {LinearGradient} from 'expo-linear-gradient';
 import React from "react";
 import { useParams, useHistory } from "react-router-dom";
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const AboutService = () => {
   const history = useHistory();
   const [service, setService] = React.useState({});
   const [serviceType, setServiceType] = React.useState({});
   const [options, setOptions] = React.useState([]);
-  const [subCat, setSubCat] = React.useState(null);
   const [show, setShow] = React.useState(false);
+  // const [sub, setSub] = React.useState(null);
+  const [subOpt, setSubOpt] = React.useState(null);
+
   const { slug } = useParams();
-  const service_url = `http://13.234.123.221/api/serviceCategory/${slug}`;
+  const service_url = `http://13.234.123.221:8000/serviceCategory/${slug}`;
   React.useEffect(() => {
     getServiceSlugDetail();
   }, []);
   const getServiceSlugDetail = async () => {
     const services = await (await fetch(service_url, { method: "GET" })).json();
-    const serviceData = services.data;
-    setService(serviceData);
+   
 
-    let serviceOptions = services.data.serviceDetail.map((e) => ({
-      text: e.name,
-      value: e._id,
-      key: e._id,
-    }));
-    setOptions(serviceOptions);
-    setService(serviceData);
-  };
-
-  const getserviceType = async (val) => {
-    let sub = service.serviceDetail.find((o) => o._id === val);
-    if(val!==null){
-    setShow(true);
-    setServiceType(sub);
+    if (services.data.category.length > 0) {
+      const serviceData = {
+        deleted: services.data.raw.deleted,
+        _id: services.data.raw._id,
+        name: services.data.raw.name,
+        scode: services.data.raw.scode,
+        overview: services.data.raw.overview,
+        serviceDetail: services.data.raw.serviceDetail,
+        description: services.data.raw.description,
+        slug: services.data.raw.slug,
+      };
+      setService(serviceData);
+      setSubOpt(
+        services.data.category.map((e) => ({
+          text: e,
+          value: e,
+          key: e,
+        }))
+      );
+    } else {
+      const serviceData = {
+        deleted: services.data.raw.deleted,
+        _id: services.data.raw._id,
+        name: services.data.raw.name,
+        scode: services.data.raw.scode,
+        overview: services.data.raw.overview,
+        serviceDetail: services.data.raw.serviceDetail,
+        description: services.data.raw.description,
+        slug: services.data.raw.slug,
+      };
+      let serviceOptions = services.data.raw.serviceDetail.map((e) => ({
+        text: e.name,
+        value: e._id,
+        key: e._id,
+      }));
+      setOptions(serviceOptions);
+      setService(serviceData);
     }
   };
+  const getserviceType = async (val) => {
+    let sub = service.serviceDetail.find((o) => o._id === val);
+    setShow(true);
+    setServiceType(sub);
+  };
+
+  const handleSub = async (ele) => {
+    setOptions(
+      service.serviceDetail
+        .filter((x) => x.type.toString() === ele.toString())
+        .map((e) => ({
+          text: e.name,
+          value: e._id,
+          key: e._id,
+        }))
+    );
+    // getserviceType(val);
+  };
+  console.log(AsyncStorage.getItem('token'));
+  const handleSubmit = async (slug, name, subCatId, subCatName, type) => {
+    if(!AsyncStorage.getItem("token"))(
+      history.push("/login")
+    )
+     AsyncStorage.setItem("serviceSlug", slug);
+     let jsonPostData = {
+      serviceName: name,
+    };
+     let userId =  AsyncStorage.getItem("id");
+  
+     let url = `http://13.234.123.221:8000/service/${userId}`;
+    const result = await (
+      await fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          'Authorization' : `Bearer ${AsyncStorage.getItem('token')}`
+        },
+        body: JSON.stringify(jsonPostData),
+      })
+    ).json();
+    console.log(result)
+
+    AsyncStorage.setItem("applicationId", result?.data?._id);
+    AsyncStorage.setItem("subCatId", subCatId);
+    jsonPostData = {
+      subCat: subCatName,
+      cat: type,
+    };
+
+    url = `http://13.234.123.221:8000/service/type/${result.data._id}`;
+    await fetch(url, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "x-access-token": AsyncStorage.getItem("token"),
+      },
+      body: JSON.stringify(jsonPostData),
+    });
+
+    history.push(`/fill`);
+  };
+
 
   React.useEffect(() => {
     const backAction = () => {
@@ -61,6 +151,11 @@ const AboutService = () => {
     );
     return () => backHandler.remove();
   });
+
+  function toggleSubCategory(){
+    setOptions("");
+    setShow(!show)
+  }
 
   return (
     <>
@@ -77,10 +172,8 @@ const AboutService = () => {
           <Image source={require("../assets/clipath.png")} />
           <Text style={style.paraText}>{service?.description}</Text>
         </View>
-        <View>
-          <H3 style={style.subheading}>Overview</H3>
-          <Text style={style.paraText2}>{service?.overview}</Text>
-        </View>
+        <View style={{ padding: 10}}>
+         </View>
         <View style={{ padding: 16}}>
           <View style={{borderColor:'#e6e6e6', borderWidth:1, borderRadius:4}}>
           <Picker
@@ -88,24 +181,46 @@ const AboutService = () => {
             placeholderStyle={{ color: "red" }}
             iosIcon={<Icon name="arrow-down" />}
             style={{ width: "100%", height: 40}}
-            selectedValue={subCat}      
-            onValueChange={(value) => {
-              setSubCat(value)
-              getserviceType(value);
+            selectedValue={subOpt}      
+            onValueChange={(value, key)  => {
+              {key === 0 ? 
+                  toggleSubCategory()
+                : handleSub(value);}
             }}
           >
           <Picker.Item
-              label="Select Type"
+              label="Select Category"
+              disabled
+              value={null}
+              key={0}
+            ></Picker.Item>
+              {subOpt?.map((ele, index)=>(<Picker.Item label={ele.text} value={ele.value} key={index+1} />))}
+          </Picker>
+          </View>
+          <View style={{margin:15}}></View>
+          {options.length >=1 && <View style={{borderColor:'#e6e6e6', borderWidth:1, borderRadius:4}}>
+          <Picker
+            mode="dropdown"
+            placeholderStyle={{ color: "red" }}
+            iosIcon={<Icon name="arrow-down" />}
+            style={{ width: "100%", height: 40}}
+            selectedValue={options}      
+            onValueChange={(value) => {
+              getserviceType(value);
+            }}
+          >       
+          <Picker.Item
+              label="Select SubCategory"
               disabled
               value={null}
               key={0}
             ></Picker.Item>
               {options.map((ele, index)=>(<Picker.Item label={ele.text} value={ele.value} key={index+1} />))}
-          </Picker>
-          </View>
+          </Picker> 
+        </View> } 
       </View>
        {show ? <View style={{ marginBottom: 20 }}>
-          <H3 style={style.subheading}>Documents Required</H3>
+        <H3 style={style.subheading}>Documents Required</H3>
        {serviceType?.reqDocs.map((data, index) => <ListItem  key={index} style={{ height: 52, borderBottomColor: "#fff" }}>
             <Icon type="Feather" name="square" style={style.iconStyle} />
             <Body>
@@ -132,73 +247,24 @@ const AboutService = () => {
                   fontFamily: "Lato",
                   fontWeight: "bold",
                   color: "#000",
+                  width:'70%'
                 }}
               >
-                {serviceType.name}
+                {serviceType?.name}
               </H3>
+              <TouchableOpacity onPress={() =>
+                                          handleSubmit(
+                                            service.slug,
+                                            service.name,
+                                            serviceType._id,
+                                            serviceType.name,
+                                            serviceType.type
+                                          )}>
+              <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={{width:100, height:30, paddingTop:7,borderRadius:20}}>
+                <Text style={{fontSize:12, fontWeight:'bold', fontFamily:'OpenSans', textAlign:'center', margin:'auto'}}>APPLY NOW</Text>
+                </LinearGradient>
+                </TouchableOpacity>
             </CardItem>
-            {/* <CardItem style={{ flexDirection: "column" }}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "baseline",
-                  width: "100%",
-                  marginBottom: 20,
-                }}
-              >
-                <View style={{ width: 120 }}>
-                  <Text style={style.itemHeading}>Processing Time:</Text>
-                </View>
-                <Text style={style.itemText}>
-                  {serviceType?.processT}{" "}
-                  Hours
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "baseline",
-                  width: "100%",
-                  marginBottom: 20,
-                }}
-              >
-                <View style={{ width: 120 }}>
-                  <Text style={style.itemHeading}>Stay Period:</Text>
-                </View>
-                <Text style={style.itemText}>
-                  {serviceType?.stayPeriod} days
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "baseline",
-                  width: "100%",
-                  marginBottom: 20,
-                }}
-              >
-                <View style={{ width: 120 }}>
-                  <Text style={style.itemHeading}>Validity:</Text>
-                </View>
-                <Text style={style.itemText}>
-                {serviceType?.validity} days
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "baseline",
-                  width: "100%",
-                }}
-              >
-                <View style={{ width: 120 }}>
-                  <Text style={style.itemHeading}>Entry:</Text>
-                </View>
-                <Text style={style.itemText}>
-                {serviceType?.entry} days
-                </Text>
-              </View>
-            </CardItem> */}
             <CardItem
               style={{
                 paddingTop: 15,

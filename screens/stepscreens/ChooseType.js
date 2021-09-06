@@ -33,7 +33,7 @@ export default ChooseType = () =>{
   
     const getSubServices = async () => {
       const slug = await AsyncStorage.getItem('serviceSlug')
-      const service_url = `http://13.234.123.221/api/serviceCategory/${slug}`;
+      const service_url = `http://13.234.123.221:8000/serviceCategory/${slug}`;
       const services = await (await fetch(service_url, { method: "GET" })).json();
       const serviceData = services.data.serviceDetail.map((e) => ({
         _id: e._id,
@@ -50,7 +50,7 @@ export default ChooseType = () =>{
         "subCat": name
       }
      
-      const url = `http://13.234.123.221/api/service/type/${requestId}`;
+      const url = `http://13.234.123.221:8000/service/type/${requestId}`;
       const result = await(await fetch(url, {
         method: 'PUT',
         headers: {

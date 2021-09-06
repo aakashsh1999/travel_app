@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 
 export default function ServiceGrid() {
   const history = useHistory();
-  const service_url = `http://13.234.123.221/api/serviceCategory`;
+  const service_url = `http://13.234.123.221:8000/serviceCategory`;
   const [services, setServices] = React.useState(null);
 
   const [loaded] = useFonts({

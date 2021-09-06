@@ -35,7 +35,14 @@ export default ButtonBar = () =>{
                  <Text style={{fontSize:15, fontWeight:'bold', fontFamily:'OpenSans', textAlign:'center'}} >PREV</Text>
                 </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => history.push(nextPath)}>
+                <TouchableOpacity onPress={() =>
+                                          handleSubmit(
+                                            service.slug,
+                                            service.name,
+                                            serviceType._id,
+                                            serviceType.name,
+                                            serviceType.type
+                                          )}>
                 <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={{width:137, height:38, borderRadius:20, }}>
                 <Text style={{fontSize:15, fontWeight:'bold', fontFamily:'OpenSans', textAlign:'center',marginTop:9}}>NEXT</Text>
                 </LinearGradient>

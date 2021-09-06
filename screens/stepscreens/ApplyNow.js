@@ -8,7 +8,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 import Stepper from './Stepper';
 
 export default ApplyNow = () =>{
-    const service_url = `http://13.234.123.221/api/serviceCategory`;
+    const service_url = `http://13.234.123.221:8000/serviceCategory`;
     const [service, setServices] = React.useState(null);
     const [checked, setChecked] = React.useState(null);
     const history = useHistory();
@@ -50,7 +50,7 @@ export default ApplyNow = () =>{
          "serviceName": name
       }
       let userId = await AsyncStorage.getItem('id')
-      const url=`http://13.234.123.221/api/service/${userId}`
+      const url=`http://13.234.123.221:8000/service/${userId}`
       const result = await(await fetch(url, {
         method: 'POST',
         headers: {

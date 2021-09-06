@@ -13,7 +13,7 @@ export default ResetPassword =  () => {
       });
 
     let history= useHistory();
-    const url = 'http://13.234.123.221/api/forget/password';
+    const url = 'http://13.234.123.221:8000/forget/password';
     const [otp, setOtp] = React.useState(null);
     const [confirm, setConfirmPassword] = React.useState(null);
     const [password, setPassword] = React.useState(null);

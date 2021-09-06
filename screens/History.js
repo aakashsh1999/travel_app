@@ -31,7 +31,7 @@ const getData = async () =>{
     const token = await AsyncStorage.getItem('token');
     let application = await (
         await fetch(
-          `http://13.234.123.221/api/service/application/${id}`,
+          `http://13.234.123.221:8000/service/application/${id}`,
           {
             method: "GET",
             headers: {
@@ -46,7 +46,7 @@ const getData = async () =>{
     const pageClick = async () => {
         setPage(page+1)
         const id =await AsyncStorage.getItem('id');
-        const app = await (await fetch(`http://13.234.123.221/api/service/application/${id}?page=${page}`, { method: "GET",
+        const app = await (await fetch(`http://13.234.123.221:8000/service/application/${id}?page=${page}`, { method: "GET",
         headers: {
           "x-access-token": await AsyncStorage.getItem("token"),
         }})).json();

@@ -29,7 +29,7 @@ export default BookAppointment = () =>{
 
         const onDateChange = async (date, type) => {
             const requestId = await AsyncStorage.getItem("applicationId");
-            const url = `http://13.234.123.221/api/service/appointment/${requestId}`;
+            const url = `http://13.234.123.221:8000/service/appointment/${requestId}`;
 
           //function to handle the date change
           if (type === 'END_DATE') {

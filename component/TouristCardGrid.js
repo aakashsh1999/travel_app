@@ -7,7 +7,7 @@ import { useHistory } from 'react-router';
 
 export default function TouristGrid() {
   const history = useHistory();
-  const service_url = `http://13.234.123.221/api/serviceCategory`;
+  const service_url = `http://13.234.123.221:8000/serviceCategory`;
   let ser=[];
   const [service, setServices] = React.useState(null);
   React.useEffect(() => {
