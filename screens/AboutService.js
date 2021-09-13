@@ -12,9 +12,9 @@ import {
   View,
 } from "native-base";
 import { Image, ScrollView, StyleSheet, Text, BackHandler, TouchableOpacity } from "react-native";
-import {LinearGradient} from 'expo-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
 import React from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const AboutService = () => {
@@ -33,7 +33,7 @@ const AboutService = () => {
   }, []);
   const getServiceSlugDetail = async () => {
     const services = await (await fetch(service_url, { method: "GET" })).json();
-   
+
 
     if (services.data.category.length > 0) {
       const serviceData = {
@@ -92,33 +92,35 @@ const AboutService = () => {
     );
     // getserviceType(val);
   };
-  console.log(AsyncStorage.getItem('token'));
-  const handleSubmit = async (slug, name, subCatId, subCatName, type) => {
-    if(!AsyncStorage.getItem("token"))(
-      history.push("/login")
-    )
-     AsyncStorage.setItem("serviceSlug", slug);
-     let jsonPostData = {
+  const handleSubmit = async (slug, name , subCatId, subCatName, type) => {
+    let token = await AsyncStorage.getItem('token');
+      if(token === null){
+        history.push('/login');
+      } 
+    await AsyncStorage.setItem("serviceSlug", slug);
+
+    let jsonPostData = {
       serviceName: name,
     };
-     let userId =  AsyncStorage.getItem("id");
-  
-     let url = `http://13.234.123.221:8000/service/${userId}`;
+    let userId = await AsyncStorage.getItem("id");
+    console.log(userId)
+
+    let url = `http://13.234.123.221:8000/service/${userId}`;
     const result = await (
       await fetch(url, {
         method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          'Authorization' : `Bearer ${AsyncStorage.getItem('token')}`
+          'x-access-token':await AsyncStorage.getItem('token'),
         },
         body: JSON.stringify(jsonPostData),
       })
     ).json();
     console.log(result)
 
-    AsyncStorage.setItem("applicationId", result?.data?._id);
-    AsyncStorage.setItem("subCatId", subCatId);
+    await AsyncStorage.setItem("applicationId", result?.data?._id);
+    await AsyncStorage.setItem("subCatId", subCatId);
     jsonPostData = {
       subCat: subCatName,
       cat: type,
@@ -130,7 +132,7 @@ const AboutService = () => {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        "x-access-token": AsyncStorage.getItem("token"),
+        'x-access-token': await AsyncStorage.getItem('token'),
       },
       body: JSON.stringify(jsonPostData),
     });
@@ -152,7 +154,7 @@ const AboutService = () => {
     return () => backHandler.remove();
   });
 
-  function toggleSubCategory(){
+  function toggleSubCategory() {
     setOptions("");
     setShow(!show)
   }
@@ -172,66 +174,68 @@ const AboutService = () => {
           <Image source={require("../assets/clipath.png")} />
           <Text style={style.paraText}>{service?.description}</Text>
         </View>
-        <View style={{ padding: 10}}>
-         </View>
-        <View style={{ padding: 16}}>
-          <View style={{borderColor:'#e6e6e6', borderWidth:1, borderRadius:4}}>
-          <Picker
-            mode="dropdown"
-            placeholderStyle={{ color: "red" }}
-            iosIcon={<Icon name="arrow-down" />}
-            style={{ width: "100%", height: 40}}
-            selectedValue={subOpt}      
-            onValueChange={(value, key)  => {
-              {key === 0 ? 
-                  toggleSubCategory()
-                : handleSub(value);}
-            }}
-          >
-          <Picker.Item
-              label="Select Category"
-              disabled
-              value={null}
-              key={0}
-            ></Picker.Item>
-              {subOpt?.map((ele, index)=>(<Picker.Item label={ele.text} value={ele.value} key={index+1} />))}
-          </Picker>
+        <View style={{ padding: 10 }}>
+        </View>
+        <View style={{ padding: 16 }}>
+          <View style={{ borderColor: '#e6e6e6', borderWidth: 1, borderRadius: 4 }}>
+            <Picker
+              mode="dropdown"
+              placeholderStyle={{ color: "red" }}
+              iosIcon={<Icon name="arrow-down" />}
+              style={{ width: "100%", height: 40 }}
+              selectedValue={subOpt}
+              onValueChange={(value, key) => {
+                {
+                  key === 0 ?
+                    toggleSubCategory()
+                    : handleSub(value);
+                }
+              }}
+            >
+              <Picker.Item
+                label="Select Category"
+                disabled
+                value={null}
+                key={0}
+              ></Picker.Item>
+              {subOpt?.map((ele, index) => (<Picker.Item label={ele.text} value={ele.value} key={index + 1} />))}
+            </Picker>
           </View>
-          <View style={{margin:15}}></View>
-          {options.length >=1 && <View style={{borderColor:'#e6e6e6', borderWidth:1, borderRadius:4}}>
-          <Picker
-            mode="dropdown"
-            placeholderStyle={{ color: "red" }}
-            iosIcon={<Icon name="arrow-down" />}
-            style={{ width: "100%", height: 40}}
-            selectedValue={options}      
-            onValueChange={(value) => {
-              getserviceType(value);
-            }}
-          >       
-          <Picker.Item
-              label="Select SubCategory"
-              disabled
-              value={null}
-              key={0}
-            ></Picker.Item>
-              {options.map((ele, index)=>(<Picker.Item label={ele.text} value={ele.value} key={index+1} />))}
-          </Picker> 
-        </View> } 
-      </View>
-       {show ? <View style={{ marginBottom: 20 }}>
-        <H3 style={style.subheading}>Documents Required</H3>
-       {serviceType?.reqDocs.map((data, index) => <ListItem  key={index} style={{ height: 52, borderBottomColor: "#fff" }}>
+          <View style={{ margin: 15 }}></View>
+          {options.length >= 1 && <View style={{ borderColor: '#e6e6e6', borderWidth: 1, borderRadius: 4 }}>
+            <Picker
+              mode="dropdown"
+              placeholderStyle={{ color: "red" }}
+              iosIcon={<Icon name="arrow-down" />}
+              style={{ width: "100%", height: 40 }}
+              selectedValue={options}
+              onValueChange={(value) => {
+                getserviceType(value);
+              }}
+            >
+              <Picker.Item
+                label="Select SubCategory"
+                disabled
+                value={null}
+                key={0}
+              ></Picker.Item>
+              {options.map((ele, index) => (<Picker.Item label={ele.text} value={ele.value} key={index + 1} />))}
+            </Picker>
+          </View>}
+        </View>
+        {show ? <View style={{ marginBottom: 20 }}>
+          <H3 style={style.subheading}>Documents Required</H3>
+          {serviceType?.reqDocs.map((data, index) => <ListItem key={index} style={{ height: 52, borderBottomColor: "#fff" }}>
             <Icon type="Feather" name="square" style={style.iconStyle} />
             <Body>
               <Text style={{ fontSize: 14, marginLeft: 16, color: "#9d9494" }}>
-              {data}
+                {data}
               </Text>
             </Body>
-          </ListItem> )}
-        </View> : <View></View> }
+          </ListItem>)}
+        </View> : <View></View>}
         <View style={{ padding: 16 }}>
-        {show ? <Card
+          {show ? <Card
             style={{ marginBottom: 20, alignSelf: "center", width: "100%" }}
           >
             <CardItem
@@ -247,23 +251,22 @@ const AboutService = () => {
                   fontFamily: "Lato",
                   fontWeight: "bold",
                   color: "#000",
-                  width:'70%'
+                  width: '70%'
                 }}
               >
                 {serviceType?.name}
               </H3>
-              <TouchableOpacity onPress={() =>
-                                          handleSubmit(
-                                            service.slug,
-                                            service.name,
-                                            serviceType._id,
-                                            serviceType.name,
-                                            serviceType.type
-                                          )}>
-              <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0,1.5]} style={{width:100, height:30, paddingTop:7,borderRadius:20}}>
-                <Text style={{fontSize:12, fontWeight:'bold', fontFamily:'OpenSans', textAlign:'center', margin:'auto'}}>APPLY NOW</Text>
+                <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0, 1.5]} style={{ width: 100, height: 30, paddingTop: 7, borderRadius: 20 }}>
+                <TouchableOpacity onPress={()=>handleSubmit(
+                  service?.slug,
+                  service?.name,
+                  serviceType?._id,
+                  serviceType?.name,
+                  serviceType?.type
+                )}>
+                  <Text style={{ fontSize: 12, fontWeight: 'bold', fontFamily: 'OpenSans', textAlign: 'center', margin: 'auto' }}>APPLY NOW</Text>
+                  </TouchableOpacity>
                 </LinearGradient>
-                </TouchableOpacity>
             </CardItem>
             <CardItem
               style={{
@@ -295,7 +298,7 @@ const AboutService = () => {
                 </Text>
               </View>
             </CardItem>
-          </Card> : <View></View> }
+          </Card> : <View></View>}
         </View>
       </ScrollView>
     </>

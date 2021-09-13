@@ -49,7 +49,7 @@ export default FillDetails = () => {
 
   React.useEffect(() => {
     const backAction = () => {
-      history.push("/type");
+      history.push("/");
       return true;
     };
 
@@ -398,7 +398,7 @@ export default FillDetails = () => {
           flexDirection: "row",
         }}
       >
-        <TouchableOpacity onPress={() => history.push("/type")}>
+        <TouchableOpacity onPress={() => history.push("/")}>
           <View
             style={{
               width: 137,
