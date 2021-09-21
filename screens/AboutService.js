@@ -17,13 +17,13 @@ import React from "react";
 import { useParams, useHistory } from "react-router";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-const AboutService = () => {
+const AboutService = (props) => {
   const history = useHistory();
   const [service, setService] = React.useState({});
   const [serviceType, setServiceType] = React.useState({});
   const [options, setOptions] = React.useState([]);
   const [show, setShow] = React.useState(false);
-  // const [sub, setSub] = React.useState(null);
+  const [toContact, setToContact] = React.useState(null);
   const [subOpt, setSubOpt] = React.useState(null);
 
   const { slug } = useParams();
@@ -79,7 +79,7 @@ const AboutService = () => {
     setShow(true);
     setServiceType(sub);
   };
-
+  console.log(service?.name)
   const handleSub = async (ele) => {
     setOptions(
       service.serviceDetail
@@ -92,11 +92,11 @@ const AboutService = () => {
     );
     // getserviceType(val);
   };
-  const handleSubmit = async (slug, name , subCatId, subCatName, type) => {
+  const handleSubmit = async (slug, name, subCatId, subCatName, type) => {
     let token = await AsyncStorage.getItem('token');
-      if(token === null){
-        history.push('/login');
-      } 
+    if (!token) {
+      history.push('/login');
+    }
     await AsyncStorage.setItem("serviceSlug", slug);
 
     let jsonPostData = {
@@ -104,7 +104,10 @@ const AboutService = () => {
     };
     let userId = await AsyncStorage.getItem("id");
     console.log(userId)
-
+    if(!userId){
+      AsyncStorage.clear();
+      history.push('/login');
+    }
     let url = `http://13.234.123.221:8000/service/${userId}`;
     const result = await (
       await fetch(url, {
@@ -112,7 +115,7 @@ const AboutService = () => {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          'x-access-token':await AsyncStorage.getItem('token'),
+          'x-access-token': await AsyncStorage.getItem('token'),
         },
         body: JSON.stringify(jsonPostData),
       })
@@ -158,7 +161,17 @@ const AboutService = () => {
     setOptions("");
     setShow(!show)
   }
-
+  function redirectToContact(name) {
+    if (name?.toLowerCase() === 'company stamp' || name?.toLowerCase() === 'pro services' || name?.toLowerCase() === 'company formation' || name?.toLowerCase() === 'dubai economic servies') {
+      setToContact(true)
+    }
+    else {
+      setToContact(false)
+    }
+  }
+  React.useEffect(() => { 
+    redirectToContact(service?.name);
+  })
   return (
     <>
       <ScrollView style={{ backgroundColor: "#fff" }}>
@@ -176,53 +189,62 @@ const AboutService = () => {
         </View>
         <View style={{ padding: 10 }}>
         </View>
-        <View style={{ padding: 16 }}>
-          <View style={{ borderColor: '#e6e6e6', borderWidth: 1, borderRadius: 4 }}>
-            <Picker
-              mode="dropdown"
-              placeholderStyle={{ color: "red" }}
-              iosIcon={<Icon name="arrow-down" />}
-              style={{ width: "100%", height: 40 }}
-              selectedValue={subOpt}
-              onValueChange={(value, key) => {
-                {
-                  key === 0 ?
-                    toggleSubCategory()
-                    : handleSub(value);
-                }
-              }}
-            >
-              <Picker.Item
-                label="Select Category"
-                disabled
-                value={null}
-                key={0}
-              ></Picker.Item>
-              {subOpt?.map((ele, index) => (<Picker.Item label={ele.text} value={ele.value} key={index + 1} />))}
-            </Picker>
-          </View>
-          <View style={{ margin: 15 }}></View>
-          {options.length >= 1 && <View style={{ borderColor: '#e6e6e6', borderWidth: 1, borderRadius: 4 }}>
-            <Picker
-              mode="dropdown"
-              placeholderStyle={{ color: "red" }}
-              iosIcon={<Icon name="arrow-down" />}
-              style={{ width: "100%", height: 40 }}
-              selectedValue={options}
-              onValueChange={(value) => {
-                getserviceType(value);
-              }}
-            >
-              <Picker.Item
-                label="Select SubCategory"
-                disabled
-                value={null}
-                key={0}
-              ></Picker.Item>
-              {options.map((ele, index) => (<Picker.Item label={ele.text} value={ele.value} key={index + 1} />))}
-            </Picker>
-          </View>}
+        {toContact ?
+        <View style={{padding:16,   flex:2}}>
+         <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0, 1.5]} style={{ width: "100%", height: 50, borderRadius: 25, padding:18}}>
+          <TouchableOpacity onPress={() => history.push('/info')}>
+            <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'OpenSans',textAlignVertical:'center', textAlign: 'center', margin: 'auto' }}>APPLY NOW</Text>
+          </TouchableOpacity>
+        </LinearGradient> 
         </View>
+        :
+          <View style={{ padding: 16}}>
+            <View style={{ borderColor: '#e6e6e6', borderWidth: 1, borderRadius: 4 }}>
+              <Picker
+                mode="dropdown"
+                placeholderStyle={{ color: "red" }}
+                iosIcon={<Icon name="arrow-down" />}
+                style={{ width: "100%", height: 40 }}
+                selectedValue={subOpt}
+                onValueChange={(value, key) => {
+                  {
+                    key === 0 ?
+                      toggleSubCategory()
+                      : handleSub(value);
+                  }
+                }}
+              >
+                <Picker.Item
+                  label="Select Category"
+                  disabled
+                  value={null}
+                  key={0}
+                ></Picker.Item>
+                {subOpt?.map((ele, index) => (<Picker.Item label={ele.text} value={ele.value} key={index + 1} />))}
+              </Picker>
+            </View>
+            <View style={{ margin: 15 }}></View>
+            {options.length >= 1 && <View style={{ borderColor: '#e6e6e6', borderWidth: 1, borderRadius: 4 }}>
+              <Picker
+                mode="dropdown"
+                placeholderStyle={{ color: "red" }}
+                iosIcon={<Icon name="arrow-down" />}
+                style={{ width: "100%", height: 40 }}
+                selectedValue={options}
+                onValueChange={(value) => {
+                  getserviceType(value);
+                }}
+              >
+                <Picker.Item
+                  label="Select SubCategory"
+                  disabled
+                  value={null}
+                  key={0}
+                ></Picker.Item>
+                {options.map((ele, index) => (<Picker.Item label={ele.text} value={ele.value} key={index + 1} />))}
+              </Picker>
+            </View>}
+          </View>}
         {show ? <View style={{ marginBottom: 20 }}>
           <H3 style={style.subheading}>Documents Required</H3>
           {serviceType?.reqDocs.map((data, index) => <ListItem key={index} style={{ height: 52, borderBottomColor: "#fff" }}>
@@ -256,8 +278,8 @@ const AboutService = () => {
               >
                 {serviceType?.name}
               </H3>
-                <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0, 1.5]} style={{ width: 100, height: 30, paddingTop: 7, borderRadius: 20 }}>
-                <TouchableOpacity onPress={()=>handleSubmit(
+              <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0, 1.5]} style={{ width: 100, height: 30, paddingTop: 7, borderRadius: 20 }}>
+                <TouchableOpacity onPress={() => handleSubmit(
                   service?.slug,
                   service?.name,
                   serviceType?._id,
@@ -265,8 +287,8 @@ const AboutService = () => {
                   serviceType?.type
                 )}>
                   <Text style={{ fontSize: 12, fontWeight: 'bold', fontFamily: 'OpenSans', textAlign: 'center', margin: 'auto' }}>APPLY NOW</Text>
-                  </TouchableOpacity>
-                </LinearGradient>
+                </TouchableOpacity>
+              </LinearGradient>
             </CardItem>
             <CardItem
               style={{

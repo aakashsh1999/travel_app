@@ -31,6 +31,10 @@ export default function ServiceGrid() {
     setServices(serviceData);
   };
 
+  function routePage(slug){
+      history.push(`/aboutservice/${slug}`)
+  }
+
 
   if(!services){
      return  <ActivityIndicator size="large" color="yellow" style={{alignSelf:'center', margin:20}} />
@@ -42,7 +46,7 @@ export default function ServiceGrid() {
       style={styles.gridView}
       spacing={5}
       renderItem={({ item }) => (
-        <TouchableOpacity onPress={()=>history.push(`/aboutservice/${item.slug}`)}>
+        <TouchableOpacity onPress={()=> routePage(item?.slug)}>
         <View style={[styles.itemContainer, { backgroundColor: '#fff' }]}>
          {item.image ? <Image style={{width:30, height:30,alignSelf:'center', margin:10}} source={{uri: 'data:image/png;base64,'+item.image}}/>: <View></View>}
           <Text style={styles.itemName}>{item.name}</Text>

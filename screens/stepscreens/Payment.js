@@ -52,7 +52,7 @@ const getServices = async () => {
   if(state==="Failed")
     {
        alert("There has been issue with your payment, please craete a new Application");
-       history.push("/apply");
+       history.push("/");
   }
   else if(paymethod == null)
   {
@@ -96,7 +96,7 @@ async function checkStatus(){
         history.push('/payment');
     }else if(state ==='FAILED'){
       alert("There has been issue with your payment, please craete a new Application");
-      history.push("/apply");
+      history.push("/");
     }
 }
 

@@ -70,7 +70,7 @@ export default InformationPage = () => {
         <H2 style={style.heading}>Contact</H2>
         <Image source={require("../assets/clipath.png")} />
       </View>
-      <View style={{ marginBottom: 30, padding: 16 }}>
+      {/* <View style={{ marginBottom: 30, padding: 16 }}>
         <Text
           style={{
             fontSize: 16,
@@ -85,7 +85,7 @@ export default InformationPage = () => {
           scrambled it to make a type specimen book. It has survived not only
           five ce
         </Text>
-      </View>
+      </View> */}
       <View style={{ padding: 16 }}>
         <Card style={style.card}>
           <ListItem style={{ padding: 20 }}>

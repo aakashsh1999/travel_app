@@ -49,30 +49,32 @@ Experience success with UAE and take your business to new heights with Askepro.<
         {/* About Card */}
                 <Card style={style.card}>
                     <CardItem header style={style.cardheader}>
-                    <Image style={style.image} source={require('../assets/teamimg.png')} />
+                    <Image style={style.image} source={require('../assets/client1.jpg')} />
                     <View style={{marginRight:28}}>
-                    <H3 style={{fontSize:18, lineHeight:22, fontFamily:'Lato', fontWeight:'500'}}>Shakeb Khan</H3>
-                    <H3 style={{fontSize:14, color:"#9d9494", fontFamily:'OpenSans', fontWeight:'500'}}>Chief Executive Officer, EPro</H3>
+                    <H3 style={{fontSize:18, lineHeight:22, fontFamily:'Lato', fontWeight:'500'}}>Shefeek Ismail</H3>
+                    <H3 style={{fontSize:14, color:"#9d9494", fontFamily:'OpenSans', fontWeight:'500'}}>FOUNDER, ASK E PRO
+</H3>
                      </View>
                     </CardItem>
                       <CardItem>
                     <Text style={style.text}>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five ce
+                    Welcome to ASKEPRO, It’s very happy to see you pleasured on our aids on your much important moments of life till the date. We extremely made the days to have our services related to your Documentation and Data oriented works which changes your way of life. We will undertake changes And innovations for a greater customer experience by which we accurately identify the needs of customers to provide them with unexpected benefits and values, exceeding their expectations, to create a truly positive customer experience. All ASK E PRO employees will continue to dedicate themselves to maximizing customer values through growth and development. We ask for your steadfast support and interest.
                     </Text>
                 </CardItem>
                </Card>
                
                <Card style={style.card}>
                     <CardItem header style={style.cardheader}>
-                    <Image style={style.image} source={require('../assets/teamimg.png')} />
-                    <View style={{marginRight:28}}>
-                    <H3 style={{fontSize:18, lineHeight:22, fontFamily:'Lato', fontWeight:'500'}}>Shakeb Khan</H3>
-                    <H3 style={{fontSize:14, color:"#9d9494", fontFamily:'OpenSans', fontWeight:'500'}}>Chief Executive Officer, EPro</H3>
+                    <Image style={style.image} source={require('../assets/client2.jpg')} />
+                    <View style={{marginRight:25}}>
+                    <H3 style={{fontSize:18, lineHeight:22, fontFamily:'Lato', fontWeight:'500'}}>Hamad Mohammed</H3>
+                    <H3 style={{fontSize:18, lineHeight:22, fontFamily:'Lato', fontWeight:'500'}}>Bakhit Suhail Alrashdi</H3>
+                    <H3 style={{fontSize:14, color:"#9d9494", fontFamily:'OpenSans', fontWeight:'500'}}>CO-FOUNDER, ASK E PRO</H3>
                      </View>
                     </CardItem>
                       <CardItem>
                     <Text style={style.text}>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five ce
+                    We are pleased to welcome you to our networks website. The history of ASKEPRO began in 2005. Since then, ASKEPRO has been engaging in various services based on its widely stemming reach from its local and global networks, strong sourcing base, and excellent technical capacities. ASKEPRO is always with its customers in their lives as a trustworthy partner that provides a much better help to their life changing moments. We at ASKEPRO will try our best to make the lives of our customers more comfortable and prosperous.
                     </Text>
                 </CardItem>
                </Card>
@@ -111,6 +113,7 @@ const style= StyleSheet.create({
         marginBottom:30
     },
     image:{
+        width:100, height:100,
         position: 'absolute',
         top:-22,
         left:20,
