@@ -13,7 +13,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.askepro.service"
+      "bundleIdentifier": "com.shefeek.askepro"
     },
     "android": {
       "package": "com.askepro.service",

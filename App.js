@@ -6,6 +6,7 @@ import AboutService from './screens/AboutService';
 import ApplicationDetails from './screens/ApplicationDetails';
 import ApplyNow from './screens/stepscreens/ApplyNow';
 import Appointment from './screens/Appointment';
+import MyDocument from './screens/MyDocument';
 import BookAppointment from './screens/stepscreens/BookAppointment';
 import CreateAccount from './screens/CreateAccount';
 import FillDetails from './screens/stepscreens/FillDetails';
@@ -26,6 +27,7 @@ import _ from 'lodash';
 import informationPage from './screens/informationPage';
 import ChooseType from './screens/stepscreens/ChooseType';
 import ChooseMode from './screens/stepscreens/ChooseMode';
+import UploadPersonal from './screens/UploadPersonal';
 
 export default function App() {
   const [loaded] = useFonts({
@@ -70,7 +72,8 @@ export default function App() {
       <Route exact path="/login" component={Login}/>
       <Route exact path="/appointment" component={Appointment}/>
       <Route exact path="/profile" component={Profile}/>
-      {/* <Route exact path="/mydocument" component={MyDocument}/>  */}
+      <Route exact path="/document" component={MyDocument}/>
+      <Route exact path="/uploadpersonal" component={UploadPersonal}/>  
       <Route exact path="/history" component={History}/>
       <Route exact path="/apply" component={ApplyNow}/>
       <Route exact path="/about" component={AboutScreen}/>

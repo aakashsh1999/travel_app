@@ -5,6 +5,7 @@ import React,{useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFonts} from 'expo-font';
 import {useHistory} from 'react-router-dom';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default MyDocument = () =>{
     let history = useHistory();
@@ -22,7 +23,7 @@ export default MyDocument = () =>{
 
 React.useEffect(()=>{
     const backAction = () => {
-      history.push('/profile');
+      history.push('/');
        return true;
      };
   
@@ -49,32 +50,48 @@ const getData = async () =>{
       ).json();
     setApplication(application);
 }
-    return (<ScrollView style={{backgroundColor:'#fff'}}>
+    return (<ScrollView style={{backgroundColor:'#ffffff'}}>
+      <View style={{flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
             <View style={{marginTop:20,margin:16}}>
                 <View style={style.title}>
-                <TouchableOpacity onPress={()=>history.push('/profile')}>
+                <TouchableOpacity onPress={()=>history.push('/')}>
                 <Icon type='FontAwesome' name="arrow-circle-o-left" style={{fontSize:16, marginBottom:7,}}/>
                 </TouchableOpacity>
                 <Text style={style.heading}>My Documents</Text>
                 </View>
                 <Image source={require('../assets/clipath.png')} />
             </View>
-        {/* <Content style={{padding:16}}>
-            <List style={style.list}>
-              <ListItem style={{height:52, borderColor:"#fff"}}>
-               <Icon type='Feather' name='square' style={style.iconStyle}/>
-                <Body>
-                <Text style={{fontSize:14,marginLeft:16}}>Emirates Id.jpg</Text>
-                </Body>
-                <Icon type="Feather" name='eye' style={{fontSize:20, color:'black'}}/>
-                </ListItem>
-
-            </List>
-        </Content> */}
+            <TouchableOpacity onPress={()=>history.push('/uploadPersonal')}>
+            <Icon type='Feather' name='upload' style={{marginRight:16, borderWidth:1, paddingLeft:4, borderRadius:5, padding:2, fontSize:24}}/>
+            </TouchableOpacity>
+            </View>
+            <View style={{paddingLeft:16, paddingRight:16}}>
+              <View style={{ borderColor:"#000000", borderWidth:1, width:'100%', justifyContent:'space-between', flexDirection:"row", padding:8, alignItems:'center', borderRadius:4}}>
+               {/* <Icon type='Feather' name='square' style={style.iconStyle}/> */}
+                <Text style={{fontSize:18}}>Emirates Idv.jpg</Text>
+                <View>
+                <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0, 1.5]} style={{ width: 100, height: 30, paddingTop: 7, borderRadius: 4, marginBottom:10 }}>
+                <TouchableOpacity>
+                  <Text style={{ fontSize: 12, fontWeight: 'bold', fontFamily: 'OpenSans', textAlign: 'center', margin: 'auto' }}>View</Text>
+                </TouchableOpacity>
+              </LinearGradient>
+              <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0, 1.5]} style={{ width: 100, height: 30, paddingTop: 7, borderRadius: 4 }}>
+                <TouchableOpacity>
+                  <Text style={{ fontSize: 12, fontWeight: 'bold', fontFamily: 'OpenSans', textAlign: 'center', margin: 'auto' }}>Download</Text>
+                </TouchableOpacity>
+              </LinearGradient>
+                </View>
+              </View>
+          </View>
         </ScrollView>
     );
 }
 
+
+{/* <View style={{flexDirection:'column', justifyContent:'space-between'}}> */}
+                {/* <Icon type="Feather" name='eye' style={{fontSize:20, color:'black'}}/>
+                <Icon type="Feather" name='download' style={{fontSize:20, color:'black'}}/> */}
+                {/* </View> */}
 const style = StyleSheet.create({
     heading:{
         fontSize:18,
@@ -91,4 +108,8 @@ const style = StyleSheet.create({
         transform:[{rotate:'135deg'}],
         fontSize:10,  backgroundColor:"#9d9494", color:"#9d9494"
     },
+    buttons:{
+        width:50,
+        backgroundColor:'#fff'
+    }
 });

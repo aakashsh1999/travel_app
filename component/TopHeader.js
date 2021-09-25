@@ -38,6 +38,11 @@ export default TopHeader = (props) => {
         <Text style={style.menuItem}>Contact</Text>  
         </TouchableOpacity>
         </View>
+        <View >     
+        <TouchableOpacity onPress={()=>{setShowDrawer(false) ; history.push('/document')}}>
+        <Text style={style.menuItem}>My Documents</Text>  
+        </TouchableOpacity>
+        </View>
         <View style={{position:'absolute',bottom:30,left:20}}>
         <Text style={{fontSize:14, color:'#fff', fontWeight:'400', marginBottom:15, fontFamily:'Lato'}}>Copyright &copy; 2021 Askepro</Text>
         <View style={style.bottomDetail}>
