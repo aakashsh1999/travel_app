@@ -14,6 +14,7 @@ export default UploadPersonal = () => {
     Lato: require('../assets/fonts/lato.ttf'),
   });
   const [application, setApplication] = React.useState([]);
+  const [filename, setFilename] = React.useState("");
 
   useEffect(() => {
     getData();
@@ -50,6 +51,55 @@ export default UploadPersonal = () => {
     ).json();
     setApplication(application);
   }
+
+
+
+  const selectFile = async () => {
+    try {
+      token = await AsyncStorage.getItem("token");
+      requestId = await AsyncStorage.getItem("applicationId");
+      const url = `http://13.234.123.221:8000/service/upload/${requestId}`;
+
+      file = await DocumentPicker.getDocumentAsync({
+        copyToCacheDirectory: true,
+        multiple: false,
+        type: "application/*",
+      });
+      let formData = new FormData();
+      const type = file.name.split(".");
+      if (filename === "") {
+        alert("Please select the document first.");
+      } else {
+        formData.append("name", filename);
+        formData.append("file", {
+          uri: file.uri,
+          name: file.name,
+          type: `application/${type[type.length - 1]}`,
+        });
+      }
+
+      // if (file.type === "success") {
+        // const res = await fetch(url, {
+        //   method: "PUT",
+        //   headers: {
+        //     "Content-Type": "multipart/form-data",
+        //     "x-access-token": token,
+        //   },
+        //   body: formData,
+        // });
+        // const response = await res.json();
+        // if (response.status === 1) {
+        //   updateMyArray((oldArray) => [...oldArray, filename]);
+        // } else {
+          alert("File uploaded");
+        // }
+      // }
+    } catch (err) {
+      // Expo didn't build with iCloud, expo turtle fallback
+    }
+  };
+
+
   return (<ScrollView style={{ backgroundColor: '#ffffff' }}>
     <View style={{ flexDirection: 'row',}}>
       <View style={{ marginTop: 20, margin: 16 }}>
@@ -80,6 +130,63 @@ export default UploadPersonal = () => {
                </LinearGradient>
                 </View> */}
       {/* </View> */}
+
+      <View>
+        <Text style={style.label}>Valid from*</Text>
+        <DatePicker
+          style={{ width: "100%" }}
+          mode="date"
+          placeholder="Choose date of Birth"
+          format="DD-MM-YYYY"
+          minDate="01-01-1950"
+          maxDate="01-01-2021"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          date={'application?.dob ? application.dob : dob'}
+          customStyles={{
+            dateIcon: {
+              display: "none",
+            },
+            dateInput: {
+              borderWidth: 1,
+              paddingRight: "60%",
+              borderColor: "#e6e6e6",
+            },
+            // ... You can check the source to find the other keys.
+          }}
+          onDateChange={''}
+          defaultValue={'application?.dob'}
+        />
+      </View>
+
+      <View>
+        <Text style={style.label}>Valid To*</Text>
+        <DatePicker
+          style={{ width: "100%" }}
+          mode="date"
+          placeholder="Choose date of Birth"
+          format="DD-MM-YYYY"
+          minDate="01-01-1950"
+          maxDate="01-01-2021"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          date={'application?.dob ? application.dob : dob'}
+          customStyles={{
+            dateIcon: {
+              display: "none",
+            },
+            dateInput: {
+              borderWidth: 1,
+              paddingRight: "60%",
+              borderColor: "#e6e6e6",
+            },
+            // ... You can check the source to find the other keys.
+          }}
+          onDateChange={'date) => setDob(date)'}
+          defaultValue={'application?.dob'}
+        />
+      </View>
+
       <Text style={style.label}>Name*</Text>
       <TextInput
         style={style.input}
@@ -119,60 +226,27 @@ export default UploadPersonal = () => {
           {/* {subOpt?.map((ele, index) => (<Picker.Item label={ele.text} value={ele.value} key={index + 1} />))} */}
         </Picker>
       </View>
-      <View>
-        <Text style={style.label}>Valid from*</Text>
-        <DatePicker
-          style={{ width: "100%" }}
-          mode="date"
-          placeholder="Choose date of Birth"
-          format="DD-MM-YYYY"
-          minDate="01-01-1950"
-          maxDate="01-01-2021"
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
-          date={'application?.dob ? application.dob : dob'}
-          customStyles={{
-            dateIcon: {
-              display: "none",
-            },
-            dateInput: {
-              borderWidth: 1,
-              paddingRight: "60%",
-              borderColor: "#e6e6e6",
-            },
-            // ... You can check the source to find the other keys.
-          }}
-          onDateChange={''}
-          defaultValue={'application?.dob'}
-        />
-      </View>
-      <View>
-        <Text style={style.label}>Valid To*</Text>
-        <DatePicker
-          style={{ width: "100%" }}
-          mode="date"
-          placeholder="Choose date of Birth"
-          format="DD-MM-YYYY"
-          minDate="01-01-1950"
-          maxDate="01-01-2021"
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
-          date={'application?.dob ? application.dob : dob'}
-          customStyles={{
-            dateIcon: {
-              display: "none",
-            },
-            dateInput: {
-              borderWidth: 1,
-              paddingRight: "60%",
-              borderColor: "#e6e6e6",
-            },
-            // ... You can check the source to find the other keys.
-          }}
-          onDateChange={'date) => setDob(date)'}
-          defaultValue={'application?.dob'}
-        />
-      </View>
+
+      <View style={style.uploadInput}>
+              <TouchableOpacity
+                disabled={!filename}
+                onPress={async () => await selectFile()}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    marginTop: 10,
+                    fontSize: 16,
+                    color: "#9d9494",
+                  }}
+                >
+                  {"Upload file(s) from your computer"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+    
+      
       <TouchableOpacity onPress={''} style={{marginTop:20}}>
         <View style={{justifyContent:"center"}}>
           <LinearGradient
@@ -240,6 +314,13 @@ const style = StyleSheet.create({
     paddingLeft: 15,
     marginBottom: 18,
     fontFamily: "Lato",
+  },
+  uploadInput: {
+    height: 40,
+    borderColor: "#e9e9e9",
+    borderWidth: 1,
+    paddingLeft: 15,
+    marginTop:16
   },
  
 });
