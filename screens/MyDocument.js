@@ -258,7 +258,7 @@ const selectFile = async () => {
                 </View>
             <View style={{paddingLeft:16, paddingRight:16}}>
               <View style={{ borderColor:"#000000", borderWidth:1, width:'100%', padding:4, paddingRight:10, paddingLeft:10,  borderRadius:4,}}>
-              <Text style={{marginBottom:5, marginTop:5}, }>Aadhar Card</Text>
+              <Text style={{marginBottom:5, marginTop:5}}>Aadhar Card</Text>
                 <View style={{justifyContent:"space-between", flexDirection:'row', marginBottom:5}}>
                   <Text>Valid from : 10-2-2021</Text><View style={{width:50}}></View><Text>Valid to: 10-2-2021</Text>
                   </View>

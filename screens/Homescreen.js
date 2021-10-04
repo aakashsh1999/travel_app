@@ -1,19 +1,19 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Card, H1, H2,} from 'native-base';
-import {Image, Text, ScrollView, StyleSheet, View, LogBox} from 'react-native';
+import {Image, Text, ScrollView, StyleSheet, View, LogBox, TouchableOpacity} from 'react-native';
 import ServiceGrid from '../component/Grid';
 import TouristGrid from '../component/TouristCardGrid';
 import Bottombar from '../component/Bottombar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { useHistory } from 'react-router';
-import {useFonts} from 'expo-font'; 
-
+import PropTypes from 'prop-types';
+import Carousel from 'react-native-snap-carousel';
 export default Homescreen = () =>{
 
 
     const history = useHistory();
-    const [isLogin, setIsLogin] =React.useState(false);
+    const [isLogin, setIsLogin] = useState(false);
     const video = React.useRef(null);
     const checkLogin = async ()=>{
        if(await AsyncStorage.getItem('token'))
@@ -25,6 +25,52 @@ export default Homescreen = () =>{
     checkLogin();
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 }, [])
+
+    const [carouselState, setCarouselState] = useState([
+      {
+        title: 'Item 1',
+        text: 'Text 1',
+      },
+      {
+        title: 'Item 2',
+        text: 'Text 2',
+      },
+      {
+        title: 'Item 3',
+        text: 'Text 3',
+      },
+      {
+        title: 'Item 4',
+        text: 'Text 4',
+      },
+      {
+        title: 'Item 5',
+        text: 'Text 5',
+      },
+    ],
+  );
+
+
+  const carouselRef = React.useRef(null);
+
+  const renderItem = ({ item, index }) => {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          onPressCarousel(index);
+        }}
+        style={{
+          backgroundColor: 'red',
+          borderRadius: 20,
+          height: 300,
+          padding: 50,
+        }}>
+        <Text style={{ fontSize: 30 }}>{item.title}</Text>
+        <Text>{item.text}</Text>
+      </TouchableOpacity>
+    );
+  };
+
 
     return (
          <>
@@ -59,13 +105,19 @@ export default Homescreen = () =>{
             </Text>
             </View>
             <ServiceGrid/>
-           {/* <View style={{marginTop:20, marginLeft:16}}>
-                <H2 style={style.ourServices}>Tourist Services</H2>
-                <Image source={require('../assets/clipath.png')} />
-            </View>
-            <View style={{padding:15}}>
-            <TouristGrid/>            
-            </View> */}
+            <View
+                  style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
+            <Carousel
+                    layout={'tinder'}
+                    ref={carouselRef}
+                    data={carouselState}
+                    sliderWidth={400}
+                    itemWidth={300}
+                    renderItem={renderItem}
+                    useScrollView={true}
+                    activeSlideAlignment="center"
+                  />
+                </View>
             </ScrollView>
             <Bottombar/>
             </>

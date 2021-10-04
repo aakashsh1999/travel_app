@@ -1,5 +1,5 @@
 import {NativeRouter, Route } from 'react-router-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {BackHandler, Alert, LogBox} from 'react-native';
 import AboutScreen from './screens/AboutScreen';
 import AboutService from './screens/AboutService';
@@ -35,7 +35,7 @@ export default function App() {
     Lato: require('./assets/fonts/lato.ttf'),
   });
   //Splash Screen
-  const [isVisible, setIsVisible] =React.useState(true);
+  const [isVisible, setIsVisible] = useState(true);
   const Hide_Splash_Screen=()=>{  
       setIsVisible(false);
   }  
