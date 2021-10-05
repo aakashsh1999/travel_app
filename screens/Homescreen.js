@@ -4,7 +4,7 @@ import {Image, Text, ScrollView, StyleSheet, View, LogBox, TouchableOpacity} fro
 import ServiceGrid from '../component/Grid';
 import TouristGrid from '../component/TouristCardGrid';
 import Bottombar from '../component/Bottombar';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import { Video, AVPlaybackStatus } from 'expo-av';
 import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
@@ -26,6 +26,21 @@ export default Homescreen = () =>{
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 }, [])
 
+const [offer, setOffer] = useState(null);
+
+useEffect(() => {
+   getOffers()
+}, [])
+
+
+const getOffers = async () => {
+  const offer = await (
+    await fetch(`${process.env.REACT_APP_BASE_URL}/admin/offer`, { method: "GET" })
+  ).json();
+  console.log(offer);
+  setOffer(offer.data);
+};
+
     const [carouselState, setCarouselState] = useState([
       {
         title: 'Item 1',
@@ -39,14 +54,6 @@ export default Homescreen = () =>{
         title: 'Item 3',
         text: 'Text 3',
       },
-      {
-        title: 'Item 4',
-        text: 'Text 4',
-      },
-      {
-        title: 'Item 5',
-        text: 'Text 5',
-      },
     ],
   );
 
@@ -55,19 +62,20 @@ export default Homescreen = () =>{
 
   const renderItem = ({ item, index }) => {
     return (
-      <TouchableOpacity
-        onPress={() => {
-          onPressCarousel(index);
-        }}
+      <View
         style={{
-          backgroundColor: 'red',
+          backgroundColor:'pink',
           borderRadius: 20,
-          height: 300,
-          padding: 50,
+          height: 200,
+          width:'100%',
+          marginBottom:16,
         }}>
-        <Text style={{ fontSize: 30 }}>{item.title}</Text>
-        <Text>{item.text}</Text>
-      </TouchableOpacity>
+         <Image
+         style={{width:'100%', height:'100%'}}
+        source={{uri:'http://cdn.pixabay.com/photo/2014/11/30/14/11/cat-551554__340.jpg'}}
+      />
+
+      </View>
     );
   };
 
@@ -105,19 +113,20 @@ export default Homescreen = () =>{
             </Text>
             </View>
             <ServiceGrid/>
-            <View
-                  style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
+            <View style={{marginTop:20, marginLeft:16, marginBottom:16,backgroundColor:"#fff"}}>
+                <H2 style={style.ourServices}>Offers</H2>
+                <Image source={require('../assets/clipath.png')} />
+            </View>
             <Carousel
-                    layout={'tinder'}
+                    layout={'default'}
                     ref={carouselRef}
                     data={carouselState}
-                    sliderWidth={400}
-                    itemWidth={300}
+                    sliderWidth={383}
+                    itemWidth={350}
+                    
                     renderItem={renderItem}
                     useScrollView={true}
-                    activeSlideAlignment="center"
                   />
-                </View>
             </ScrollView>
             <Bottombar/>
             </>
