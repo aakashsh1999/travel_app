@@ -42,6 +42,7 @@ export default UploadDocuments = () => {
   const [reqDocs, setDocs] = React.useState([]);
 
   React.useEffect(() => {
+    getServices()
     getSubServices(); 
     getDocuments();
   }, []);
@@ -105,7 +106,6 @@ export default UploadDocuments = () => {
   };
   //Getting the List of Document
   const getServices = async () => {
-  
     const slug = await AsyncStorage.getItem("serviceSlug");
     const service_url = `http://13.234.123.221:8000/serviceCategory/${slug}`;
     const service = await (await fetch(service_url, { method: "GET" })).json();
@@ -139,24 +139,6 @@ export default UploadDocuments = () => {
   };
 
 
-  // const generateLink = async (key, name) => {
-  //   const jsonPostData = {
-  //     'key': key
-  //   }
-  //   const url = `http://13.234.123.221:8000/download`
-  //   const resu = await (await fetch(url, {
-  //     method: 'PUT',
-  //     headers: {
-  //       'Accept': 'application/json',
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify(jsonPostData)
-  //   })).json();
-  // const downloadData = await FileSystem.downloadAsync(
-  // resu.data,
-  // FileSystem.documentDirectory + name
-  // )
-  // }
 
   if (!serviceDetail) {
     return (

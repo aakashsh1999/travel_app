@@ -1,5 +1,9 @@
 import { Body, Button, Content, H2, Header, Icon, Picker, Left, List, ListItem, Right, Switch } from 'native-base';
-import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, BackHandler } from 'react-native';
+import {
+  Image, ScrollView, StyleSheet, Text, TextInput,
+  SafeAreaView, TouchableOpacity, View, BackHandler, ActivityIndicator
+} from 'react-native';
+import { WebView } from 'react-native-webview';
 import React, { useEffect } from 'react';
 import * as DocumentPicker from "expo-document-picker";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,37 +13,42 @@ import DatePicker from "react-native-datepicker";
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default MyDocument = () => {
+
   let history = useHistory();
-  const [loaded] = useFonts({
-    OpenSans: require('../assets/fonts/openSans.ttf'),
-    Lato: require('../assets/fonts/lato.ttf'),
-  });
+
 
   const [name, setName] = React.useState(null);
   const [category, setCategory] = React.useState(null);
   const [validTo, setValidTo] = React.useState(null);
   const [validFrom, setValidFrom] = React.useState(null);
   const [file, setFile] = React.useState(null);
-  const [docs, setDocs] = React.useState([]);
   const [openPop, setOpen] = React.useState(false);
   const [openPopErr, setOpenErr] = React.useState(false);
-  const [msg, setMsg] = React.useState(false);
+  const [data, setData] = React.useState(new FormData());
+  const [webview, setWebView] = React.useState('');
+  const [documentList, setDocumentList] = React.useState([]);
+
 
   React.useEffect(() => {
     getMyDocs();
   }, []);
+
   const getMyDocs = async () => {
-    let documents = await (
-      await fetch(`${process.env.REACT_APP_BASE_URL}/document`, {
-        method: "GET",
-        headers: {
-          "x-access-token": await AsyncStorage.getItem("token"),
-        },
-      })
-    ).json();
-    console.log(documents)
-    documents = documents.data;
-    setDocs(documents || []);
+    if (await AsyncStorage.getItem('token') === null) {
+      history.push('/login');
+    }
+    else {
+      let documents = await (
+        await fetch(`http://13.234.123.221:8000/document`, {
+          method: "GET",
+          headers: {
+            "x-access-token": await AsyncStorage.getItem("token"),
+          },
+        })
+      ).json();
+      documents = documents?.data;
+      setDocumentList(documents);
+    }
   }
 
   React.useEffect(() => {
@@ -54,59 +63,99 @@ export default MyDocument = () => {
     );
     return () => backHandler.remove();
   });
-  //File Upload Function
+
+  const getMimeType = (ext) => {
+    // mime type mapping for few of the sample file types
+    switch (ext) {
+      case 'pdf': return 'application/pdf';
+      case 'jpg': return 'image/jpeg';
+      case 'jpeg': return 'image/jpeg';
+      case 'png': return 'image/png';
+    }
+  }
+
+
   const selectFile = async () => {
     try {
-      token = await AsyncStorage.getItem("token");
-      requestId = await AsyncStorage.getItem("applicationId");
-
-    let res = await DocumentPicker.getDocumentAsync({
+      let result = await DocumentPicker.getDocumentAsync({
         copyToCacheDirectory: true,
         multiple: false,
-        type: "application/*",
       });
-      // const type = file.name.split(".");
-      if (filename === "") {
-        alert("Please select the document first.");
-
-      } else {
-        let formData = new FormData();
-        formData.append('validFrom', validFrom)
-        formData.append('name', name)
-        formData.append('validTo',validTo)
-        formData.append('type', category)
-          formData.append("file", {
-          uri: file.uri,
-          name: file.name,
-          type: `application/${type[type.length - 1]}`,
-        });
-        console.log(formData);
-      }
-
-      // if (file.type === "success") {
-      // const res = await fetch(url, {
-      //   method: "PUT",
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //     "x-access-token": token,
-      //   },
-      //   body: formData,
-      // });
-      // const response = await res.json();
-      // if (response.status === 1) {
-      //   updateMyArray((oldArray) => [...oldArray, filename]);
-      // } else {
-      alert("File uploaded");
-      // }
-      // }
+      let formData = new FormData();
+      // formData.append('file', file)
+      let value = result.name.split('.').pop();
+      formData.append('file', {
+        uri: result.uri,
+        name: result.name,
+        type: getMimeType(value),
+      })
+      formData.append('name', name)
+      formData.append('validTo', validTo)
+      formData.append('validFrom', validFrom)
+      formData.append('type', category);
+      setData(formData);
+      setFile(result);
+      // console.log(result)
     } catch (err) {
-      // Expo didn't build with iCloud, expo turtle fallback
+    }
+  }
+
+  const uploadFile = async () => {
+    let url = `http://13.234.123.221:8000/document/upload`;
+    let token = await AsyncStorage.getItem("token");
+
+    if (file === null) {
+      alert('Please select the document.')
+    } else {
+
+      if (file.type === "success") {
+        try {
+          const res = await fetch(url, {
+            method: "POST",
+            headers: {
+              "Content-Type": "multipart/form-data",
+              "x-access-token": token,
+            },
+            body: data,
+          });
+          const response = await res.json();
+          if (response.status === 1) {
+            alert("Document Added Successfully");
+            getMyDocs();
+          } else {
+            alert("There has been an error");
+          }
+        } catch (e) {
+          console.log(e)
+        }
+      }
+    }
+  }
+
+  const generateLink = async (key) => {
+    const jsonPostData = {
+      key: key,
+    };
+    const url = `http://13.234.123.221:8000/download`;
+
+    const resu = await (
+      await fetch(url, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jsonPostData),
+      })
+    ).json();
+    if (resu.status === 1) {
+      setWebView(resu.data)
     }
   };
 
 
   const deleteDoc = async (id) => {
-    const url = `${process.env.REACT_APP_BASE_URL}/document/${id}`;
+    const url = `http://13.234.123.221:8000/document/${id}`;
     const result = await (
       await fetch(url, {
         method: "DELETE",
@@ -117,15 +166,28 @@ export default MyDocument = () => {
     ).json();
 
     if (result.status === 1) {
-      setMsg("Document Deleted Successfully");
-      setOpen(true);
+      alert('Document deleted successfully.')
       getMyDocs();
     }
   };
 
+  if (documentList) {
+    <ActivityIndicator
+      size="large"
+      color="yellow"
+      style={{ alignSelf: "center", margin: 20 }}
+    />
 
+  }
 
-
+  if (webview) {
+    return <SafeAreaView style={{ flex: 1, backgroundColor: '#000000' }}>
+      <TouchableOpacity style={{ marginRight: 10, marginTop: 10, alignSelf: 'flex-end' }} onPress={() => setWebView(null)}>
+        <Icon type='Feather' name='x' style={{ fontSize: 30, color: '#ffffff' }} />
+      </TouchableOpacity>
+      <WebView style={{ flex: 1 }} source={{ uri: webview }} />
+    </SafeAreaView>
+  }
   return (
     <ScrollView style={{ backgroundColor: '#ffffff' }}>
       <View style={{ marginTop: 20, margin: 16 }}>
@@ -155,10 +217,13 @@ export default MyDocument = () => {
                 dateIcon: {
                   display: "none",
                 },
+
+
                 dateInput: {
                   borderWidth: 1,
                   paddingRight: "40%",
                   borderColor: "#e6e6e6",
+
                 },
                 // ... You can check the source to find the other keys.
               }}
@@ -211,7 +276,7 @@ export default MyDocument = () => {
                 selectedValue={''}
                 onValueChange={value => {
                   setCategory(value)
-                 }}
+                }}
               >
                 <Picker.Item
                   label="Category"
@@ -220,16 +285,28 @@ export default MyDocument = () => {
                   key={0}
                 ></Picker.Item>
                 <Picker.Item
-                  label="Pro Service"
+                  label="Passport"
                   disabled
-                  value={'Pro-service'}
+                  value={'Passport'}
                   key={1}
                 ></Picker.Item>
                 <Picker.Item
-                  label="Visa Service"
+                  label="Visa"
                   disabled
-                  value={'Visa Service'}
+                  value={'Visa'}
                   key={2}
+                ></Picker.Item>
+                <Picker.Item
+                  label="Photograph"
+                  disabled
+                  value={'Photograph'}
+                  key={3}
+                ></Picker.Item>
+                <Picker.Item
+                  label="Driving License"
+                  disabled
+                  value={'Driving License'}
+                  key={4}
                 ></Picker.Item>
                 {/* {subOpt?.map((ele, index) => (<Picker.Item label={ele.text} value={ele.value} key={index + 1} />))} */}
               </Picker>
@@ -239,7 +316,7 @@ export default MyDocument = () => {
         <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
           <View style={style.uploadInput}>
             <TouchableOpacity
-              onPress={async () => await selectFile()}
+              onPress={() => selectFile()}
             >
               <Text
                 style={{
@@ -253,7 +330,7 @@ export default MyDocument = () => {
               </Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={''} >
+          <TouchableOpacity onPress={() => uploadFile()} >
             <View style={{ justifyContent: "center" }}>
               <LinearGradient
                 colors={["#c7a006", "#e7ed32", "#c7a006"]}
@@ -285,39 +362,41 @@ export default MyDocument = () => {
         <Image source={require('../assets/clipath.png')} />
       </View>
       <View style={{ paddingLeft: 16, paddingRight: 16 }}>
-        <View style={{ borderColor: "#000000", borderWidth: 1, width: '100%', padding: 4, paddingRight: 10, paddingLeft: 10, borderRadius: 4, }}>
-          <Text style={{ marginBottom: 5, marginTop: 5, fontWeight: 'bold', fontSize: 22 }}>Aadhar Card</Text>
-          <View style={{ justifyContent: "space-between", flexDirection: 'row', marginBottom: 5 }}>
-            <Text>Valid from : 10-2-2021</Text><View style={{ width: 50 }}></View><Text>Valid to: 10-2-2021</Text>
-          </View>
-          <View style={{ justifyContent: "space-between", flexDirection: 'row', marginBottom: 5 }}>
-            <Text style={{ marginRight: 50 }}>Name : Demo User</Text><Text>Category: Pro-service</Text>
-          </View>
-          <View>
-            <View style={{ flexDirection: 'row', justifyContent: "center", marginTop: 10 }}>
-              <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0, 1.5]} style={{ width: 100, height: 30, paddingTop: 7, borderRadius: 4, margin: 4 }}>
-                <TouchableOpacity>
-                  <Text style={{ fontSize: 12, fontWeight: 'bold', fontFamily: 'OpenSans', textAlign: 'center', margin: 'auto' }}>View</Text>
-                </TouchableOpacity>
-              </LinearGradient>
-              <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0, 1.5]} style={{ width: 100, height: 30, paddingTop: 7, borderRadius: 4, margin: 4 }}>
-                <TouchableOpacity>
-                  <Text style={{ fontSize: 12, fontWeight: 'bold', fontFamily: 'OpenSans', textAlign: 'center', margin: 'auto' }}>Delete</Text>
-                </TouchableOpacity>
-              </LinearGradient>
+        {documentList ? documentList.map((data, index) =>
+          <View style={{ borderColor: "#000000", borderWidth: 1, width: '100%', padding: 4, paddingRight: 10, paddingLeft: 10, borderRadius: 4, marginBottom: 15 }}
+            key={index}
+          >
+            <View style={{ justifyContent: "space-between", flexDirection: 'row', marginBottom: 5 }}>
+              <Text>Valid from : {data?.validFrom}</Text><View style={{ width: 50 }}></View><Text>Valid to: {data.validTo}</Text>
             </View>
-          </View>
-        </View>
+            <View style={{ justifyContent: "space-between", flexDirection: 'row', marginBottom: 5 }}>
+              <Text style={{ marginRight: 50 }}>Name : {data.name}</Text><Text>Category: {data?.type}</Text>
+            </View>
+            <View>
+              <View style={{ flexDirection: 'row', justifyContent: "center", marginTop: 10 }}>
+                <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0, 1.5]} style={{ width: 100, height: 30, paddingTop: 7, borderRadius: 4, margin: 4 }}>
+                  <TouchableOpacity onPress={() => generateLink(data?.key)}>
+                    <Text style={{ fontSize: 12, fontWeight: 'bold', fontFamily: 'OpenSans', textAlign: 'center', margin: 'auto' }}>View</Text>
+                  </TouchableOpacity>
+                </LinearGradient>
+                <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0, 1.5]} style={{ width: 100, height: 30, paddingTop: 7, borderRadius: 4, margin: 4 }}>
+                  <TouchableOpacity onPress={() => deleteDoc(data?._id)}>
+                    <Text style={{ fontSize: 12, fontWeight: 'bold', fontFamily: 'OpenSans', textAlign: 'center', margin: 'auto' }}>Delete</Text>
+                  </TouchableOpacity>
+                </LinearGradient>
+              </View>
+            </View>
+          </View>) :
+         <ActivityIndicator
+          size="large"
+          color="yellow"
+          style={{ alignSelf: "center", margin: 20 }}
+        />}
       </View>
     </ScrollView>
   );
 }
 
-
-{/* <View style={{flexDirection:'column', justifyContent:'space-between'}}> */ }
-{/* <Icon type="Feather" name='eye' style={{fontSize:20, color:'black'}}/>
-                <Icon type="Feather" name='download' style={{fontSize:20, color:'black'}}/> */}
-{/* </View> */ }
 const style = StyleSheet.create({
   heading: {
     fontSize: 18,

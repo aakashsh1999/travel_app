@@ -46,6 +46,7 @@
     "react-native-datepicker": "^1.7.2",
     "react-native-document-picker": "^5.0.4",
     "react-native-drawer": "^2.5.1",
+    "react-native-file-viewer": "^2.1.4",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-google-static-map": "^0.1.13",
     "react-native-linear-gradient": "^2.5.6",

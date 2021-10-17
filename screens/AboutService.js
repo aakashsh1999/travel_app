@@ -34,7 +34,6 @@ const AboutService = (props) => {
   const getServiceSlugDetail = async () => {
     const services = await (await fetch(service_url, { method: "GET" })).json();
 
-
     if (services.data.category.length > 0) {
       const serviceData = {
         deleted: services.data.raw.deleted,
@@ -74,12 +73,12 @@ const AboutService = (props) => {
       setService(serviceData);
     }
   };
+
   const getserviceType = async (val) => {
     let sub = service.serviceDetail.find((o) => o._id === val);
     setShow(true);
     setServiceType(sub);
   };
-  console.log(service?.name)
   const handleSub = async (ele) => {
     setOptions(
       service.serviceDetail
@@ -103,8 +102,7 @@ const AboutService = (props) => {
       serviceName: name,
     };
     let userId = await AsyncStorage.getItem("id");
-    console.log(userId)
-    if(!userId){
+    if (!userId) {
       AsyncStorage.clear();
       history.push('/login');
     }
@@ -120,7 +118,6 @@ const AboutService = (props) => {
         body: JSON.stringify(jsonPostData),
       })
     ).json();
-    console.log(result)
 
     await AsyncStorage.setItem("applicationId", result?.data?._id);
     await AsyncStorage.setItem("subCatId", subCatId);
@@ -143,7 +140,7 @@ const AboutService = (props) => {
     history.push(`/fill`);
   };
 
-
+  
   React.useEffect(() => {
     const backAction = () => {
       history.push("/");
@@ -169,9 +166,10 @@ const AboutService = (props) => {
       setToContact(false)
     }
   }
-  React.useEffect(() => { 
+  React.useEffect(() => {
     redirectToContact(service?.name);
   })
+
   return (
     <>
       <ScrollView style={{ backgroundColor: "#fff" }}>
@@ -190,15 +188,15 @@ const AboutService = (props) => {
         <View style={{ padding: 10 }}>
         </View>
         {toContact ?
-        <View style={{padding:16,   flex:2}}>
-         <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0, 1.5]} style={{ width: "100%", height: 50, borderRadius: 25, padding:18}}>
-          <TouchableOpacity onPress={() => history.push('/info')}>
-            <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'OpenSans',textAlignVertical:'center', textAlign: 'center', margin: 'auto' }}>APPLY NOW</Text>
-          </TouchableOpacity>
-        </LinearGradient> 
-        </View>
-        :
-          <View style={{ padding: 16}}>
+          <View style={{ padding: 16, flex: 2 }}>
+            <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0, 1.5]} style={{ width: "100%", height: 50, borderRadius: 25, padding: 18 }}>
+              <TouchableOpacity onPress={() => history.push('/info')}>
+                <Text style={{ fontSize: 14, fontWeight: 'bold', fontFamily: 'OpenSans', textAlignVertical: 'center', textAlign: 'center', margin: 'auto' }}>APPLY NOW</Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
+          :
+          <View style={{ padding: 16 }}>
             <View style={{ borderColor: '#e6e6e6', borderWidth: 1, borderRadius: 4 }}>
               <Picker
                 mode="dropdown"
@@ -313,11 +311,19 @@ const AboutService = (props) => {
                     Fees
                   </Text>
                 </View>
-                <Text
-                  style={{ color: "#000", fontWeight: "bold", fontSize: 18 }}
+                <View style={{ flexDirection: "row"}}>
+                {serviceType.discountPrice > 0 ? <Text
+                  style={{ color: "#000", fontWeight: "bold", fontSize: 18, textDecorationLine:'line-through', textDecorationStyle:'solid', marginRight:5}}
                 >
-                  {serviceType?.price} AED
+                  {serviceType.price} AED
+                </Text>: null
+                }
+                <Text
+                  style={{ color: "#000", fontWeight: "bold", fontSize: 18}}
+                >
+                  {serviceType.discountPrice > 0 ? serviceType?.discountPrice : serviceType?.price} AED
                 </Text>
+                </View>
               </View>
             </CardItem>
           </Card> : <View></View>}

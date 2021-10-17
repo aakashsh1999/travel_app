@@ -76,7 +76,6 @@ const getServices = async () => {
          body: JSON.stringify(jsonData)
        })).json();
        if (result.status === 1){
-         console.log(result);
        setPaymentUrl(result.url)
        await AsyncStorage.setItem("reference", result.reference)
        }

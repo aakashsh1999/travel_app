@@ -45,6 +45,7 @@ export default FillDetails = () => {
   const [city, setCity] = React.useState("");
   const [country, setCountry] = React.useState("");
   const [pincode, setPincode] = React.useState("");
+  const [CenterName, setCenterName] = React.useState("");
   const [submitted, setSubmitted] = React.useState(false);
 
   React.useEffect(() => {
@@ -63,6 +64,8 @@ export default FillDetails = () => {
   React.useEffect(() => {
     getUser();
   }, []);
+
+
 
   const invalidData = () =>
     name === "" ||
@@ -86,6 +89,7 @@ export default FillDetails = () => {
         },
       })
     ).json();
+
     let application = await (
       await fetch(`http://13.234.123.221:8000/service/${applicationId}`, {
         method: "GET",
@@ -123,6 +127,7 @@ export default FillDetails = () => {
     dob: application?.dob ? application.dob : dob,
     email: application?.email ? application.email : email,
     mobile: application?.mobile ? application.mobile : phone,
+    center:CenterName,
     address: {
       alias: alias,
       // "addressLineOne": lineOne ? lineOne : user && user.address?.addressLineOne,
@@ -141,6 +146,8 @@ export default FillDetails = () => {
         : country,
     },
   };
+  
+
   const handleSubmitForm = async () => {
     setSubmitted(true);
     if (invalidData()) {
@@ -164,6 +171,17 @@ export default FillDetails = () => {
       history.push("/mode");
     }
   };
+
+
+  let medicalCenterList = ['Al Karama Medical Fitness Center', 'Bur Dubai Medical Fitness Center', 'Al-Muhaisnah Medical Fitness Center', 'Al Quoz Mall Medical Fitness Center',
+'Al Yalayis Medical Fitness Center', '	Al Nahda Occupational Health Screening & Medical Fitness Center',
+'Al Garhoud Medical Fitness Center', 'Smart Salem Center', 'Al Rashidiya Medical Fitness Center ',
+'Jebel Ali Health Center', 'Dubai Airport Free Zone Authority', 'Dubai International Financial Center',
+'Zabeel Health Center', 'AXS medical Fitness Center', ' Emirates Medical Fitness Center', 'Emirates Airline',
+'Al-Lusaily Health Center', '	Dubai Land Department Medical Fitness Center'
+]
+
+
   if (!user) {
     return (
       <ActivityIndicator
@@ -211,20 +229,6 @@ export default FillDetails = () => {
             </View>
           </View>
         )}
-        {/* <View style={{flexDirection:'row', marginTop:25, paddingLeft:16, paddingRight:16}}>
-                <View>
-                <TouchableOpacity onPress={() => setType('self')} style={{flexDirection:'row', alignItems:'center'}}>
-                <Radio selected={type === 'self'} selectedColor="#c7a006" color='#000000' />
-                <Text style={{fontSize:14,marginLeft:10, fontFamily:'OpenSans'}}>Self</Text>
-                </TouchableOpacity>
-                </View>
-                <View>
-                <TouchableOpacity onPress={()=> setType('other')} style={{flexDirection:'row', alignItems:'center', marginLeft:40}}>
-                <Radio selectedColor="#c7a006" selected={type === 'other'} color="#000000"/>
-                <Text style={{fontSize:14,marginLeft:10, fontFamily:'OpenSans'}}>Other</Text>
-                </TouchableOpacity>
-                </View>
-            </View>             */}
         <View style={{ marginTop: 20, paddingLeft: 16, paddingRight: 16 }}>
           <Text style={style.label}>Name*</Text>
           <TextInput
@@ -372,7 +376,7 @@ export default FillDetails = () => {
           />
         </View>
 
-        <View style={{ marginBottom: 20, paddingLeft: 16, paddingRight: 16 }}>
+        <View style={{paddingLeft: 16, paddingRight: 16 }}>
           <Text style={style.label}>Country*</Text>
           <TextInput
             style={style.input}
@@ -385,6 +389,28 @@ export default FillDetails = () => {
             }
           />
         </View>
+      {application?.serviceCategory?.slug ===  'medical-services' && 
+        <View style={{ marginBottom: 20, paddingLeft: 16, paddingRight: 16 }}>
+        <Text style={style.label}>Medical Centers*</Text>
+        <Picker
+                mode="dropdown"
+                placeholderStyle={{ color: "red" }}
+                iosIcon={<Icon name="arrow-down" />}
+                style={{ height: 40 }}
+                selectedValue={''}
+                 onValueChange={value => {
+                  setCenterName(value);
+                 }}
+              >
+                <Picker.Item
+                  label="Select Medical Center"
+                  disabled
+                  value={null}
+                  key={0}
+                ></Picker.Item>
+                {medicalCenterList?.map((ele, index) => (<Picker.Item label={ele} value={ele} key={index + 1} />))}
+              </Picker>
+        </View>}
       </ScrollView>
       <CardHeader />
       <View
