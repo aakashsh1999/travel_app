@@ -100,6 +100,7 @@ export default FillDetails = () => {
     ).json();
     setApplication(application);
     user = user.data;
+    await AsyncStorage.setItem("slug", application?.serviceCategory?.slug)
     setUser(user);
     setName(user.name);
     setDob(application.dob);
@@ -121,6 +122,7 @@ export default FillDetails = () => {
       ? setCountry(user.address.country)
       : setCountry(application.otherAddress.country);
   };
+
 
   const jsonPostData = {
     name: application?.name ? application.name : name,

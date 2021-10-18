@@ -41,11 +41,6 @@ export default UploadDocuments = () => {
   const [serviceDetail, setServiceDetail] = React.useState(null);
   const [reqDocs, setDocs] = React.useState([]);
 
-  React.useEffect(() => {
-    getServices()
-    getSubServices(); 
-    getDocuments();
-  }, []);
 
   React.useEffect(() => {
     const backAction = () => {
@@ -59,6 +54,11 @@ export default UploadDocuments = () => {
     );
     return () => backHandler.remove();
   });
+
+  React.useEffect(() => {
+    getServices();
+  }, []);
+
 
   const selectFile = async () => {
     try {
@@ -103,41 +103,27 @@ export default UploadDocuments = () => {
     } catch (err) {
       // Expo didn't build with iCloud, expo turtle fallback
     }
-  };
-  //Getting the List of Document
-  const getServices = async () => {
-    const slug = await AsyncStorage.getItem("serviceSlug");
-    const service_url = `http://13.234.123.221:8000/serviceCategory/${slug}`;
-    const service = await (await fetch(service_url, { method: "GET" })).json();
-    const serviceData = service.data;
-    setService(serviceData);
-    await getSubServices();
-    await getDocuments();
-  };
+};
 
-  const getDocuments = async () => {
-    requestId = await AsyncStorage.getItem("applicationId");
-    let application = await (
-      await fetch(`http://13.234.123.221:8000/admin/application/${requestId}`, {
-        method: "GET",
-        headers: {
-          "x-access-token": await AsyncStorage.getItem("token"),
-        },
-      })
-    ).json();
-    application = application.data[0].docs;
-    updateMyArray(application || []);
+const getServices = async () => {
+  let slug = await AsyncStorage.getItem('slug');
+  let subCatId =await AsyncStorage.getItem('subCatId')
+  const service_url = `http://13.234.123.221:8000/serviceCategory/${slug}`;
+  const service = await (await fetch(service_url, { method: "GET" })).json();
+  let application = await (
+    await fetch(
+      `http://13.234.123.221:8000/service/${requestId}`,
+      {
+        method: "GET"
+      })).json();
+  setService(application?.data)
+  let subCatdata=service.data.serviceDetail.find(e=>e.name===application.serviceDetail?application.serviceDetail: subCatId);
+  const serviceData = {
+    reqDocs: subCatdata.reqDocs
   };
-
-  const getSubServices = async () => {
-    const slug = await AsyncStorage.getItem("serviceSlug");
-    const subCatId= await AsyncStorage.getItem("subCatId");
-    const service_url = `http://13.234.123.221:8000/serviceCategory/subCat/${slug}/${subCatId}`
-    const services = await (await fetch(service_url, { method: "GET" })).json();
-    const serviceData = services.data;
-    setServiceDetail(serviceData);
-  };
-
+  setServiceDetail(serviceData)
+  await AsyncStorage.setItem("subCatId",subCatdata._id);
+};
 
 
   if (!serviceDetail) {
@@ -155,7 +141,7 @@ export default UploadDocuments = () => {
         <H3 style={style.heading}>Upload Documents</H3>
         <Stepper active="/upload" />
         <View style={{ padding: 16 }}>
-          {docsArray.length !== serviceDetail&&serviceDetail.reqDocs.length ? (
+          {docsArray.length !== serviceDetail && serviceDetail?.reqDocs.length ? (
             <View>
               <Label style={style.label}>Choose a document</Label>
               <Form>
@@ -176,7 +162,7 @@ export default UploadDocuments = () => {
                     key={0}
                   ></Picker.Item>
                   {serviceDetail &&
-                    serviceDetail.reqDocs.map((ele, index) => (
+                    serviceDetail?.reqDocs.map((ele, index) => (
                       <Picker.Item label={ele} value={ele} key={index + 1} />
                     ))}
                 </Picker>
@@ -215,8 +201,7 @@ export default UploadDocuments = () => {
           </View>
           <View style={{ marginTop: 40, marginBottom: 10 }}>
             <Text style={style.label}>Documents Required</Text>
-            {serviceDetail &&
-              serviceDetail.reqDocs.map((data, index) => (
+            {serviceDetail && serviceDetail.reqDocs.map((data, index) => (
                 <ListItem
                   style={{ height: 52, borderBottomColor: "#fff" }}
                   key={index}
