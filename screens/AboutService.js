@@ -159,7 +159,7 @@ const AboutService = (props) => {
     setShow(!show)
   }
   function redirectToContact(name) {
-    if (name?.toLowerCase() === 'company stamp' || name?.toLowerCase() === 'pro services' || name?.toLowerCase() === 'company formation' || name?.toLowerCase() === 'dubai economic servies') {
+    if (name?.toLowerCase() === 'company stamp' || name?.toLowerCase() === 'pro services' || name?.toLowerCase() === 'company formation' || name?.toLowerCase() === 'dubai economic services') {
       setToContact(true)
     }
     else {

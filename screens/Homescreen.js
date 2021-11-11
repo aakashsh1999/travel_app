@@ -74,7 +74,7 @@ export default Homescreen = () => {
           <View style={{ position: 'absolute', bottom: 24, left: 15 }}>
             <H1 style={style.heading}>Leading Immigration</H1>
             <H1 style={style.heading}>Consultants in Dubai</H1>
-            <Text style={{ fontSize: 16, color: "#ffffff", fontFamily: 'Lato', marginTop: 5 }}>Our business is to make your business easier in the UAE.</Text>
+            <Text style={{ fontSize: 16, color: "#ffffff", fontFamily: 'Lato', marginTop: 5, flex:1, padding:5 }}>Our business is to make your business easier in the UAE.</Text>
           </View>
         </Card>
         <View style={{ marginTop: 20, marginLeft: 16, backgroundColor: "#fff" }}>
@@ -91,6 +91,7 @@ export default Homescreen = () => {
           <H2 style={style.ourServices}>Offers</H2>
           <Image source={require('../assets/clipath.png')} />
         </View>
+        <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
         {carouselState && carouselState.length > 0 ? 
         <Carousel
           layout={'default'}
@@ -103,7 +104,9 @@ export default Homescreen = () => {
           useScrollView={true}
         /> : <ActivityIndicator size="large" color="yellow" style={{alignSelf:'center', margin:20}} />
           }
+        </View>
       </ScrollView>
+
       <Bottombar />
     </>
   );
