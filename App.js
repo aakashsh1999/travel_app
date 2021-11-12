@@ -27,6 +27,7 @@ import _ from 'lodash';
 import informationPage from './screens/informationPage';
 import ChooseType from './screens/stepscreens/ChooseType';
 import ChooseMode from './screens/stepscreens/ChooseMode';
+import EditProfile from './screens/EditProfile';
 
 export default function App() {
   const [loaded] = useFonts({
@@ -71,6 +72,7 @@ export default function App() {
       <Route exact path="/login" component={Login}/>
       <Route exact path="/appointment" component={Appointment}/>
       <Route exact path="/profile" component={Profile}/>
+      <Route exact path='/edit_profile' component={EditProfile}/>
       <Route exact path="/document" component={MyDocument}/>
       <Route exact path="/history" component={History}/>
       <Route exact path="/apply" component={ApplyNow}/>

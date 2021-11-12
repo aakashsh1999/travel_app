@@ -79,8 +79,9 @@ const getData = async () =>{
                 <Card style={style.card} key={data._id}>
                 <CardItem header style={{borderBottomColor:'#e6e6e6', borderBottomWidth:1, justifyContent:'space-between'}}>
                 <View>
-                    <Text style={{fontSize:12, color:'#9d9494'}}>Service name</Text>
-                    <Text style={style.itemText}>{data.serviceCategory && data.serviceCategory.name}</Text>
+                    <Text style={{fontSize:12, color:'#9d9494', marginRight:5}}>Service name</Text>
+              <Text style={{ color:'#000', fontSize:14, marginTop:5,
+        fontWeight:'500', paddingRight:10}}>{data.serviceCategory && data.serviceCategory.name}</Text>
                     </View>
                     <TouchableOpacity onPress={()=>history.push(`/application/${data._id}`)}>
                     <View style={{flexDirection:'row', alignItems:'center', marginTop:25}}>

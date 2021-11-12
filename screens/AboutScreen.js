@@ -48,12 +48,11 @@ Experience success with UAE and take your business to new heights with Askepro.<
 
         {/* About Card */}
                 <Card style={style.card}>
-                    <CardItem header style={style.cardheader}>
+                   <CardItem header>
                     <Image style={style.image} source={require('../assets/client1.jpg')} />
-                    <View style={{marginRight:28}}>
+                    <View style={{marginLeft:20, flex:1}}>
                     <H3 style={{fontSize:18, lineHeight:22, fontFamily:'Lato', fontWeight:'500'}}>Shefeek Ismail</H3>
-                    <H3 style={{fontSize:14, color:"#9d9494", fontFamily:'OpenSans', fontWeight:'500'}}>FOUNDER, ASK E PRO
-</H3>
+                    <H3 style={{fontSize:14, color:"#9d9494", fontFamily:'OpenSans', fontWeight:'500'}}>FOUNDER, ASK E PRO</H3>
                      </View>
                     </CardItem>
                       <CardItem>
@@ -64,9 +63,9 @@ Experience success with UAE and take your business to new heights with Askepro.<
                </Card>
                
                <Card style={style.card}>
-                    <CardItem header style={style.cardheader}>
+                    <CardItem header>
                     <Image style={style.image} source={require('../assets/client2.jpg')} />
-                    <View style={{marginRight:25}}>
+                    <View style={{marginLeft:20, flex:1}}>
                     <H3 style={{fontSize:18, lineHeight:22, fontFamily:'Lato', fontWeight:'500'}}>Hamad Mohammed</H3>
                     <H3 style={{fontSize:18, lineHeight:22, fontFamily:'Lato', fontWeight:'500'}}>Bakhit Suhail Alrashdi</H3>
                     <H3 style={{fontSize:14, color:"#9d9494", fontFamily:'OpenSans', fontWeight:'500'}}>CO-FOUNDER, ASK E PRO</H3>
@@ -113,10 +112,8 @@ const style= StyleSheet.create({
         marginBottom:30
     },
     image:{
-        width:100, height:100,
-        position: 'absolute',
-        top:-22,
-        left:20,
+        width: 100,
+        height:100,
           },
           
     card:{
@@ -126,8 +123,4 @@ const style= StyleSheet.create({
         marginBottom:60,
         marginTop:20
     },
-    cardheader:{
-        flex:1,
-        justifyContent:'flex-end'
-    }
 });

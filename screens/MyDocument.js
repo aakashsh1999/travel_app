@@ -363,17 +363,18 @@ export default MyDocument = () => {
       </View>
       <View style={{ paddingLeft: 16, paddingRight: 16 }}>
         {documentList ? documentList.map((data, index) =>
-          <View style={{ borderColor: "#000000", borderWidth: 1, width: '100%', padding: 4, paddingRight: 10, paddingLeft: 10, borderRadius: 4, marginBottom: 15 }}
+          <View style={{
+            flexDirection:'row', borderColor: "#000000", borderWidth: 1, padding: 4, paddingRight: 10, paddingLeft: 10, borderRadius: 4, marginBottom: 15, justifyContent:'space-between' }}
             key={index}
           >
-            <View style={{ justifyContent: "space-between", flexDirection: 'row', marginBottom: 5 }}>
-              <Text>Valid from : {data?.validFrom}</Text><View style={{ width: 50 }}></View><Text>Valid to: {data.validTo}</Text>
-            </View>
-            <View style={{ justifyContent: "space-between", flexDirection: 'row', marginBottom: 5 }}>
-              <Text style={{ marginRight: 50 }}>Name : {data.name}</Text><Text>Category: {data?.type}</Text>
+            <View style={{justifyContent: "space-between", marginBottom: 5 }}>
+              <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>Valid from : </Text><Text>{data?.validFrom}</Text></View>
+              <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>Valid To : </Text><Text>{data?.validTo}</Text></View>
+              <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>Name : </Text><Text>{data?.name}</Text></View>
+              <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>Category : </Text><Text>{data?.type}</Text></View>
             </View>
             <View>
-              <View style={{ flexDirection: 'row', justifyContent: "center", marginTop: 10 }}>
+              <View style={{justifyContent: "center"}}>
                 <LinearGradient colors={['#c7a006', '#e7ed32', '#c7a006']} start={[1, 0]} end={[0, 1.5]} style={{ width: 100, height: 30, paddingTop: 7, borderRadius: 4, margin: 4 }}>
                   <TouchableOpacity onPress={() => generateLink(data?.key)}>
                     <Text style={{ fontSize: 12, fontWeight: 'bold', fontFamily: 'OpenSans', textAlign: 'center', margin: 'auto' }}>View</Text>
@@ -433,8 +434,8 @@ const style = StyleSheet.create({
   uploadInput: {
     width: '41%',
     height: 40,
+    textAlign:"center",
     borderColor: "#e9e9e9",
     borderWidth: 1,
-    paddingLeft: 15,
   },
 });

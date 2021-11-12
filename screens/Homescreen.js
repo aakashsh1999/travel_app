@@ -74,7 +74,9 @@ export default Homescreen = () => {
           <View style={{ position: 'absolute', bottom: 24, left: 15 }}>
             <H1 style={style.heading}>Leading Immigration</H1>
             <H1 style={style.heading}>Consultants in Dubai</H1>
-            <Text style={{ fontSize: 16, color: "#ffffff", fontFamily: 'Lato', marginTop: 5, flex:1, padding:5 }}>Our business is to make your business easier in the UAE.</Text>
+            <View style={{width:'100%', paddingRight:15}}>
+            <Text style={{ fontSize: 16, color: "#ffffff", fontFamily: 'Lato', marginTop: 5}}>Our business is to make your business easier in the UAE.</Text>
+          </View>
           </View>
         </Card>
         <View style={{ marginTop: 20, marginLeft: 16, backgroundColor: "#fff" }}>
@@ -97,9 +99,8 @@ export default Homescreen = () => {
           layout={'default'}
           ref={carouselRef}
           data={carouselState}
-          sliderWidth={383}
-          itemWidth={350}
-
+          sliderWidth={300}
+          itemWidth={300}
           renderItem={renderItem}
           useScrollView={true}
         /> : <ActivityIndicator size="large" color="yellow" style={{alignSelf:'center', margin:20}} />

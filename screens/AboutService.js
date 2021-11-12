@@ -78,6 +78,7 @@ const AboutService = (props) => {
     let sub = service.serviceDetail.find((o) => o._id === val);
     setShow(true);
     setServiceType(sub);
+  
   };
   const handleSub = async (ele) => {
     setOptions(
@@ -270,8 +271,8 @@ const AboutService = (props) => {
                   fontSize: 16,
                   fontFamily: "Lato",
                   fontWeight: "bold",
-                  color: "#000",
-                  width: '70%'
+                  color: "#000000",
+                  width: '60%'
                 }}
               >
                 {serviceType?.name}
@@ -307,19 +308,19 @@ const AboutService = (props) => {
                 }}
               >
                 <View style={{ width: 120 }}>
-                  <Text style={{ color: "#000", fontFamily: "Lato" }}>
+                  <Text style={{ color: "#000000", fontFamily: "Lato" }}>
                     Fees
                   </Text>
                 </View>
                 <View style={{ flexDirection: "row"}}>
                 {serviceType.discountPrice > 0 ? <Text
-                  style={{ color: "#000", fontWeight: "bold", fontSize: 18, textDecorationLine:'line-through', textDecorationStyle:'solid', marginRight:5}}
+                  style={{ color: "#000000", fontWeight: "bold", fontSize: 18, textDecorationLine:'line-through', textDecorationStyle:'solid', marginRight:5}}
                 >
                   {serviceType.price} AED
                 </Text>: null
                 }
                 <Text
-                  style={{ color: "#000", fontWeight: "bold", fontSize: 18}}
+                  style={{ color: "#000000", fontWeight: "bold", fontSize: 18}}
                 >
                   {serviceType.discountPrice > 0 ? serviceType?.discountPrice : serviceType?.price} AED
                 </Text>

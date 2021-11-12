@@ -20,8 +20,9 @@ export default function ServiceGrid() {
   }, []);
 
   const getServices = async () => {
-    const services = await (await fetch(service_url, { method: "GET" })).json();
-    const serviceData = services.data.map((e) => ({
+    let services = await (await fetch(service_url, { method: "GET" })).json();
+    // services = services?.data.filter((el) => el.category?.length!==0)
+    const serviceData = services?.data.map((e) => ({
       _id: e._id,
       name: e.name,
       tv_type: e.tv_type,
@@ -31,6 +32,7 @@ export default function ServiceGrid() {
     setServices(serviceData);
   };
 
+
   function routePage(slug){
       history.push(`/aboutservice/${slug}`)
   }
@@ -39,6 +41,7 @@ export default function ServiceGrid() {
   if(!services){
      return  <ActivityIndicator size="large" color="yellow" style={{alignSelf:'center', margin:20}} />
   }
+
   return (
     <FlatGrid
       itemDimension={120}

@@ -1,6 +1,5 @@
 import { H2, Container, Text, Content, Card, CardItem, Left, ListItem, Icon, Button } from 'native-base';
-import { View, Image, StyleSheet, ImageBackground, ScrollView, BackHandler, Alert, ActivityIndicator, 
-Pressable,Modal } from 'react-native';
+import { View, Image, StyleSheet, ImageBackground, ScrollView, BackHandler, Alert, ActivityIndicator } from 'react-native';
 import React, { useEffect } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useHistory } from 'react-router-dom';
@@ -15,9 +14,7 @@ export default Profile = () => {
   const [Id, setId] = React.useState(null);
   const [application, setApplication] = React.useState([]);
   const [address, setAddress] = React.useState("");
-  
-  const [modalVisible, setModalVisible] = 
-  React.useState(false);
+
 
 
   useEffect(() => {
@@ -85,25 +82,6 @@ export default Profile = () => {
   }
   return (
     <Container>
-      <View>
-        <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}>
-          <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-          <Text style={styles.modalText}>Hello World!</Text>
-            <Pressable
-              onPress={() => setModalVisible(!modalVisible)}
-            ></Pressable>
-            </View>
-            </View>
-        </Modal>
-        </View>
       <Content >
         <View style={{ marginTop: 20, marginLeft: 16 }}>
           <H2 style={style.profileHeading}>Profile</H2>
@@ -135,14 +113,14 @@ export default Profile = () => {
                   </View>
                 </View>
               </View>
-              <TouchableOpacity style={{
+              {/* <TouchableOpacity style={{
                 marginLeft:'15%',
                 marginTop:5
               }}
-              onPress={() => setModalVisible(true)}
+              onPress={() => history.push('/edit_profile')}
               >
               <Text style={{ color: '#ffffff', fontSize:12, textDecorationLine:'underline'}}>Edit Profile</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </ImageBackground>
             <Content style={{ paddingLeft: 20, paddingRight: 20, paddingBottom: 20 }}>
               <View>
