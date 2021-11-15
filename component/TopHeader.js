@@ -46,7 +46,7 @@ export default TopHeader = (props) => {
         <View style={{position:'absolute',bottom:30,left:20}}>
         <Text style={{fontSize:14, color:'#fff', fontWeight:'400', marginBottom:15, fontFamily:'Lato'}}>Copyright &copy; 2021 Askepro</Text>
         <View style={style.bottomDetail}>
-            <Text style={style.terms}>Terms and Condition</Text>
+            <Text style={style.terms}>Terms and Conditions</Text>
             <Text style={style.terms}>|</Text>
             <Text style={style.terms}>Privacy Policy</Text></View>
         </View>

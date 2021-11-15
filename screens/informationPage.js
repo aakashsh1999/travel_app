@@ -45,7 +45,7 @@ export default InformationPage = () => {
   });
 
   const createContact = async () => {
-    if (name === null || email === null || query === null) {
+    if (!name || !email|| !query) {
       alert("Please fill all the required fields.");
     } else {
       const jsonData = { name: name, email: email, query: query };
@@ -63,6 +63,17 @@ export default InformationPage = () => {
       history.push("/");
     }
   };
+
+  const validateEmail = () =>{
+    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(email) === true){
+      setIsEmail(false);
+      createContact();
+    }
+    else{
+      setIsEmail(true)
+    }
+  }
 
   return (
     <ScrollView>
@@ -171,6 +182,10 @@ export default InformationPage = () => {
                 value={email}
                 onChangeText={setEmail}
               />
+                {isEmail?
+                  <Text style={{color:'#e5181a', fontSize:15, fontFamily:'Lato', marginBottom:5}}>You have entered an invalid email.</Text>
+                : null
+              }
               <Textarea
                 style={{
                   width: 280,
@@ -191,7 +206,7 @@ export default InformationPage = () => {
                 </Text>
               </View>
             </Body>
-            <TouchableOpacity onPress={() => createContact()}>
+            <TouchableOpacity onPress={() => validateEmail()}>
               <LinearGradient
                 colors={["#c7a006", "#e7ed32", "#c7a006"]}
                 start={[1, 0]}

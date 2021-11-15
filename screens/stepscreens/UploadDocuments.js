@@ -11,7 +11,9 @@ import {
   Picker,
   Item,
   Label,
+  SnackBar,
   Right,
+  Modal
 } from "native-base";
 import {
   ScrollView,
@@ -39,7 +41,7 @@ export default UploadDocuments = () => {
   const [docsArray, updateMyArray] = React.useState([]);
   const [services, setService] = React.useState(null);
   const [serviceDetail, setServiceDetail] = React.useState(null);
-  const [reqDocs, setDocs] = React.useState([]);
+  const [progress, setProgress] = React.useState(0);
 
 
   React.useEffect(() => {
@@ -57,7 +59,10 @@ export default UploadDocuments = () => {
 
   React.useEffect(() => {
     getServices();
+    getDocumentList();
   }, []);
+  
+
 
 
   const selectFile = async () => {
@@ -85,15 +90,10 @@ export default UploadDocuments = () => {
       }
 
       if (file.type === "success") {
-        const res = await fetch(url, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "multipart/form-data",
-            "x-access-token": token,
-          },
-          body: formData,
-        });
-        const response = await res.json();
+        console.log(url);
+        const res = await postData(url,formData,token);
+        const response = JSON.parse(res);
+        setProgress(0)
         if (response.status === 1) {
           updateMyArray((oldArray) => [...oldArray, filename]);
         } else {
@@ -101,10 +101,31 @@ export default UploadDocuments = () => {
         }
       }
     } catch (err) {
+      console.log(err);
       // Expo didn't build with iCloud, expo turtle fallback
     }
 };
 
+
+const postData = async (url,data,token)=>{
+  const xhr = new XMLHttpRequest();
+  const success = await new Promise((resolve) => {
+    xhr.upload.addEventListener("progress", (event) => {
+      if (event.lengthComputable) {
+       setProgress(Math.round((event.loaded * 100)/event.total));
+      }
+    });
+    xhr.addEventListener("loadend", () => {
+      alert(filename + ' uploaded successfully.')
+      resolve(xhr.responseText);
+    });
+    xhr.open("PUT", url, true);
+    xhr.setRequestHeader("Content-Type", "multipart/form-data");
+    xhr.setRequestHeader("x-access-token", token);
+    xhr.send(data);
+  });
+  return success;
+}
 const getServices = async () => {
   let slug = await AsyncStorage.getItem('slug');
   let subCatId =await AsyncStorage.getItem('subCatId')
@@ -125,6 +146,23 @@ const getServices = async () => {
   await AsyncStorage.setItem("subCatId",subCatdata._id);
 };
 
+//Function for getting uploaded Document List
+const getDocumentList = async () => {
+  let applicationId = await AsyncStorage.getItem('applicationId');
+  let application = await (
+    await fetch(`http://13.234.123.221:8000/service/${applicationId}`, {
+      method: "GET",
+      headers: {
+        "x-access-token": await AsyncStorage.getItem("token"),
+      },
+    })
+  ).json();
+ let docList = application?.docs.map(el => el?.name);
+ updateMyArray(docList);
+}
+ 
+
+
 
   if (!serviceDetail) {
     return (
@@ -139,7 +177,8 @@ const getServices = async () => {
     <>
       <Content>
         <H3 style={style.heading}>Upload Documents</H3>
-        <Stepper active="/upload" />
+        <Stepper active="/upload" />     
+        {progress !==0 && <Text style={{fontSize:16, fontWeight:'bold', color:'#00ff00', textAlign:'center'}}>Uploading {progress}%</Text>}
         <View style={{ padding: 16 }}>
           {docsArray.length !== serviceDetail && serviceDetail?.reqDocs.length ? (
             <View>
@@ -186,7 +225,6 @@ const getServices = async () => {
                 <Text
                   style={{
                     textAlign: "center",
-                    marginTop: 10,
                     fontSize: 16,
                     color: "#9d9494",
                   }}
@@ -219,7 +257,7 @@ const getServices = async () => {
           </View>
           <View style={{ marginTop: 10, marginBottom: 40 }}>
             <Text style={style.label}>Documents Submitted</Text>
-            {docsArray ? (
+            {docsArray.length !== 0 ? (
               docsArray.map((data, index) => (
                 <ListItem
                   style={{ height: 52, borderBottomColor: "#fff" }}
@@ -233,16 +271,11 @@ const getServices = async () => {
                       {data.name || data}
                     </Text>
                   </Body>
-                  {/* {data.name ? <Right>
-                      <Button onPress={()=>generateLink(data.key, data.name)}>
-                        <Text>Download</Text>
-                      </Button>
-                    </Right> :null} */}
                 </ListItem>
               ))
             ) : (
               <Text style={{ fontSize: 14, fontWeight: "bold", marginTop: 10 }}>
-                Sorry! You don't have any submitted document
+                Sorry! You haven't submitted any documents yet.
               </Text>
             )}
           </View>
@@ -369,10 +402,14 @@ const style = StyleSheet.create({
     fontFamily: "Lato",
   },
   uploadInput: {
-    height: 40,
+    flex: 1,
+    alignItems:'center',
+    paddingTop:8,
+    paddingBottom:8,
+    paddingRight:10, 
+    paddingLeft:10,
     borderColor: "#e9e9e9",
     borderWidth: 1,
-    paddingLeft: 15,
     marginBottom: 20,
   },
 });

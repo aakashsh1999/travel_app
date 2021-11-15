@@ -209,7 +209,7 @@ export default MyDocument = () => {
               placeholder="Valid from"
               format="DD-MM-YYYY"
               minDate="01-01-1950"
-              maxDate="01-01-2021"
+              maxDate="01-01-3000"
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               date={validFrom}
@@ -237,7 +237,7 @@ export default MyDocument = () => {
               placeholder="Valid to"
               format="DD-MM-YYYY"
               minDate="01-01-1950"
-              maxDate="01-01-2021"
+              maxDate="01-01-3000"
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               date={validTo}
