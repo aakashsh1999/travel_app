@@ -9,10 +9,11 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
-      "**/*"
+      "assets/**/*"
     ],
     "ios": {
-      "supportsTablet": true,
+      "buildNumber": "1.0.0",
+      "supportsTablet": false,
       "bundleIdentifier": "com.shefeek.askepro"
     },
     "android": {
