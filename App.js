@@ -23,7 +23,6 @@ import Success from './screens/stepscreens/Success';
 import TopHeader from './component/TopHeader';
 import UploadDocuments from './screens/stepscreens/UploadDocuments';
 import {useFonts} from 'expo-font';
-import _ from 'lodash';
 import informationPage from './screens/informationPage';
 import ChooseType from './screens/stepscreens/ChooseType';
 import ChooseMode from './screens/stepscreens/ChooseMode';

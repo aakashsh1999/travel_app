@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, View, Text, BackHandler, TouchableOpacity} from
 import {H3} from 'native-base';
  import CalendarPicker from 'react-native-calendar-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-native';
 import Stepper from './Stepper';
 import {LinearGradient} from 'expo-linear-gradient';
 import CardHeader from '../../component/CardHeader';

@@ -3,7 +3,7 @@ import {ImageBackground , CheckBox, StyleSheet, Text, View, TextInput, BackHandl
 import {H3, Button, Item, Body, Input, Content} from 'native-base';
 import PhoneInput from "react-native-phone-number-input";
 import Bottombar from '../component/Bottombar';
-import {Link, useHistory} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-native'
 import {LinearGradient} from 'expo-linear-gradient';
 
 export default CreateAccount =  () => {     

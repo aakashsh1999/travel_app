@@ -3,7 +3,7 @@ import {Card, CardItem, H3,} from 'native-base';
 
 import { FlatGrid } from 'react-native-super-grid';
 import React from 'react';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-native';
 
 export default function TouristGrid() {
   const history = useHistory();

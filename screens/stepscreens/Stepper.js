@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {StyleSheet, Text, View} from  'react-native';
-import {useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-native';
 import {LinearGradient} from 'expo-linear-gradient';
 
 export default StepScreen = ({active}) => {   

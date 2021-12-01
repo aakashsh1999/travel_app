@@ -4,7 +4,7 @@ import { ScrollView, StyleSheet, Text, BackHandler, TouchableOpacity, SafeAreaVi
 import { WebView } from 'react-native-webview';
 import Stepper from './Stepper';
 import { LinearGradient } from 'expo-linear-gradient';
-import {useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { conformsTo } from 'lodash';
 export default Payment = () =>{

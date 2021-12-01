@@ -24,7 +24,7 @@ import {
   TextInput,
   BackHandler,
 } from "react-native";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useLocation } from "react-router-native";
 import Stepper from "./Stepper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { LinearGradient } from "expo-linear-gradient";

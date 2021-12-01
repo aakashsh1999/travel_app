@@ -9,7 +9,7 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
-      "assets/**/*"
+      "/assets/**/*"
     ],
     "ios": {
       "buildNumber": "1.0.0",

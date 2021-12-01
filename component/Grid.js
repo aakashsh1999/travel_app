@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, Image, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { FlatGrid } from 'react-native-super-grid';
 import {useFonts} from 'expo-font';
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-native';
 
 
 export default function ServiceGrid() {

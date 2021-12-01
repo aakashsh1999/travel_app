@@ -2,7 +2,7 @@ import React from 'react';
 import {CardItem, H2, Card, Container, H3} from 'native-base';
 import {Image, Text, ScrollView,StyleSheet, View, BackHandler} from 'react-native';
 import {useFonts} from 'expo-font';
-import {useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-native';
 export default AboutScreen = () =>{
     let history = useHistory();
 

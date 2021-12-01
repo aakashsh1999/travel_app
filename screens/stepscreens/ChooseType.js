@@ -1,7 +1,7 @@
 import {List, ListItem, Body, Radio,H3} from 'native-base';
 import React from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, Text, BackHandler, View } from 'react-native';
-import {useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {LinearGradient} from 'expo-linear-gradient';
 import Stepper from './Stepper';

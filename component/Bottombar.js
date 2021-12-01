@@ -1,7 +1,7 @@
 import React, { Component, useEffect, BackHandler} from 'react';
 import {Content, Footer, FooterTab, Button, Icon, Text } from 'native-base';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {LinearGradient} from 'expo-linear-gradient';
 import {useFonts} from 'expo-font';

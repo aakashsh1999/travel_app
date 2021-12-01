@@ -6,7 +6,7 @@ import TouristGrid from '../component/TouristCardGrid';
 import Bottombar from '../component/Bottombar';
 import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import { Video, AVPlaybackStatus } from 'expo-av';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-native';
 import PropTypes from 'prop-types';
 import Carousel from 'react-native-snap-carousel';
 export default Homescreen = () => {
@@ -64,7 +64,7 @@ export default Homescreen = () => {
           <Video
             style={{ width: '100%', height: 300, opacity: 0.6 }}
             ref={video}
-            source={require('../assets/demo.mp4')}
+            source={{uri: 'https://dev-askepro.s3.ap-south-1.amazonaws.com/video/demo.mp4',}}
             resizeMode='cover'
             status={'Play'}
             isMuted

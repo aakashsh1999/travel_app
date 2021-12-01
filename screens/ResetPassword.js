@@ -2,7 +2,7 @@ import React from 'react';
 import {ImageBackground , CheckBox, StyleSheet, Text, View, TextInput, BackHandler, TouchableNativeFeedback, TouchableOpacity} from 'react-native';
 import {H3, Button, Item, Body, Input, Content} from 'native-base';
 import Bottombar from '../component/Bottombar';
-import {Link, useHistory} from 'react-router-dom';  
+import {Link, useHistory} from 'react-router-native';  
 import {LinearGradient} from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFonts} from 'expo-font';
