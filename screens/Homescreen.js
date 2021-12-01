@@ -64,7 +64,7 @@ export default Homescreen = () => {
           <Video
             style={{ width: '100%', height: 300, opacity: 0.6 }}
             ref={video}
-            source={require('../assets/demo.mp4')}
+            source={{uri: 'https://dev-askepro.s3.ap-south-1.amazonaws.com/video/demo.mp4',}}
             resizeMode='cover'
             status={'Play'}
             isMuted
