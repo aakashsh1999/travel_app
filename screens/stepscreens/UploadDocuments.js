@@ -25,8 +25,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import * as FileSystem from "expo-file-system";
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-native";
 import Stepper from "./Stepper";
 import * as DocumentPicker from "expo-document-picker";
 import CardHeader from "../../component/CardHeader";

@@ -2,7 +2,7 @@ import React from 'react'
 import { Container, Content, Icon, List, ListItem, Body, Radio,H3, Left } from 'native-base';
 import { ActivityIndicator, Modal, ScrollView, StyleSheet, Text, BackHandler, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useHistory, useLocation} from 'react-router-dom';
+import {useHistory, useLocation} from 'react-router-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {LinearGradient} from 'expo-linear-gradient';
 import Stepper from './Stepper';

@@ -14,7 +14,7 @@ import {
 import { Image, ScrollView, StyleSheet, Text, BackHandler, TouchableOpacity } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import React from "react";
-import { useParams, useHistory } from "react-router";
+import { useParams, useHistory } from "react-router-native";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const AboutService = (props) => {

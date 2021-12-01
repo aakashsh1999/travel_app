@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {LinearGradient} from 'expo-linear-gradient';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import {useFonts} from 'expo-font';
-import {useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-native';
 
 export default Appointment =  () =>{
      

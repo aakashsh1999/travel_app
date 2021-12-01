@@ -2,7 +2,7 @@ import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TouchableOpacit
 import {Button, Card, CardItem, Content, Icon, Right} from 'native-base'
 import React, {useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useHistory} from 'react-router-dom';
+import {useHistory} from 'react-router-native';
 
 export default History = () =>{
     let history= useHistory();

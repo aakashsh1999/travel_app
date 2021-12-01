@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react'
 import { ScrollView, StyleSheet, Image, Text, TouchableOpacity, BackHandler, TextInput, ActivityIndicator } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-native';
 import * as DocumentPicker from "expo-document-picker";
 
 const EditProfile = () => {

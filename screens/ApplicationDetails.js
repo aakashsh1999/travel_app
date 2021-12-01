@@ -24,9 +24,9 @@ import {
 } from "react-native";
 import TouristGrid from "../component/TouristCardGrid";
 import { useFonts } from "expo-font";
-import { useParams } from "react-router";
+import { useParams } from "react-router-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default ApplicationDetails = () => {

@@ -8,7 +8,7 @@ import React, { useEffect } from 'react';
 import * as DocumentPicker from "expo-document-picker";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-native';
 import DatePicker from "react-native-datepicker";
 import { LinearGradient } from 'expo-linear-gradient';
 

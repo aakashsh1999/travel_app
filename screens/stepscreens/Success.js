@@ -3,7 +3,7 @@ import React from 'react';
 import { ScrollView, Image, View, StyleSheet, BackHandler} from 'react-native';
 import {LinearGradient} from 'expo-linear-gradient';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFonts} from 'expo-font';
 

@@ -6,7 +6,7 @@ import TouristGrid from '../component/TouristCardGrid';
 import Bottombar from '../component/Bottombar';
 import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import { Video, AVPlaybackStatus } from 'expo-av';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-native';
 import PropTypes from 'prop-types';
 import Carousel from 'react-native-snap-carousel';
 export default Homescreen = () => {

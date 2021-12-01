@@ -1,6 +1,6 @@
 import {Button, Content} from 'native-base';
 import {Text, TouchableOpacity, View} from 'react-native';
-import {useHistory, useLocation} from 'react-router-dom';
+import {useHistory, useLocation} from 'react-router-native';
 
 import {LinearGradient} from 'expo-linear-gradient';
 import React from 'react';

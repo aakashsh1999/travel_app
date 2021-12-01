@@ -2,7 +2,7 @@ import { H2, Container, Text, Content, Card, CardItem, Left, ListItem, Icon, But
 import { View, Image, StyleSheet, ImageBackground, ScrollView, BackHandler, Alert, ActivityIndicator } from 'react-native';
 import React, { useEffect } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-native';
 import Bottombar from '../component/Bottombar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LinearGradient } from 'expo-linear-gradient';
