@@ -223,7 +223,7 @@ export default FillDetails = () => {
                   color: "#e5181a",
                   fontSize: 15,
                   fontFamily: "Lato",
-                }}
+                }}        
               >
                 Please fill all the mandatory fields in order to proceed and
                 complete the application request.
@@ -257,7 +257,7 @@ export default FillDetails = () => {
                 },
                 dateInput: {
                   borderWidth: 1,
-                  paddingRight: "60%",
+                  paddingRight:(dob || application?.dob) ? "70%": '50%',
                   borderColor: "#e6e6e6",
                 },
                 // ... You can check the source to find the other keys.

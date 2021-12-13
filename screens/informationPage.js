@@ -19,7 +19,6 @@ import {
   ScrollView,
 } from "react-native";
 import { useHistory } from "react-router-native";
-// import MapView, {Marker} from 'react-native-maps';
 import { WebView } from "react-native-webview";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -29,6 +28,8 @@ export default InformationPage = () => {
   const [email, setEmail] = React.useState(null);
   const [query, setQuery] = React.useState(null);
   const [isEmail, setIsEmail] = React.useState(false);
+  const [isName, setIsName] = React.useState(false);
+  const [isQuery, setIsQuery] = React.useState(false);
   const history = useHistory();
 
   React.useEffect(() => {
@@ -45,9 +46,7 @@ export default InformationPage = () => {
   });
 
   const createContact = async () => {
-    if (!name || !email|| !query) {
-      alert("Please fill all the required fields.");
-    } else {
+      console.log(name);
       const jsonData = { name: name, email: email, query: query };
       const res = await (
         await fetch(url, {
@@ -61,20 +60,18 @@ export default InformationPage = () => {
       ).json();
       alert("Query submitted successfully.");
       history.push("/");
-    }
+    // }
   };
 
-  const validateEmail = () =>{
-    const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (reg.test(email) === true){
+  const validateEmail = () => {
+    const reg = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    if (reg.test(email) === true) {
       setIsEmail(false);
-      createContact();
     }
-    else{
+    else {
       setIsEmail(true)
     }
   }
-
   return (
     <ScrollView>
       <View style={{ marginTop: 20, marginLeft: 16 }}>
@@ -132,7 +129,7 @@ export default InformationPage = () => {
       <View
         style={{ width: "100%", marginTop: 10, marginBottom: 50, padding: 16 }}
       >
-        <WebView  
+        <WebView
           style={{ height: 300, width: "100%" }}
           source={{
             html: `<iframe width="100%" height="100%" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3610.8211987464706!2d55.410161214484!3d25.175514538758975!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f61ce99959ff3%3A0x9f391776b31195c4!2sKALARI%20DCS!5e0!3m2!1sen!2sin!4v1619901723581!5m2!1sen!2sin"></iframe>`,
@@ -176,14 +173,18 @@ export default InformationPage = () => {
                 value={name}
                 onChangeText={setName}
               />
+              {name !==null && name.length <= 0 ?
+                <Text style={{ color: '#e5181a', fontSize: 15, fontFamily: 'Lato', marginBottom: 5 }}>Please enter a name.</Text>
+                : null
+              }
               <TextInput
                 style={style.input}
                 placeholder="Enter email address"
                 value={email}
                 onChangeText={setEmail}
               />
-                {isEmail?
-                  <Text style={{color:'#e5181a', fontSize:15, fontFamily:'Lato', marginBottom:5}}>You have entered an invalid email.</Text>
+              {isEmail == true ?
+                <Text style={{ color: '#e5181a', fontSize: 15, fontFamily: 'Lato', marginBottom: 5 }}>Please enter a valid email.</Text>
                 : null
               }
               <Textarea
@@ -200,13 +201,20 @@ export default InformationPage = () => {
                 value={query}
                 onChangeText={setQuery}
               />
+              {query === "" ?
+                <Text style={{ color: '#e5181a', fontSize: 15, fontFamily: 'Lato', marginBottom: 5, marginTop:10 }}>Please enter a query.</Text>
+                : null
+              }
               <View style={{ width: "70%", marginRight: 65, marginTop: 10 }}>
                 <Text style={{ color: "#9d9494", fontSize: 14 }}>
                   By Clicking on 'Submit' you will agree to T & C of Askepro
                 </Text>
               </View>
             </Body>
-            <TouchableOpacity onPress={() => validateEmail()}>
+            <TouchableOpacity onPress={() =>{
+              validateEmail();
+              createContact();
+            }}>
               <LinearGradient
                 colors={["#c7a006", "#e7ed32", "#c7a006"]}
                 start={[1, 0]}

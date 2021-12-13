@@ -28,6 +28,7 @@ export default MyDocument = () => {
   const [webview, setWebView] = React.useState('');
   const [documentList, setDocumentList] = React.useState([]);
 
+  let today = new Date().toLocaleDateString().split('/').join('-')
 
   React.useEffect(() => {
     getMyDocs();
@@ -93,8 +94,10 @@ export default MyDocument = () => {
       formData.append('validTo', validTo)
       formData.append('validFrom', validFrom)
       formData.append('type', category);
+      console.log(formData);
       setData(formData);
       setFile(result);
+      console.log(file)
       // console.log(result)
     } catch (err) {
     }
@@ -207,9 +210,9 @@ export default MyDocument = () => {
             <DatePicker
               mode="date"
               placeholder="Valid from"
-              format="DD-MM-YYYY"
+              format="MM-DD-YYYY"
               minDate="01-01-1950"
-              maxDate="01-01-3000"
+              maxDate={today}
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               date={validFrom}
@@ -235,9 +238,9 @@ export default MyDocument = () => {
             <DatePicker
               mode="date"
               placeholder="Valid to"
-              format="DD-MM-YYYY"
+              format="MM-DD-YYYY"
               minDate="01-01-1950"
-              maxDate="01-01-3000"
+              maxDate={"01-01-3000"}
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               date={validTo}
@@ -371,6 +374,7 @@ export default MyDocument = () => {
               <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>Valid from : </Text><Text>{data?.validFrom}</Text></View>
               <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>Valid To : </Text><Text>{data?.validTo}</Text></View>
               <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>Name : </Text><Text>{data?.name}</Text></View>
+              {/* <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>File Name : </Text><Text>{data?.file?.name}</Text></View> */}
               <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>Category : </Text><Text>{data?.type}</Text></View>
             </View>
             <View>
