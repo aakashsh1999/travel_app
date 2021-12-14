@@ -29,11 +29,14 @@ import ChooseMode from './screens/stepscreens/ChooseMode';
 import EditProfile from './screens/EditProfile';
 
 export default function App() {
-  const [loaded] = useFonts({
+  const [loaded,err] = useFonts({
     OpenSans: require('./assets/fonts/openSans.ttf'),
     Lato: require('./assets/fonts/lato.ttf'),
   });
   //Splash Screen
+  if(err){
+    console.log("myerr",err);
+  }
   const [isVisible, setIsVisible] = useState(true);
   const Hide_Splash_Screen=()=>{  
       setIsVisible(false);
@@ -60,6 +63,12 @@ export default function App() {
 
     return () => backHandler.remove();
   })
+
+  if (!loaded) {
+    return null;
+  }
+
+
 
   if(isVisible){
   return <SplashScreen/>

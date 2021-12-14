@@ -20,16 +20,14 @@ import {
 } from "react-native";
 import { useHistory } from "react-router-native";
 import { WebView } from "react-native-webview";
+import { useValidation } from 'react-native-form-validator';
 import { LinearGradient } from "expo-linear-gradient";
 
 export default InformationPage = () => {
   const url = `http://13.234.123.221:8000/contact/create`;
-  const [name, setName] = React.useState(null);
-  const [email, setEmail] = React.useState(null);
-  const [query, setQuery] = React.useState(null);
-  const [isEmail, setIsEmail] = React.useState(false);
-  const [isName, setIsName] = React.useState(false);
-  const [isQuery, setIsQuery] = React.useState(false);
+  const [name, setName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [query, setQuery] = React.useState('');
   const history = useHistory();
 
   React.useEffect(() => {
@@ -38,6 +36,7 @@ export default InformationPage = () => {
       return true;
     };
 
+
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
       backAction
@@ -45,21 +44,42 @@ export default InformationPage = () => {
     return () => backHandler.remove();
   });
 
+
+  const { validate, isFieldInError } =
+    useValidation({
+      state: { name, email, query },
+    });
+
+  const _onPressButton = () => {
+    if (!validate({
+      name: { minlength: 3, maxlength: 7, required: true },
+      email: { minlength: 4, email: true, require: true },
+      query: { minlength: 2, require: true },
+    }))
+    return;
+    if(name ==='' || email === '' || query === ''){
+      alert('Please fill all the details.')
+    }else{
+      createContact();
+    }
+  };
+
+
   const createContact = async () => {
-      console.log(name);
-      const jsonData = { name: name, email: email, query: query };
-      const res = await (
-        await fetch(url, {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(jsonData),
-        })
-      ).json();
-      alert("Query submitted successfully.");
-      history.push("/");
+    console.log(name);
+    const jsonData = { name: name, email: email, query: query };
+    const res = await (
+      await fetch(url, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jsonData),
+      })
+    ).json();
+    alert("Query submitted successfully.");
+    history.push("/");
     // }
   };
 
@@ -78,22 +98,6 @@ export default InformationPage = () => {
         <H2 style={style.heading}>Contact</H2>
         <Image source={require("../assets/clipath.png")} />
       </View>
-      {/* <View style={{ marginBottom: 30, padding: 16 }}>
-        <Text
-          style={{
-            fontSize: 16,
-            color: "#9d9494",
-            lineHeight: 22,
-            fontFamily: "OpenSans",
-          }}
-        >
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry’s standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. It has survived not only
-          five ce
-        </Text>
-      </View> */}
       <View style={{ padding: 16 }}>
         <Card style={style.card}>
           <ListItem style={{ padding: 20 }}>
@@ -173,9 +177,8 @@ export default InformationPage = () => {
                 value={name}
                 onChangeText={setName}
               />
-              {name !==null && name.length <= 0 ?
-                <Text style={{ color: '#e5181a', fontSize: 15, fontFamily: 'Lato', marginBottom: 5 }}>Please enter a name.</Text>
-                : null
+              {isFieldInError('name') &&
+                <Text style={style.error}>{'Please enter a valid name'}</Text>
               }
               <TextInput
                 style={style.input}
@@ -183,9 +186,8 @@ export default InformationPage = () => {
                 value={email}
                 onChangeText={setEmail}
               />
-              {isEmail == true ?
-                <Text style={{ color: '#e5181a', fontSize: 15, fontFamily: 'Lato', marginBottom: 5 }}>Please enter a valid email.</Text>
-                : null
+              {isFieldInError('email') &&
+                <Text style={style.error}>{'Please enter a valid email'}</Text>
               }
               <Textarea
                 style={{
@@ -201,19 +203,17 @@ export default InformationPage = () => {
                 value={query}
                 onChangeText={setQuery}
               />
-              {query === "" ?
-                <Text style={{ color: '#e5181a', fontSize: 15, fontFamily: 'Lato', marginBottom: 5, marginTop:10 }}>Please enter a query.</Text>
-                : null
+              {isFieldInError('query') &&
+                <Text style={[style.error, {marginTop:5}]}>{'Please enter a valid query'}</Text>
               }
-              <View style={{ width: "70%", marginRight: 65, marginTop: 10 }}>
+              <View style={{ width: "70%", marginRight: 65, marginTop: 5 }}>
                 <Text style={{ color: "#9d9494", fontSize: 14 }}>
                   By Clicking on 'Submit' you will agree to T & C of Askepro
                 </Text>
               </View>
             </Body>
-            <TouchableOpacity onPress={() =>{
-              validateEmail();
-              createContact();
+            <TouchableOpacity onPress={() => {
+              _onPressButton()
             }}>
               <LinearGradient
                 colors={["#c7a006", "#e7ed32", "#c7a006"]}
@@ -283,4 +283,5 @@ const style = StyleSheet.create({
     fontFamily: "Lato",
     marginBottom: 50,
   },
+  error: { color: '#e5181a', fontSize: 15, fontFamily: 'Lato', marginBottom: 5 }
 });

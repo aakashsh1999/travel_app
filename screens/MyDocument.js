@@ -52,6 +52,8 @@ export default MyDocument = () => {
     }
   }
 
+  console.log(documentList)
+
   React.useEffect(() => {
     const backAction = () => {
       history.push('/');
@@ -374,7 +376,7 @@ export default MyDocument = () => {
               <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>Valid from : </Text><Text>{data?.validFrom}</Text></View>
               <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>Valid To : </Text><Text>{data?.validTo}</Text></View>
               <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>Name : </Text><Text>{data?.name}</Text></View>
-              {/* <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>File Name : </Text><Text>{data?.file?.name}</Text></View> */}
+              <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>File Name : </Text><Text>{data?.originalname || "Not available"}</Text></View>
               <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>Category : </Text><Text>{data?.type}</Text></View>
             </View>
             <View>
