@@ -1,4 +1,4 @@
-import { Body, Button, Content, H2, Header, Icon, Picker, Left, List, ListItem, Right, Switch } from 'native-base';
+import { Icon, Picker} from 'native-base';
 import {
   Image, ScrollView, StyleSheet, Text, TextInput,
   SafeAreaView, TouchableOpacity, View, BackHandler, ActivityIndicator
@@ -18,16 +18,16 @@ export default MyDocument = () => {
 
 
   const [name, setName] = React.useState(null);
-  const [category, setCategory] = React.useState(null);
+  const [category, setCategory] = React.useState('');
   const [validTo, setValidTo] = React.useState(null);
   const [validFrom, setValidFrom] = React.useState(null);
   const [file, setFile] = React.useState(null);
-  const [openPop, setOpen] = React.useState(false);
-  const [openPopErr, setOpenErr] = React.useState(false);
   const [data, setData] = React.useState(new FormData());
   const [webview, setWebView] = React.useState('');
   const [documentList, setDocumentList] = React.useState([]);
 
+
+  console.log(category);
   let today = new Date().toLocaleDateString().split('/').join('-')
 
   React.useEffect(() => {
@@ -52,7 +52,6 @@ export default MyDocument = () => {
     }
   }
 
-  console.log(documentList)
 
   React.useEffect(() => {
     const backAction = () => {
@@ -96,14 +95,15 @@ export default MyDocument = () => {
       formData.append('validTo', validTo)
       formData.append('validFrom', validFrom)
       formData.append('type', category);
-      console.log(formData);
       setData(formData);
       setFile(result);
-      console.log(file)
       // console.log(result)
     } catch (err) {
     }
   }
+
+  let finalValidFrom ='';
+  let finalValidTo = '';
 
   const uploadFile = async () => {
     let url = `http://13.234.123.221:8000/document/upload`;
@@ -183,6 +183,13 @@ export default MyDocument = () => {
       style={{ alignSelf: "center", margin: 20 }}
     />
 
+  }
+
+
+  function finalValidDate(data){
+    let date = data.split('-');
+    date = `${date[1]}-${date[0]}-${date[2]}`
+    return date;
   }
 
   if (webview) {
@@ -270,15 +277,14 @@ export default MyDocument = () => {
               onChangeText={setName}
             />
           </View>
-          <View style={{ width: '41%' }}>
+          <View style={{ width: '41%'}}>
             <Text style={style.label}>Choose Category*</Text>
-            <View style={{ borderColor: '#e6e6e6', borderWidth: 1, borderRadius: 4 }}>
+            <View style={{ borderColor: '#e6e6e6', borderWidth: 1, borderRadius: 4, height:40, justifyContent:"center"}}>
               <Picker
                 mode="dropdown"
                 placeholderStyle={{ color: "red" }}
                 iosIcon={<Icon name="arrow-down" />}
-                style={{ height: 40 }}
-                selectedValue={''}
+                selectedValue={category}
                 onValueChange={value => {
                   setCategory(value)
                 }}
@@ -286,7 +292,9 @@ export default MyDocument = () => {
                 <Picker.Item
                   label="Category"
                   disabled
-                  value={null}
+                  value={null}            
+                    mode="dropdown"
+
                   key={0}
                 ></Picker.Item>
                 <Picker.Item
@@ -372,11 +380,11 @@ export default MyDocument = () => {
             flexDirection:'row', borderColor: "#000000", borderWidth: 1, padding: 4, paddingRight: 10, paddingLeft: 10, borderRadius: 4, marginBottom: 15, justifyContent:'space-between' }}
             key={index}
           >
-            <View style={{justifyContent: "space-between", marginBottom: 5 }}>
-              <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>Valid from : </Text><Text>{data?.validFrom}</Text></View>
-              <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>Valid To : </Text><Text>{data?.validTo}</Text></View>
+            <View style={{justifyContent: "space-between", marginBottom: 5, width:'40%'}}>
+              <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>Valid from : </Text><Text>{finalValidDate(data?.validFrom)}</Text></View>
+              <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>Valid To : </Text><Text>{finalValidDate(data?.validTo)}</Text></View>
               <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>Name : </Text><Text>{data?.name}</Text></View>
-              <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>File Name : </Text><Text>{data?.originalname || "Not available"}</Text></View>
+              <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>File Name : </Text><Text numberOfLines={1} ellipsizeMode='tail'>{data?.originalname || "Not available"}</Text></View>
               <View style={{flexDirection:'row'}}><Text style={{fontWeight:'bold', textTransform:'uppercase'}}>Category : </Text><Text>{data?.type}</Text></View>
             </View>
             <View>
