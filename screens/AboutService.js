@@ -27,7 +27,7 @@ const AboutService = (props) => {
   const [subOpt, setSubOpt] = React.useState(null);
 
   const { slug } = useParams();
-  const service_url = `http://13.234.123.221:8000/serviceCategory/${slug}`;
+  const service_url = `http://3.109.106.108:8000/serviceCategory/${slug}`;
   React.useEffect(() => {
     getServiceSlugDetail();
   }, []);
@@ -107,7 +107,7 @@ const AboutService = (props) => {
       AsyncStorage.clear();
       history.push('/login');
     }
-    let url = `http://13.234.123.221:8000/service/${userId}`;
+    let url = `http://3.109.106.108:8000/service/${userId}`;
     const result = await (
       await fetch(url, {
         method: "POST",
@@ -127,7 +127,7 @@ const AboutService = (props) => {
       cat: type,
     };
 
-    url = `http://13.234.123.221:8000/service/type/${result.data._id}`;
+    url = `http://3.109.106.108:8000/service/type/${result.data._id}`;
     await fetch(url, {
       method: "PUT",
       headers: {

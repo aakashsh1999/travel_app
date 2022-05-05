@@ -13,7 +13,7 @@ export default ForgetAccount =  () =>{
         Lato: require('../assets/fonts/lato.ttf'),
       });
 
-    const url = 'http://13.234.123.221:8000/check';
+    const url = 'http://3.109.106.108:8000/check';
     const history= useHistory();
     const [email, setEmail] = React.useState('');
 

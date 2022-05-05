@@ -8,7 +8,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 
 export default CreateAccount =  () => {     
     let history= useHistory();
-    const url = 'http://13.234.123.221:8000/create';
+    const url = 'http://3.109.106.108:8000/create';
     const [name, setName] = React.useState(null);
     const [phone, setPhone] = React.useState(null);
     const[email, setEmail] = React.useState(null);
@@ -118,7 +118,7 @@ React.useEffect(()=>{
                       : null  }
 
                 </View>
-                <TouchableOpacity onPress={handleSubmit}>
+                <TouchableOpacity onPress={() => handleSubmit()}>
                 <LinearGradient   
                     colors={['#c7a006', 'yellow', '#c7a006']} start={[1, 0]} end={[0,2.57]}
                     style={style.loginButton}>

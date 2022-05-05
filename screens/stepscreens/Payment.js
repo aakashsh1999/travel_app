@@ -40,7 +40,7 @@ React.useEffect(() => {
 const getServices = async () => {
   const slug = await AsyncStorage.getItem("serviceSlug");
   const subIdCard =await AsyncStorage.getItem("subCatId")
-  const service_url = `http://13.234.123.221:8000/serviceCategory/${slug}`;
+  const service_url = `http://3.109.106.108:8000/serviceCategory/${slug}`;
   const services = await (await fetch(service_url, { method: "GET" })).json();
   const serviceData = services.data;
   let sub=serviceData.serviceDetail.find(e=>e._id=== subIdCard);
@@ -60,7 +60,7 @@ const getServices = async () => {
   }
    else{
     const requestId = await AsyncStorage.getItem("applicationId");
-    const url = `http://13.234.123.221:8000/service/payment/${requestId}`
+    const url = `http://3.109.106.108:8000/service/payment/${requestId}`
      const jsonData = {
        "price": service.price + adFees,
        "type": paymethod,
@@ -84,7 +84,7 @@ const getServices = async () => {
 //Function 
 async function checkStatus(){
   reference = await AsyncStorage.getItem('reference'); 
-  const url = `http://13.234.123.221:8000/payment/verify/${reference}`;
+  const url = `http://3.109.106.108:8000/payment/verify/${reference}`;
   const result = await fetch(url,{
     method:'GET',
   })

@@ -35,7 +35,7 @@ React.useEffect(()=>{
       }, []);
       async function getServices(){
         const requestId =  await AsyncStorage.getItem("applicationId");
-        const service_url = `http://13.234.123.221:8000/service/${requestId}`;
+        const service_url = `http://3.109.106.108:8000/service/${requestId}`;
         const service = await (await fetch(service_url, { method: "GET" })).json();
         setData(service);
     };

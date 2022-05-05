@@ -39,7 +39,7 @@ export default Profile = () => {
     setId(id);
     const token = await AsyncStorage.getItem('token');
     let user = await (
-      await fetch(`http://13.234.123.221:8000/users/${id}`, {
+      await fetch(`http://3.109.106.108:8000/users/${id}`, {
         method: "GET",
         headers: {
           "x-access-token": token
@@ -51,7 +51,7 @@ export default Profile = () => {
 
     let application = await (
       await fetch(
-        `http://13.234.123.221:8000/service/application/${id}`,
+        `http://3.109.106.108:8000/service/application/${id}`,
         {
           method: "GET",
           headers: {

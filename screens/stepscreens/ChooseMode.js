@@ -13,7 +13,7 @@ const ChooseMode = () => {
     
     const handleSubmit = async (val) => {
         const requestId = await AsyncStorage.getItem("applicationId");
-        const url =`http://13.234.123.221:8000/service/mode/${requestId}`;
+        const url =`http://3.109.106.108:8000/service/mode/${requestId}`;
         await AsyncStorage.setItem("mode", val);
         const result = await (await fetch(url, {
             method: 'PUT',

@@ -27,7 +27,6 @@ export default MyDocument = () => {
   const [documentList, setDocumentList] = React.useState([]);
 
 
-  console.log(category);
   let today = new Date().toLocaleDateString().split('/').join('-')
 
   React.useEffect(() => {
@@ -40,7 +39,7 @@ export default MyDocument = () => {
     }
     else {
       let documents = await (
-        await fetch(`http://13.234.123.221:8000/document`, {
+        await fetch(`http://3.109.106.108:8000/document`, {
           method: "GET",
           headers: {
             "x-access-token": await AsyncStorage.getItem("token"),
@@ -106,7 +105,7 @@ export default MyDocument = () => {
   let finalValidTo = '';
 
   const uploadFile = async () => {
-    let url = `http://13.234.123.221:8000/document/upload`;
+    let url = `http://3.109.106.108:8000/document/upload`;
     let token = await AsyncStorage.getItem("token");
 
     if (file === null) {
@@ -141,7 +140,7 @@ export default MyDocument = () => {
     const jsonPostData = {
       key: key,
     };
-    const url = `http://13.234.123.221:8000/download`;
+    const url = `http://3.109.106.108:8000/download`;
 
     const resu = await (
       await fetch(url, {
@@ -160,7 +159,7 @@ export default MyDocument = () => {
 
 
   const deleteDoc = async (id) => {
-    const url = `http://13.234.123.221:8000/document/${id}`;
+    const url = `http://3.109.106.108:8000/document/${id}`;
     const result = await (
       await fetch(url, {
         method: "DELETE",

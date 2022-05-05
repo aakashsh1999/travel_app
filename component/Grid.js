@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-native';
 
 export default function ServiceGrid() {
   const history = useHistory();
-  const service_url = `http://13.234.123.221:8000/serviceCategory`;
+  const service_url = `http://3.109.106.108:8000/serviceCategory`;
   const [services, setServices] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [noData, setNoData] = React.useState(false);
@@ -19,7 +19,6 @@ export default function ServiceGrid() {
 
   const getServices = async () => {
     let services = await (await fetch(service_url, { method: "GET" })).json();
-    // services = services?.data.filter((el) => el.category?.length!==0)
     if(!services?.data || services?.data.length===0) 
     {
       setNoData(true);

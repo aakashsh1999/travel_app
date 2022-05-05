@@ -68,7 +68,7 @@ export default UploadDocuments = () => {
     try {
       token = await AsyncStorage.getItem("token");
       requestId = await AsyncStorage.getItem("applicationId");
-      const url = `http://13.234.123.221:8000/service/upload/${requestId}`;
+      const url = `http://3.109.106.108:8000/service/upload/${requestId}`;
 
       file = await DocumentPicker.getDocumentAsync({
         copyToCacheDirectory: true,
@@ -128,11 +128,11 @@ export default UploadDocuments = () => {
   const getServices = async () => {
     let slug = await AsyncStorage.getItem('slug');
     let subCatId = await AsyncStorage.getItem('subCatId')
-    const service_url = `http://13.234.123.221:8000/serviceCategory/${slug}`;
+    const service_url = `http://3.109.106.108:8000/serviceCategory/${slug}`;
     const service = await (await fetch(service_url, { method: "GET" })).json();
     let application = await (
       await fetch(
-        `http://13.234.123.221:8000/service/${requestId}`,
+        `http://3.109.106.108:8000/service/${requestId}`,
         {
           method: "GET"
         })).json();
@@ -149,7 +149,7 @@ export default UploadDocuments = () => {
   const getDocumentList = async () => {
     let applicationId = await AsyncStorage.getItem('applicationId');
     let application = await (
-      await fetch(`http://13.234.123.221:8000/service/${applicationId}`, {
+      await fetch(`http://3.109.106.108:8000/service/${applicationId}`, {
         method: "GET",
         headers: {
           "x-access-token": await AsyncStorage.getItem("token"),

@@ -24,7 +24,7 @@ import { useValidation } from 'react-native-form-validator';
 import { LinearGradient } from "expo-linear-gradient";
 
 export default InformationPage = () => {
-  const url = `http://13.234.123.221:8000/contact/create`;
+  const url = `http://3.109.106.108:8000/contact/create`;
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [query, setQuery] = React.useState('');
@@ -51,12 +51,12 @@ export default InformationPage = () => {
     });
 
   const _onPressButton = () => {
-    if (!validate({
-      name: { minlength: 3, maxlength: 7, required: true },
-      email: { minlength: 4, email: true, require: true },
-      query: { minlength: 2, require: true },
-    }))
-    return;
+    // if (!validate({
+    //   name: { minlength: 3, maxlength: 20, required: true },
+    //   email: { minlength: 4, email: true, require: true },
+    //   query: { minlength: 2, require: true },
+    // }))
+    // return;
     if(name ==='' || email === '' || query === ''){
       alert('Please fill all the details.')
     }else{
@@ -66,6 +66,7 @@ export default InformationPage = () => {
 
 
   const createContact = async () => {
+  
     console.log(name);
     const jsonData = { name: name, email: email, query: query };
     const res = await (
@@ -175,7 +176,7 @@ export default InformationPage = () => {
                 style={style.input}
                 placeholder="Enter your name"
                 value={name}
-                onChangeText={setName}
+                onChangeText={() => setName()}
               />
               {isFieldInError('name') &&
                 <Text style={style.error}>{'Please enter a valid name'}</Text>

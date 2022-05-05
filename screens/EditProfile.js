@@ -57,7 +57,7 @@ const EditProfile = () => {
           setFile(result);
 
           let id = await AsyncStorage.getItem('id')
-          let url = `http://13.234.123.221:8000/users/upload/${id}`;
+          let url = `http://3.109.106.108:8000/users/upload/${id}`;
           let token = await AsyncStorage.getItem("token");
             if (file.type === "success") {
               try {
@@ -118,7 +118,7 @@ const EditProfile = () => {
         const id = await AsyncStorage.getItem('id');
         const token = await AsyncStorage.getItem('token');
         let user = await (
-            await fetch(`http://13.234.123.221:8000/users/${id}`, {
+            await fetch(`http://3.109.106.108:8000/users/${id}`, {
                 method: "GET",
                 headers: {
                     "x-access-token": token
@@ -157,7 +157,7 @@ const EditProfile = () => {
             setValidation(true);
         } else {
             const id = await AsyncStorage.getItem('id');
-            const url = `http://13.234.123.221:8000/users/${id}`
+            const url = `http://3.109.106.108:8000/users/${id}`
            const result = await ( await fetch(url, {
                 method: "PUT",
                 headers: {

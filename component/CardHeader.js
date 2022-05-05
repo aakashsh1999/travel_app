@@ -20,7 +20,7 @@ export default CardHeader = () =>{
   const getServices = async () => {
     const slug = await AsyncStorage.getItem("serviceSlug");
     const subCatId= await AsyncStorage.getItem("subCatId");
-    const service_url = `http://13.234.123.221:8000/serviceCategory/subCat/${slug}/${subCatId}`
+    const service_url = `http://3.109.106.108:8000/serviceCategory/subCat/${slug}/${subCatId}`
     const services = await (await fetch(service_url, { method: "GET" })).json();
     const serviceData = services.data;
     setServices(serviceData);

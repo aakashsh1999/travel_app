@@ -39,7 +39,7 @@ const getData = async () =>{
     const token = await AsyncStorage.getItem('token');
     let appointment = await (
         await fetch(
-          `http://13.234.123.221:8000/service/appointment/${id}`,
+          `http://3.109.106.108:8000/service/appointment/${id}`,
           {
             method: "GET",
             headers: {

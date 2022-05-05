@@ -11,7 +11,7 @@ export default Login =  () =>{
   const history= useHistory();
   let response='';
   let idData;
-  const url =  `http://13.234.123.221:8000/login`;
+  const url =  `http://3.109.106.108:8000/login`;
   const [isLogin, setIsLogin] =React.useState(false);
   const [email, setEmail] = React.useState(null);
   const [password, setPassword] = React.useState(null);
@@ -35,7 +35,7 @@ export default Login =  () =>{
         AsyncStorage.setItem('token', response.token);
         idData = await (
           await fetch(
-            `http://13.234.123.221:8000/users`,
+            `http://3.109.106.108:8000/users`,
             {
               method: "GET",
               headers: {

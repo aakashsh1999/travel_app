@@ -1,13 +1,12 @@
 {
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
     "build:android": "expo build:android",
     "build:ios": "expo build:ios",
     "login": "expo login",
     "logout": "expo logout",
-    "ios": "expo start --ios",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "eject": "expo eject"
   },
@@ -23,8 +22,8 @@
     "formik": "^2.2.8",
     "native": "^0.3.3",
     "native-base": "^2.15.2",
-    "react": "17.0.2",
-    "react-native": "0.66.3",
+    "react": "17.0.1",
+    "react-native": "0.64.3",
     "react-native-calendar-picker": "^7.1.2",
     "react-native-config": "^1.4.2",
     "react-native-datepicker": "^1.7.2",
@@ -39,7 +38,15 @@
     "react-native-vector-icons": "^7.1.0",
     "react-native-webview": "11.15.0",
     "react-router-native": "^5.2.0",
-    "yup": "^0.32.9"
+    "yup": "^0.32.9",
+    "expo-splash-screen": "~0.13.5",
+    "expo-status-bar": "~1.1.0",
+    "expo-updates": "~0.10.13",
+    "react-dom": "17.0.1",
+    "react-native-reanimated": "~2.2.0",
+    "react-native-safe-area-context": "3.3.2",
+    "react-native-screens": "~3.8.0",
+    "react-native-web": "0.17.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
@@ -49,5 +56,7 @@
     "assets": [
       "./assets/fonts"
     ]
-  }
+  },
+  "name": "askePro-native",
+  "version": "1.0.0"
 }

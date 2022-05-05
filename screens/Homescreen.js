@@ -12,7 +12,7 @@ import Carousel from 'react-native-snap-carousel';
 export default Homescreen = () => {
 
   const video = React.useRef(null);
-  const offerUrl = 'http://13.234.123.221:8000/admin/offer'
+  const offerUrl = 'http://3.109.106.108:8000/admin/offer'
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, [])
@@ -23,7 +23,7 @@ export default Homescreen = () => {
 
   const getoffers = async () => {
     const offer = await (
-      await fetch(`http://13.234.123.221:8000/admin/offer`, { method: "GET" })
+      await fetch(`http://3.109.106.108:8000/admin/offer`, { method: "GET" })
     ).json();
       setCarouselState(offer.data)
   };

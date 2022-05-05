@@ -58,7 +58,7 @@ export default ApplicationDetails = () => {
 
   const getapplication = async () => {
     let application = await (
-      await fetch(`http://13.234.123.221:8000/service/${applicationId}`, {
+      await fetch(`http://3.109.106.108:8000/service/${applicationId}`, {
         method: "GET",
         headers: {
           "x-access-token": await AsyncStorage.getItem("token"),

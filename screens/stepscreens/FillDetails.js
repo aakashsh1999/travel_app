@@ -82,7 +82,7 @@ export default FillDetails = () => {
     const id = await AsyncStorage.getItem("id");
     const applicationId = await AsyncStorage.getItem("applicationId");
     let user = await (
-      await fetch(`http://13.234.123.221:8000/users/${id}`, {
+      await fetch(`http://3.109.106.108:8000/users/${id}`, {
         method: "GET",
         headers: {
           "x-access-token": await AsyncStorage.getItem("token"),
@@ -91,7 +91,7 @@ export default FillDetails = () => {
     ).json();
 
     let application = await (
-      await fetch(`http://13.234.123.221:8000/service/${applicationId}`, {
+      await fetch(`http://3.109.106.108:8000/service/${applicationId}`, {
         method: "GET",
         headers: {
           "x-access-token": await AsyncStorage.getItem("token"),
@@ -157,7 +157,7 @@ export default FillDetails = () => {
       setValidation(true);
     } else {
       const requestId = await AsyncStorage.getItem("applicationId");
-      const url = `http://13.234.123.221:8000/service/fill/${requestId}`;
+      const url = `http://3.109.106.108:8000/service/fill/${requestId}`;
       const result = await (
         await fetch(url, {
           method: "PUT",

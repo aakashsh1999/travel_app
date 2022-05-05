@@ -1,4 +1,4 @@
 module.exports = {
     assets: ['./assets/fonts'],
-    BASE_URL: 'http://13.234.123.221:8000/api'
+    BASE_URL: 'http://3.109.106.108:8000/api'
   };
