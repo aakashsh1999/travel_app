@@ -1,4 +1,4 @@
-import {NativeRouter, Route } from 'react-router-native';
+2import {NativeRouter, Route } from 'react-router-native';
 import React, {useState} from 'react';
 import {BackHandler, Alert, LogBox} from 'react-native';
 import AboutScreen from './screens/AboutScreen';
